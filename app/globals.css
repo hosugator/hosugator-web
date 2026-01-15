@@ -1,26 +1,34 @@
 @import "tailwindcss";
 
+@theme {
+  /* 커스텀 컬러 주입 */
+  --color-primary: #13ecda;
+  --color-background-light: #ffffff;
+  --color-background-dark: #102220;
+  
+  /* 폰트 및 기타 설정 */
+  --font-display: "Inter", sans-serif;
+  
+  /* 기존 디자인의 둥근 모서리 재현 */
+  --radius-default: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-inter: 'Inter', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@utility custom-border {
+  border: 1px solid #f1f5f9; /* slate-100 */
+  &:hover {
+    border-color: var(--color-primary);
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+  color: #0f172a;
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
 }
