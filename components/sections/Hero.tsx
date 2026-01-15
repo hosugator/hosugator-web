@@ -9,7 +9,7 @@ export default function Hero() {
         <h1 className="text-7xl md:text-8xl font-black leading-[0.85] tracking-tighter text-slate-900 mb-12">
           Designing <br />
           Business <br />
-          <span className="text-primary italic">Ripples.</span>
+          <span className="text-primary italic">Ripples. 라이플투투루투</span>
         </h1>
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mt-16 pt-16 border-t border-slate-100">
