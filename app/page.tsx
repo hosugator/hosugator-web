@@ -1,4 +1,6 @@
 // app/page.tsx
+
+import { getGraphData } from '@/lib/getNodes';
 import Hero from '@/components/sections/Hero';
 import About from '@/components/sections/About'; // 추가
 import Experience from '@/components/sections/Experience';
@@ -17,7 +19,7 @@ export default function Home() {
       <Experience />
       <Skills />
       <Projects />
-      <Knowledges />
+      <Knowledges initialData={getGraphData()} />
       <Contact />
       <Footer />
     </>
