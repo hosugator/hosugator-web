@@ -2,23 +2,22 @@
 "use client";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { useState } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-
   return (
     <html lang="ko">
-      <body className={`${inter.className} bg-white text-slate-900 antialiased`}>
+      <body className="bg-white text-slate-900 antialiased">
         <div className="flex">
-          {/* 폴더블 사이드바 */}
-          <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+          <Sidebar />
           
-          {/* 본문 영역: 사이드바 상태에 따라 좌측 여백 조절 */}
-          <main className={`flex-1 transition-all duration-300 ${isCollapsed ? "md:ml-20" : "md:ml-64"}`}> 
+          {/* 여기가 핵심입니다. 
+            사이드바(w-16)를 고려하여 전체 섹션이 시작될 공통 여백을 여기서 결정합니다.
+            나중에 전체 여백을 바꾸고 싶다면 여기만 수정하면 됩니다.
+          */}
+          <main className="flex-1 w-full ml-16 md:ml-32 pr-8 md:pr-12"> 
             {children}
           </main>
         </div>
