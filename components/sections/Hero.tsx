@@ -6,11 +6,11 @@ export default function Hero() {
 
   return (
     <section id="hero" className="min-h-screen flex flex-col justify-center">
-      <h2 className="text-[10px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-6">
+      <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-6">
         {topLabel}
       </h2>
       
-      <h1 className="text-7xl md:text-[120px] font-black leading-[0.85] tracking-tighter text-slate-900 mb-12">
+      <h1 className="text-7xl md:text-[120px] font-black leading-[0.95] tracking-tighter text-slate-900 mb-12">
         {mainTitle.line1}<br />
         {mainTitle.line2}<br />
         <span className="text-[#13ecda] italic">{mainTitle.highlight}</span>
