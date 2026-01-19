@@ -42,10 +42,10 @@ export default function Projects() {
       <div className="max-w-full">
         <div className="flex justify-between items-end mb-16 gap-4 pr-12">
           <div>
-            <h2 className="text-[11px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-4">
+            <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-4">
               {projectsData.topLabel}
             </h2>
-            <h3 className="text-4xl font-black tracking-tighter text-slate-900 whitespace-pre-line">
+            <h3 className="text-6xl font-black tracking-tighter text-slate-900 whitespace-pre-line">
               {projectsData.title}
             </h3>
           </div>
