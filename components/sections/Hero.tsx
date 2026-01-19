@@ -10,13 +10,13 @@ export default function Hero() {
         {topLabel}
       </h2>
       
-      <h1 className="text-7xl md:text-[120px] font-black leading-[0.95] tracking-tighter text-slate-900 mb-12">
+      <h1 className="text-7xl md:text-[100px] font-black leading-[0.95] tracking-tighter text-slate-900 mb-12">
         {mainTitle.line1}<br />
         {mainTitle.line2}<br />
         <span className="text-[#13ecda] italic">{mainTitle.highlight}</span>
       </h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-10 border-t border-slate-100">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-slate-100">
         <div className="md:col-span-9 max-w-4xl text-2xl font-extralight leading-relaxed text-slate-400">
           <p>
             {description.prefix}

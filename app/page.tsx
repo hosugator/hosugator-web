@@ -17,7 +17,7 @@ export default function Home() {
       <Hero />
       <About />
       <Experience />
-      <Skills />
+      {/* <Skills /> */}
       <Projects />
       <Knowledges initialData={getGraphData()} />
       <Contact />

@@ -15,7 +15,7 @@ export default function About() {
         <div className="lg:col-span-7 space-y-8">
           <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 leading-tight">
             {aboutData.title.main} <br />
-            <span className="text-[#13ecda] italic">{aboutData.title.highlight}</span>
+            <span className="text-[#13ecda]">{aboutData.title.highlight}</span>
           </h3>
           
           <div className="space-y-6 text-xl font-extralight leading-relaxed text-slate-400">
