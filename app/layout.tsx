@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             사이드바(w-16)를 고려하여 전체 섹션이 시작될 공통 여백을 여기서 결정합니다.
             나중에 전체 여백을 바꾸고 싶다면 여기만 수정하면 됩니다.
           */}
-          <main className="flex-1 w-full ml-16 md:ml-32 pr-8 md:pr-12"> 
+          <main className="flex-1 w-full ml-16 md:ml-40 pr-8 md:pr-12"> 
             {children}
           </main>
         </div>
