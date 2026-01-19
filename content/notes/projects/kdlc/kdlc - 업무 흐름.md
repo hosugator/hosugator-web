@@ -1,0 +1,1 @@
+데이터 로드 및 전처리 -> EDA -> 외부 데이터 수집 및 병합(선택) -> Feature Engineering -> 학습/검증 데이터 분할 -> 베이스 모델 구축 -> 시계열 모델 테스트 (SARIMA, LSTM) -> 머신러닝 모델 테스트 (XGBoost, LightGBM, Random Forest 등) -> 하이퍼파라미터 튜닝 -> 앙상블 모델 구축 -> 최종 예측 -> 시각화

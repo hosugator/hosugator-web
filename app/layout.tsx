@@ -9,16 +9,21 @@ const inter = Inter({ subsets: ["latin"] });
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body className="bg-white text-slate-900 antialiased">
-        <div className="flex">
-          <Sidebar />
+      <body className="bg-white text-slate-900 antialiased overflow-x-hidden">
+        <div className="flex min-h-screen">
+          {/* 사이드바 고정 영역 */}
+          <div className="fixed inset-y-0 left-0 z-50">
+            <Sidebar />
+          </div>
           
-          {/* 여기가 핵심입니다. 
-            사이드바(w-16)를 고려하여 전체 섹션이 시작될 공통 여백을 여기서 결정합니다.
-            나중에 전체 여백을 바꾸고 싶다면 여기만 수정하면 됩니다.
+          {/* 메인 콘텐츠 영역: 
+             1. ml-16 md:ml-40을 통해 사이드바 공간을 완전히 확보
+             2. relative를 주어 자식 요소(그래프)의 크기 계산 기준점을 고정
           */}
-          <main className="flex-1 w-full ml-16 md:ml-40 pr-8 md:pr-12"> 
-            {children}
+          <main className="relative flex-1 ml-16 md:ml-40 min-w-0 bg-white">
+            <div className="w-full px-8 md:px-12 py-12">
+              {children}
+            </div>
           </main>
         </div>
       </body>
