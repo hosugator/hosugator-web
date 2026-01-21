@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { RefreshCcw, X, Info } from 'lucide-react'; // Info 아이콘 추가
+import { RefreshCcw, X, Info } from 'lucide-react';
 import { knowledgeData } from '@/data/knowledgeData';
 
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
@@ -15,6 +15,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
   const [mounted, setMounted] = useState(false);
   const fgRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     setMounted(true);
@@ -25,7 +26,8 @@ export default function Knowledges({ initialData }: { initialData: any }) {
       const isMobile = window.innerWidth < 768;
       const padding = isMobile ? 40 : 250;
       fgRef.current.zoomToFit(duration, padding);
-      const targetX = isMobile ? 0 : 500;
+      // 초기 위치 좌표 (제목과 정렬 시 필요에 따라 조절)
+      const targetX = isMobile ? 0 : 550;
       const targetY = isMobile ? 0 : 250;
       fgRef.current.centerAt(targetX, targetY, duration);
     }
@@ -37,10 +39,8 @@ export default function Knowledges({ initialData }: { initialData: any }) {
       if (rootNode) { rootNode.fx = 0; rootNode.fy = 0; }
       fgRef.current.d3Force('charge').strength(-450);
       fgRef.current.d3Force('link').distance(90);
-      const timer = setTimeout(() => fitToCenter(0), 500);
-      return () => clearTimeout(timer);
     }
-  }, [initialData, fitToCenter]);
+  }, [initialData]);
 
   useEffect(() => {
     if (selectedNode) {
@@ -99,66 +99,60 @@ export default function Knowledges({ initialData }: { initialData: any }) {
 
   return (
     <section id="knowledges" className="py-12 md:py-32 border-t border-slate-100 relative text-slate-900">
-      <div className="w-full">
+      <div className="container mx-auto px-6">
         <header className="mb-6 md:mb-12">
           <h2 className="text-[9px] md:text-[14px] font-bold tracking-[0.4em] uppercase text-primary mb-2">
             {knowledgeData.topLabel}
           </h2>
-          <h3 className="text-lg md:text-4xl font-black tracking-tighter whitespace-pre-line leading-tight">
+          <h3 className="text-lg md:text-6xl font-black tracking-tighter whitespace-pre-line leading-tight">
             {knowledgeData.title}
           </h3>
         </header>
 
-        {/* 컨테이너 높이 조절: h-[550px] -> h-[400px], h-[700px] -> h-[550px] */}
+        {/* 수정 포인트: mx-auto 제거로 좌측 정렬, max-w 및 h 값으로 크기 조정 가능 */}
         <div
           ref={containerRef}
-          className="w-full h-[400px] md:h-[550px] border border-slate-100 rounded-xl md:rounded-3xl overflow-hidden bg-slate-50/30 relative"
+          className="w-full max-w-5xl h-[400px] md:h-[550px] border border-slate-100 rounded-xl md:rounded-3xl overflow-hidden bg-slate-50/30 relative shadow-sm"
         >
-          {/* 좌측 상단 가이드 문구 추가 */}
-          <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 bg-white/80 backdrop-blur rounded-full border border-slate-100 shadow-sm pointer-events-none">
+          <div className="absolute top-4 left-4 z-50 flex items-center gap-2 px-3 py-1.5 bg-white/80 backdrop-blur rounded-full border border-slate-100 shadow-sm pointer-events-none">
             <Info size={12} className="text-primary" />
             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
               Wheel to zoom • Drag to move • Click node for details
             </p>
           </div>
-
-<ForceGraph2D
+                    
+          <ForceGraph2D
             ref={fgRef}
             graphData={initialData}
             cooldownTime={3000}
-            onEngineStop={() => fitToCenter(600)}
-            onNodeClick={(node: any) => {
-              if (node.level === 2) {
-                setSelectedNode(node);
+            onEngineStop={() => {
+              if (isFirstRender.current) {
+                fitToCenter(1000);
+                isFirstRender.current = false;
               }
+            }}
+            onNodeClick={(node: any) => {
+              if (node.level === 2) setSelectedNode(node);
             }}
             nodeCanvasObject={(node, ctx, globalScale) => {
               const label = node.label as string;
               const isRoot = node.id === 'hosugator' || node.id === 'me';
-              // level 1은 폴더(카테고리), level 2는 실제 md 파일을 의미합니다.
               const isFolder = node.level === 1;
-              
+
               const radius = isRoot ? 14 : isFolder ? 6 : 4;
               ctx.beginPath();
               ctx.arc(node.x!, node.y!, radius, 0, 2 * Math.PI, false);
               ctx.fillStyle = isRoot ? '#13ecda' : isFolder ? '#94a3b8' : '#cbd5e1';
               ctx.fill();
 
-              // 텍스트 표시 조건 수정
-              // 1. 최상위 루트이거나
-              // 2. 폴더(level 1) 노드이거나
-              // 3. 특정 비율 이상 확대했을 때
-              const textThreshold = 1.2; 
-              
+              const textThreshold = 1.2;
+
               if (isRoot || isFolder || globalScale > textThreshold) {
                 const fontSize = isRoot ? 17 / globalScale : (isFolder ? 13 : 11) / globalScale;
                 ctx.font = `${(isRoot || isFolder) ? '900' : '400'} ${fontSize}px Sans-Serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                
-                // 색상 구분: 루트와 폴더는 좀 더 진하게, 일반 노트는 연하게
                 ctx.fillStyle = isRoot ? '#13ecda' : isFolder ? '#475569' : '#64748b';
-                
                 ctx.fillText(label, node.x!, node.y! + (radius + 14 / globalScale));
               }
             }}
@@ -166,16 +160,18 @@ export default function Knowledges({ initialData }: { initialData: any }) {
             linkWidth={0.5}
             enablePointerInteraction={true}
           />
-                    
-          <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
+
+          <div className="absolute top-4 right-4 z-50 pointer-events-auto">
             <button
+              type="button"
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 fitToCenter(800);
               }}
-              className="bg-white/90 backdrop-blur p-2.5 rounded-full border border-slate-100 text-primary shadow-lg active:scale-95 transition-all"
+              className="bg-white/90 backdrop-blur p-2.5 rounded-full border border-slate-100 text-primary shadow-lg active:scale-95 transition-all cursor-pointer"
             >
-              <RefreshCcw size={16} />
+              <RefreshCcw size={18} />
             </button>
           </div>
         </div>
