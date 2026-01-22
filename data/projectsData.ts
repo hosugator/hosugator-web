@@ -4,6 +4,15 @@ export const projectsData = {
     title: "Technical \nImplementations.",
     items: [
         {
+            title: "Hosugator: Cloud-Native Portfolio Architecture",
+            tags: ["#Next.js", "#AWS", "#GitHub-Actions"],
+            desc: "Next.js 기반의 개인 포트폴리오 사이트를 AWS S3와 CloudFront를 통해 서버리스 환경으로 구축하였습니다. GitHub Actions를 활용한 CI/CD 파이프라인으로 무중단 배포 시스템을 구현하고, Route 53 및 ACM을 통해 보안성과 접근성을 최적화한 아키텍처입니다.",
+            pdfLink: "/projects/project_hosugator.pdf",
+            demoLink: "#",
+            video: "/projects/hosugator_arch.mp4", // 아키텍처 다이어그램 애니메이션 등
+            image: "/projects/hosugator_thumb.png" // 아키텍처 다이어그램 정지 이미지
+        },
+        {
             title: "Cureat: AI 미식 추천 시스템",
             tags: ["#AI", "#FastAPI", "#VectorDB"],
             desc: "Okt/ko-BERT를 활용한 자연어 분석으로 사용자 의도를 파악하고, Vector DB 기반 코사인 유사도 검색 및 FastAPI 비동기 파이프라인을 통해 응답 지연을 60% 단축한 개인화 추천 시스템입니다.",
