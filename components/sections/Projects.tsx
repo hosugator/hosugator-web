@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { PlayCircle, FileText, ArrowRight } from 'lucide-react';
-import { projectsData } from '@/data/projectsData';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface ProjectMediaProps {
   video?: string;
@@ -37,6 +37,7 @@ const ProjectMedia = ({ video, image, title }: ProjectMediaProps) => {
 };
 
 export default function Projects() {
+  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -68,10 +69,10 @@ export default function Projects() {
         <div className="flex justify-between items-end gap-4">
           <div className="max-w-2xl">
             <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-4">
-              {projectsData.topLabel}
+              {t.projects.topLabel}
             </h2>
             <h3 className="text-5xl md:text-6xl font-black tracking-tighter text-slate-900 whitespace-pre-line leading-none">
-              {projectsData.title}
+              {t.projects.title}
             </h3>
           </div>
           <div className="hidden md:flex items-center gap-2 text-slate-300 text-xs font-bold uppercase tracking-widest pb-2">
@@ -91,7 +92,7 @@ export default function Projects() {
           className="flex gap-6 overflow-x-auto pb-12 scrollbar-hide select-none cursor-grab active:cursor-grabbing px-6 md:px-[calc((100vw-1280px)/2+1.5rem)] lg:px-[calc((100vw-1280px)/2+1.5rem)]"
           style={{ scrollSnapType: isDrag ? 'none' : 'x mandatory' }}
         >
-          {projectsData.items.map((project, index) => (
+          {t.projects.items.map((project, index) => (
             <div 
               key={index} 
               // 한 화면에 약 2.5개가 보이도록 설정

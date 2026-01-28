@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true, // Next.js의 이미지 최적화 서버를 사용할 수 없는 환경(S3)을 위한 설정입니다.
   },
+  trailingSlash: true,
 };
 
 export default nextConfig;

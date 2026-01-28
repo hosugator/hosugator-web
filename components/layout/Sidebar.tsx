@@ -1,6 +1,9 @@
+// components/layout/Sidebar.tsx
+"use client";
 import Link from 'next/link';
 import { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
+import LanguageToggle from '@/components/ui/LanguageToggle';
 
 // components/layout/Sidebar.tsx
 export default function Sidebar() {
@@ -27,6 +30,11 @@ export default function Sidebar() {
               </Link>
             ))}
           </nav>
+        </div>
+        
+        {/* Language Toggle */}
+        <div className="mt-auto">
+          <LanguageToggle isExpanded={isHovered} />
         </div>
       </div>
     </aside>

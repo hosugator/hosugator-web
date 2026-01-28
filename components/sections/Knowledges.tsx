@@ -6,11 +6,12 @@ import dynamic from 'next/dynamic';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { RefreshCcw, X, Info } from 'lucide-react';
-import { knowledgeData } from '@/data/knowledgeData';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
 
 export default function Knowledges({ initialData }: { initialData: any }) {
+  const { t } = useTranslation();
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
   const fgRef = useRef<any>(null);
@@ -102,10 +103,10 @@ export default function Knowledges({ initialData }: { initialData: any }) {
       <div className="container mx-auto px-6">
         <header className="mb-6 md:mb-12">
           <h2 className="text-[9px] md:text-[14px] font-bold tracking-[0.4em] uppercase text-primary mb-2">
-            {knowledgeData.topLabel}
+            {t.knowledge.topLabel}
           </h2>
           <h3 className="text-lg md:text-6xl font-black tracking-tighter whitespace-pre-line leading-tight">
-            {knowledgeData.title}
+            {t.knowledge.title}
           </h3>
         </header>
 

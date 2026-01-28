@@ -1,8 +1,10 @@
 // components/sections/Hero.tsx
-import { heroData } from '@/data/heroData';
+"use client";
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Hero() {
-  const { topLabel, mainTitle, description, stats } = heroData;
+  const { t } = useTranslation();
+  const { topLabel, mainTitle, description, stats } = t.hero;
 
   return (
     <section id="hero" className="min-h-screen flex flex-col justify-center">

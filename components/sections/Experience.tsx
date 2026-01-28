@@ -1,23 +1,26 @@
 // components/sections/Experience.tsx
-import { experienceData } from '@/data/experienceData';
+"use client";
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Experience() {
+  const { t } = useTranslation();
+  
   return (
     <section id="experience" className="min-h-screen flex flex-col justify-center border-t border-slate-100 py-24">
       <div className="max-w-5xl">
         <div className="mb-20">
           <h2 className="text-[14x] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-4">
-            {experienceData.topLabel}
+            {t.experience.topLabel}
           </h2>
           <h3 className="text-6xl font-black tracking-tighter text-slate-900 whitespace-pre-line">
-            {experienceData.title}
+            {t.experience.title}
           </h3>
         </div>
 
         <div className="space-y-24 relative">
           <div className="absolute left-0 top-2 bottom-0 w-[1px] bg-slate-100 md:-left-12" />
 
-          {experienceData.items.map((exp, index) => (
+          {t.experience.items.map((exp, index) => (
             <div key={index} className="group relative">
               <div className="hidden md:block absolute -left-[51.5px] top-2 size-2 rounded-full bg-slate-200 group-hover:bg-[#13ecda] transition-colors border-4 border-white ring-1 ring-slate-100" />
               
