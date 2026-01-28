@@ -64,7 +64,6 @@ export default function Projects() {
 
   return (
     <section id="projects" className="py-32 border-t border-slate-100 overflow-hidden">
-      {/* 제목 부분의 컨테이너 */}
       <div className="container mx-auto px-6 mb-16">
         <div className="flex justify-between items-end gap-4">
           <div className="max-w-2xl">
@@ -88,19 +87,19 @@ export default function Projects() {
           onMouseMove={onDragMove}
           onMouseUp={onDragEnd}
           onMouseLeave={onDragEnd}
-          // 수정: px-6으로 고정하여 좌측 정렬을 제목과 맞춤
+          // 컨테이너 전체에 드래그 커서 적용, 개별 카드 위에서는 기본 커서로 덮어씌움
           className="flex gap-6 overflow-x-auto pb-12 scrollbar-hide select-none cursor-grab active:cursor-grabbing px-6 md:px-[calc((100vw-1280px)/2+1.5rem)] lg:px-[calc((100vw-1280px)/2+1.5rem)]"
           style={{ scrollSnapType: isDrag ? 'none' : 'x mandatory' }}
         >
           {t.projects.items.map((project, index) => (
             <div 
               key={index} 
-              // 한 화면에 약 2.5개가 보이도록 설정
-              className="w-[85vw] md:w-[calc((100vw-120px)/2.5)] min-w-[320px] max-w-[420px] p-7 rounded-xl flex flex-col gap-6 hover:shadow-2xl hover:shadow-[#13ecda]/5 transition-all group bg-white border border-slate-50 shrink-0 snap-start"
+              // cursor-default를 추가하여 카드가 클릭되지 않음을 명시
+              className="w-[85vw] md:w-[calc((100vw-120px)/2.5)] min-w-[320px] max-w-[420px] p-7 rounded-xl flex flex-col gap-6 hover:shadow-2xl hover:shadow-[#13ecda]/5 transition-all group bg-white border border-slate-50 shrink-0 snap-start cursor-default"
             >
               <ProjectMedia video={project.video} image={project.image} title={project.title} />
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4 flex-1">
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map(tag => (
                     <span key={tag} className="text-[10px] font-black px-2 py-1 bg-[#13ecda]/10 text-[#13ecda] rounded border border-[#13ecda]/20 tracking-wider uppercase">
@@ -109,14 +108,19 @@ export default function Projects() {
                   ))}
                 </div>
                 <h4 className="text-xl font-black tracking-tight text-slate-900 line-clamp-1">{project.title}</h4>
-                <p className="text-slate-500 text-sm leading-relaxed font-light h-16 line-clamp-3">{project.desc}</p>
                 
-                <div className="flex items-center gap-4 mt-2">
-                  <a href={project.pdfLink} target="_blank" className="text-sm font-bold flex items-center gap-1.5 text-slate-900 hover:text-[#13ecda] transition-colors">
+                {/* 텍스트 높이 제한 및 자름(line-clamp) 제거 */}
+                <p className="text-slate-500 text-sm leading-relaxed font-light">
+                  {project.desc}
+                </p>
+                
+                {/* flex-1인 위 영역 덕분에 버튼들이 항상 하단 정렬됨 */}
+                <div className="flex items-center gap-4 mt-auto pt-4">
+                  <a href={project.pdfLink} target="_blank" className="text-sm font-bold flex items-center gap-1.5 text-slate-900 hover:text-[#13ecda] transition-colors cursor-pointer">
                     <FileText size={16} /> Case Study
                   </a>
                   {project.demoLink !== "#" && (
-                    <a href={project.demoLink} className="text-sm font-bold flex items-center gap-1.5 text-[#13ecda]/60 hover:text-[#13ecda] transition-colors">
+                    <a href={project.demoLink} className="text-sm font-bold flex items-center gap-1.5 text-[#13ecda]/60 hover:text-[#13ecda] transition-colors cursor-pointer">
                       <PlayCircle size={16} /> Live Demo
                     </a>
                   )}

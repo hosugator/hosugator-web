@@ -31,7 +31,7 @@ export default function About() {
         </div>
 
         {/* 오른쪽: 이미지 카드 */}
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-4">
           <div className="relative aspect-[4/5] bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group">
             <div className="absolute inset-0 flex items-center justify-center text-slate-300 text-xs font-mono uppercase tracking-widest">
               <Image 
