@@ -9,8 +9,8 @@ export const projectsData = {
             desc: "Next.js 기반의 개인 포트폴리오 사이트를 AWS S3와 CloudFront를 통해 서버리스 환경으로 구축하였습니다. GitHub Actions를 활용한 CI/CD 파이프라인으로 무중단 배포 시스템을 구현하고, Route 53 및 ACM을 통해 보안성과 접근성을 최적화한 아키텍처입니다.",
             pdfLink: "/projects/project_hosugator.pdf",
             demoLink: "#",
-            video: "/projects/hosugator_arch.mp4", // 아키텍처 다이어그램 애니메이션 등
-            image: "/projects/hosugator_thumb.png" // 아키텍처 다이어그램 정지 이미지
+            video: "", // 아키텍처 다이어그램 애니메이션 등
+            image: "/projects/hosugator_thumb_v2.png" // 아키텍처 다이어그램 정지 이미지
         },
         {
             title: "Cureat: AI 미식 추천 시스템",
