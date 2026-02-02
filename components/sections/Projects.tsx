@@ -5,25 +5,43 @@ import { FileText, ArrowRight, PlayCircle, ImageIcon } from 'lucide-react';
 import { projectsData } from '@/data/projectsData';
 import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
+import { useSearchParams } from 'next/navigation'; // Next.js 파라미터 훅 추가
 
 export default function Projects() {
+  const searchParams = useSearchParams();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-
   const [isCureatModalOpen, setIsCureatModalOpen] = useState(false);
   // 모달 상태에 type 추가
-  const [videoModal, setVideoModal] = useState({ 
-    isOpen: false, 
-    src: '', 
-    title: '', 
-    type: 'video' as 'video' | 'image' 
+  const [videoModal, setVideoModal] = useState({
+    isOpen: false,
+    src: '',
+    title: '',
+    type: 'video' as 'video' | 'image'
   });
 
   // 자동 스크롤 로직
   useEffect(() => {
+    // URL에 ?demo=cureat 이 포함되어 있는지 확인
+    const demoTarget = searchParams.get('demo');
+    const viewTarget = searchParams.get('view');
+
+    if (demoTarget === 'cureat') {
+      setIsCureatModalOpen(true);
+    } 
+    
+    if (viewTarget === 'architecture') {
+      // Hosugator 아키텍처 이미지를 띄우는 로직
+      setVideoModal({
+        isOpen: true,
+        src: "/projects/hosugator_thumb_v2.png", // 아키텍처 이미지 경로
+        title: "Hosugator: Cloud-Native Architecture",
+        type: 'image'
+      });
+    }
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
@@ -41,7 +59,7 @@ export default function Projects() {
 
     animationFrameId = requestAnimationFrame(autoScroll);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [isPaused, isDrag]);
+  }, [isPaused, isDrag, searchParams]);
 
   const onDragStart = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
@@ -96,9 +114,9 @@ export default function Projects() {
               <div key={index} className="w-[320px] md:w-[450px] flex flex-col shrink-0 snap-start">
                 <div
                   className="w-full aspect-[16/10] rounded-lg bg-white overflow-hidden border border-slate-100 relative group/media cursor-pointer"
-                  onClick={() => setVideoModal({ 
-                    isOpen: true, 
-                    src: isArchitectureImg ? project.image : project.video, 
+                  onClick={() => setVideoModal({
+                    isOpen: true,
+                    src: isArchitectureImg ? project.image : project.video,
                     title: project.title,
                     type: isArchitectureImg ? 'image' : 'video'
                   })}
