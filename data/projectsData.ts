@@ -10,7 +10,7 @@ export const projectsData = {
             pdfLink: "/projects/project_hosugator.pdf",
             demoLink: "#",
             video: "", // 아키텍처 다이어그램 애니메이션 등
-            image: "/projects/hosugator_thumb_v2.png" // 아키텍처 다이어그램 정지 이미지
+            image: "/projects/hosugator_thumb_latest.png" // 아키텍처 다이어그램 정지 이미지
         },
         {
             title: "Cureat: AI 미식 추천 시스템",

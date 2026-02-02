@@ -37,7 +37,7 @@ export default function Projects() {
       // Hosugator 아키텍처 이미지를 띄우는 로직
       setVideoModal({
         isOpen: true,
-        src: "/projects/hosugator_thumb_v2.png", // 아키텍처 이미지 경로
+        src: "/projects/hosugator_thumb_latest.png", // 아키텍처 이미지 경로
         title: "Hosugator: Cloud-Native Architecture",
         type: 'image'
       });

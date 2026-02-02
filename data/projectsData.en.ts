@@ -10,7 +10,7 @@ export const projectsDataEn = {
             pdfLink: "/projects/project_hosugator.pdf",
             demoLink: "#",
             video: "/projects/hosugator_arch.mp4",
-            image: "/projects/hosugator_thumb.png"
+            image: "/projects/hosugator_thumb_latest.png"
         },
         {
             title: "Cureat: AI Culinary Recommendation System",
