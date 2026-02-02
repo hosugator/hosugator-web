@@ -9,6 +9,7 @@ import Projects from '@/components/sections/Projects';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
 import Knowledges from '@/components/sections/Knowledges';
+import { Suspense } from 'react';
 
 
 export default function Home() {
@@ -18,7 +19,10 @@ export default function Home() {
       <About />
       <Experience />
       {/* <Skills /> */}
-      <Projects />
+      {/* 2. Projects 컴포넌트를 Suspense로 감싸기 */}
+      <Suspense fallback={<div className="py-20 text-center">Loading Projects...</div>}>
+        <Projects />
+      </Suspense>
       <Knowledges initialData={getGraphData()} />
       <Contact />
       <Footer />
