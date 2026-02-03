@@ -1,5 +1,6 @@
 'use client';
 
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Send, Loader2, PlayCircle } from 'lucide-react';
@@ -10,6 +11,27 @@ interface CureatDemoModalProps {
 }
 
 export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProps) {
+    const { locale } = useLanguage();
+
+    const t = {
+        ko: {
+            title: "Cureat AI 데모",
+            placeholder: "현재 데모는 한국 지역 정보를 기반으로 작동합니다.",
+            loading: "AI가 실시간 데이터를 분석 중입니다...",
+            example: "강남역 근처 맛집 추천해줘",
+            sub: "광고 없는 진짜 맛집 정보를 AI가 분석합니다.",
+            inputLabel: "추천받고 싶은 장소나 테마를 입력하세요",
+        },
+        en: {
+            title: "Cureat AI Demo",
+            placeholder: "Currently, the demo operates based on Korean regional information.",
+            loading: "AI is analyzing real-time data...",
+            example: "Recommend good restaurants near Gangnam Station in Korean.",
+            sub: "AI analyzes authentic restaurant info without ads.",
+            inputLabel: "Enter a place or theme you'd like recommendations for",
+        }
+    }[locale];
+
     const [mounted, setMounted] = useState(false);
     const [userInput, setUserInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +60,7 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
             const response = await fetch("https://api.hosugator.com/recommendations", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt: userInput }),
+                body: JSON.stringify({ prompt: userInput, language: locale }),
             });
 
             const data = await response.json();
@@ -61,8 +83,8 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
                 {/* 헤더 */}
                 <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-white text-slate-900">
                     <div className="text-left">
-                        <h3 className="text-2xl font-black tracking-tighter">Cureat AI Demo</h3>
-                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1">Real-time Recommendation Engine</p>
+                        <h3 className="text-2xl font-black tracking-tighter">{t.title}</h3>
+                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-widest mt-1">{t.placeholder}</p>
                     </div>
                     <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
                         <X size={24} className="text-slate-400" />
@@ -76,15 +98,15 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
                             <div className="w-16 h-16 bg-[#13ecda]/10 rounded-2xl flex items-center justify-center mx-auto mb-4 text-[#13ecda]">
                                 <PlayCircle size={32} />
                             </div>
-                            <p className="text-slate-900 font-bold italic">"강남역 근처 맛집 추천해줘"</p>
-                            <p className="text-slate-400 text-sm mt-2 font-light">광고 없는 진짜 맛집 정보를 AI가 분석합니다.</p>
+                            <p className="text-slate-900 font-bold italic">{t.example}</p>
+                            <p className="text-slate-400 text-sm mt-2 font-light">{t.sub}</p>
                         </div>
                     )}
 
                     {isLoading && (
                         <div className="flex flex-col items-center justify-center py-12 space-y-4">
                             <Loader2 className="animate-spin text-[#13ecda]" size={40} />
-                            <p className="text-slate-500 text-sm font-medium">AI가 실시간 데이터를 분석 중입니다...</p>
+                            <p className="text-slate-500 text-sm font-medium">{t.loading}</p>
                         </div>
                     )}
 
@@ -147,7 +169,7 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
                             type="text"
                             value={userInput}
                             onChange={(e) => setUserInput(e.target.value)}
-                            placeholder="추천받고 싶은 장소나 테마를 입력하세요..."
+                            placeholder={t.inputLabel}
                             className="w-full pl-6 pr-14 py-4 rounded-2xl border-none bg-white shadow-inner focus:ring-2 focus:ring-[#13ecda] outline-none text-slate-900 placeholder:text-slate-300"
                             disabled={isLoading}
                         />

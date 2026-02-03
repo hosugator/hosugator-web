@@ -1,5 +1,7 @@
 'use client';
 
+import { projectsDataEn } from '@/data/projectsData.en'; // 영어 데이터 추가
+import { useLanguage } from '@/contexts/LanguageContext'; // 추가
 import { useRef, useState, useEffect } from 'react';
 import { FileText, ArrowRight, PlayCircle, ImageIcon } from 'lucide-react';
 import { projectsData } from '@/data/projectsData';
@@ -8,11 +10,19 @@ import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
 import { useSearchParams, useRouter } from 'next/navigation'; // Next.js 파라미터 훅 추가
 
 export default function Projects() {
+  const { locale } = useLanguage(); // 현재 설정된 언어(ko/en) 가져오기
+  const [mounted, setMounted] = useState(false); // 마운트 상태 추가
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  const router = useRouter(); // router 선언
+
+  // 언어에 맞는 데이터 선택
+  const currentData = locale === 'en' ? projectsDataEn : projectsData;
   const clearParams = () => {
     // 모달을 닫을 때 URL의 파라미터를 제거하여 재진입 방지
     router.replace('/#projects', { scroll: false });
   };
-  const router = useRouter(); // router 선언
   const searchParams = useSearchParams();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState(false);
@@ -83,17 +93,20 @@ export default function Projects() {
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  const displayItems = [...projectsData.items, ...projectsData.items];
+  const displayItems = [...currentData.items, ...currentData.items];
+
+  // 마운트되기 전에는 아무것도 렌더링하지 않거나 기본 구조만 렌더링하여 서버-클라이언트 차이 제거
+  if (!mounted) return <section id="projects" className="py-32"></section>;
 
   return (
     <section id="projects" className="py-32 border-t border-slate-100 overflow-hidden text-slate-900 bg-white">
       <div className="container mx-auto px-6 mb-16 text-left">
         <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-4">
-          {projectsData.topLabel}
+          {currentData.topLabel}
         </h2>
         <div className="flex justify-between items-end">
           <h3 className="text-5xl md:text-6xl font-black tracking-tighter text-slate-900 whitespace-pre-line leading-none">
-            {projectsData.title}
+            {currentData.title}
           </h3>
           <div className="hidden md:flex items-center gap-2 text-slate-300 text-xs font-bold uppercase tracking-widest pb-2">
             Drag to explore <ArrowRight size={14} />

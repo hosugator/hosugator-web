@@ -7,9 +7,9 @@ export const projectsDataEn = {
             title: "Hosugator: Cloud-Native Portfolio Architecture",
             tags: ["#Next.js", "#AWS", "#GitHub-Actions"],
             desc: "Built a Next.js-based personal portfolio site in a serverless environment using AWS S3 and CloudFront. Implemented zero-downtime deployment system with GitHub Actions CI/CD pipeline, optimizing security and accessibility through Route 53 and ACM.",
-            pdfLink: "/projects/project_hosugator.pdf",
+            pdfLink: "/projects/hosugator_en.pdf",
             demoLink: "#",
-            video: "/projects/hosugator_arch.mp4",
+            video: "", // Architecture diagram animation etc.
             image: "/projects/hosugator_thumb_latest.png"
         },
         {
