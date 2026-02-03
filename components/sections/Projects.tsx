@@ -5,9 +5,14 @@ import { FileText, ArrowRight, PlayCircle, ImageIcon } from 'lucide-react';
 import { projectsData } from '@/data/projectsData';
 import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
-import { useSearchParams } from 'next/navigation'; // Next.js 파라미터 훅 추가
+import { useSearchParams, useRouter } from 'next/navigation'; // Next.js 파라미터 훅 추가
 
 export default function Projects() {
+  const clearParams = () => {
+    // 모달을 닫을 때 URL의 파라미터를 제거하여 재진입 방지
+    router.replace('/#projects', { scroll: false });
+  };
+  const router = useRouter(); // router 선언
   const searchParams = useSearchParams();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDrag, setIsDrag] = useState(false);
@@ -31,8 +36,8 @@ export default function Projects() {
 
     if (demoTarget === 'cureat') {
       setIsCureatModalOpen(true);
-    } 
-    
+    }
+
     if (viewTarget === 'architecture') {
       // Hosugator 아키텍처 이미지를 띄우는 로직
       setVideoModal({
@@ -187,10 +192,10 @@ export default function Projects() {
         </div>
       </div>
 
-      <CureatDemoModal isOpen={isCureatModalOpen} onClose={() => setIsCureatModalOpen(false)} />
+      <CureatDemoModal isOpen={isCureatModalOpen} onClose={() => { setIsCureatModalOpen(false); clearParams(); }} />
       <ProjectVideoModal
         isOpen={videoModal.isOpen}
-        onClose={() => setVideoModal({ ...videoModal, isOpen: false })}
+        onClose={() => { setVideoModal({ ...videoModal, isOpen: false }); clearParams(); }}
         mediaSrc={videoModal.src}
         title={videoModal.title}
         type={videoModal.type}
