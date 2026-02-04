@@ -26,7 +26,7 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
             title: "Cureat AI Demo",
             placeholder: "Currently, the demo operates based on Korean regional information.",
             loading: "AI is analyzing real-time data...",
-            example: "Recommend good restaurants near Gangnam Station in Korean.",
+            example: "Recommend good restaurants near Gangnam Station.",
             sub: "AI analyzes authentic restaurant info without ads.",
             inputLabel: "Enter a place or theme you'd like recommendations for",
         }
