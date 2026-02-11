@@ -57,7 +57,7 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
         setResult(null);
 
         try {
-            const response = await fetch("https://api.hosugator.com/recommendations/v2", {
+            const response = await fetch("https://api.hosugator.com/api/cureat/recommendations/v2", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ prompt: userInput, language: locale }),
