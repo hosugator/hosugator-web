@@ -3,15 +3,28 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+interface Node {
+  id: string;
+  label: string;
+  level: number;
+  content?: string;
+  parentId?: string;
+}
+
+interface Link {
+  source: string;
+  target: string;
+}
+
 export function getGraphData() {
   const notesDirectory = path.join(process.cwd(), 'content/notes');
   // 중앙 노드를 hosugator로 고정
-  const nodes: any[] = [{ id: 'hosugator', label: 'HOSUGATOR', level: 0 }];
-  const links: any[] = [];
+  const nodes: Node[] = [{ id: 'hosugator', label: 'HOSUGATOR', level: 0 }];
+  const links: Link[] = [];
 
   if (!fs.existsSync(notesDirectory)) return { nodes, links };
 
-  function walk(currentPath: string, parentId: string) {
+  function walk(currentPath: string, parentId: string): void {
     const items = fs.readdirSync(currentPath);
 
     items.forEach((item) => {
