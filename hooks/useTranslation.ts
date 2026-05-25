@@ -11,6 +11,8 @@ import { projectsDataEn } from '@/data/projectsData.en';
 import { contactData } from '@/data/contactData';
 import { contactDataEn } from '@/data/contactData.en';
 import { knowledgeDataEn } from '@/data/knowledgeData.en';
+import { insightsData } from '@/data/insightsData';
+import { insightsDataEn } from '@/data/insightsData.en';
 
 export function useTranslation() {
   const { locale } = useLanguage();
@@ -25,7 +27,8 @@ export function useTranslation() {
       topLabel: "Knowledge Graph",
       title: "Technical\nExpertise.",
       description: "AI, 클라우드 아키텍처, 프로젝트 관리 실무 경험으로 구축된 기술 지식 네트워크를 탐색해보세요."
-    }
+    },
+    insights: locale === 'en' ? insightsDataEn : insightsData,
   };
 
   return { t, locale };
