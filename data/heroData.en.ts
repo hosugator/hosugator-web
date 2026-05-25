@@ -1,20 +1,20 @@
 // data/heroData.en.ts
 export const heroDataEn = {
-  topLabel: "PM Mindset, AI & Cloud Engineering",
+  topLabel: "AI Developer | System Architect",
   mainTitle: {
     line1: "Designing",
     line2: "Intelligent",
     highlight: "Ripples."
   },
   description: {
-    prefix: "Former Global ",
-    role: "EPC PM",
-    suffix: " with 2 years of experience, focusing on business optimization through technology. ",
-    target: "Transforming business challenges into AI solutions and realizing them through cloud infrastructure",
-    end: " to create substantial business impact."
+    prefix: "",
+    role: "AI Developer",
+    suffix: " combining global EPC PM experience with AI implementation to solve business problems directly in code. ",
+    target: "From data schema to HMI — connecting every layer with a consistent design philosophy",
+    end: "."
   },
   stats: [
-    { value: "60%", label: "Inference Latency ↓" },
-    { value: "30%", label: "Cloud OpEx Saving ↓" }
+    { value: "99.99%", label: "AUROC · Edge AI LMR" },
+    { value: "80%", label: "TCO Reduction · Hosugator" }
   ]
 };
