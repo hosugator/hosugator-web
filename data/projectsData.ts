@@ -4,58 +4,85 @@ export const projectsData = {
     title: "Technical \nImplementations.",
     items: [
         {
-            title: "Hosugator: Cloud-Native Portfolio Architecture",
-            tags: ["#Next.js", "#AWS", "#GitHub-Actions"],
-            desc: "Next.js 기반의 개인 포트폴리오 사이트를 AWS S3와 CloudFront를 통해 서버리스 환경으로 구축하였습니다. GitHub Actions를 활용한 CI/CD 파이프라인으로 무중단 배포 시스템을 구현하고, Route 53 및 ACM을 통해 보안성과 접근성을 최적화한 아키텍처입니다.",
-            pdfLink: "/projects/hosugator_ko.pdf",
+            title: "Edge AI LMR: 렌즈 열성형 공정 지능화",
+            tags: ["#Industrial-AI", "#Edge", "#PyTorch"],
+            desc: "Field→Cloud 4계층 아키텍처 위에 1D-CNN→LSTM→DQN 3-Stage AI 체인을 구축한 제조 현장 AI 시스템. Cycle_ID Golden Key 설계로 전 계층 단일 키 조인 및 이상 구간 즉시 재현 루프 확보. AUROC 99.99% 달성. Docker 엣지 배포 + k3s 전환 아키텍처 설계, React+TS 실시간 HMI 운영 중.",
+            pdfLink: "/portfolio.pdf#page=2",
             demoLink: "#",
-            video: "", // 아키텍처 다이어그램 애니메이션 등
-            image: "/projects/hosugator_thumb_latest.png" // 아키텍처 다이어그램 정지 이미지
+            video: "",
+            image: "/projects/edge_ai_lmr_thumb.png"
         },
         {
-            title: "Cureat: AI 미식 추천 시스템",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "Okt/ko-BERT를 활용한 자연어 분석으로 사용자 의도를 파악하고, Vector DB 기반 코사인 유사도 검색 및 FastAPI 비동기 파이프라인을 통해 응답 지연을 60% 단축한 개인화 추천 시스템입니다.",
-            pdfLink: "/projects/cureat_ko.pdf",
+            title: "ERP Backup: 레거시 ERP 데이터 마이그레이션 자동화",
+            tags: ["#Automation", "#TypeScript", "#Playwright"],
+            desc: "공식 API 부재 + 비표준 동적 팝업 환경에서 Playwright + Promise.all로 비동기 Race Condition을 구조적으로 제거한 완전 무인 자동화 엔진. 입사 1주차 단독 개발. POM 패턴 유지보수성, .env 자격증명 분리, CSV 전수 감사 로그(Auditability). 수일 수작업 → 정합성 100% 달성.",
+            pdfLink: "/portfolio.pdf#page=5",
             demoLink: "#",
-            video: "/projects/cureat_demo.mov",
-            image: "/projects/cureat_thumb.png"
+            video: "",
+            image: "/projects/erp_backup_thumb.png"
         },
         {
-            title: "Dorosee: CV/LLM 통합 멀티모달 인터랙션 지원 UGV 플랫폼",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "상황 인지 기반 멀티모달 대화형 AI 인터페이스를 탑재한 UGV(무인 지상 차량) 플랫폼입니다. 컴퓨터 비전 모델과 대형 언어 모델을 통합하여 실시간 환경 인식 및 자연어 상호작용을 지원합니다.",
-            pdfLink: "/projects/dorosee_ko.pdf",
+            title: "Dotodo: 음성 입력 기반 AI 개인화 할 일 추천 서비스",
+            tags: ["#LangChain", "#RAG", "#FastAPI"],
+            desc: "LangChain · ChromaDB 기반 RAG 파이프라인과 MSA 아키텍처(Backend/Model Server 분리)로 모델 업그레이드 무중단 구현. Mecab-ko 형태소 분석 + 768D 벡터 유사도 Top-K=3 검색. LLM as a Judge 자율 품질 검증 루프로 API 비용 60% 절감.",
+            pdfLink: "/projects/dotodo_ko.pdf",
             demoLink: "#",
-            video: "/projects/dorosee_demo.mp4",
-            image: "/projects/dorosee_thumb.png"
+            video: "/projects/dotodo_demo.mov",
+            image: "/projects/dotodo_thumb.png"
         },
         {
-            title: "Pictag: 소상공인 맞춤형 경량화 CCT V AI SaaS 개발",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "모듈형 AI 파이프라인 설계를 통해 객체 탐지, 임베딩 생성, 재인식 로직을 분리하여 시스템의 확장성 및 재사용성 확보. FastAPI 기반 비동기 처리로 실시간 영상 분석 및 알림 전송 구현.",
-            pdfLink: "/projects/pictag_ko.pdf",
-            demoLink: "#",
-            video: "/projects/pictag_demo.mp4",
-            image: "/projects/pictag_thumb.png"
-        },
-        {
-            title: "Sodamdiary: 시각 장애인을 위한 사용자 음성 기반 사진 해설 다이어리 앱",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "다중 모델 추론 과정을 병렬 스레드로 분리 처리하여 응답 시간 40% 단축하였으며 지연 최소화 및 성능 향승 위해, OpenVINO 적용하여 추론 최적화",
+            title: "Sodamdiary: 시각장애인을 위한 음성 기반 사진 해설 앱",
+            tags: ["#VLM", "#OpenVINO", "#FastAPI"],
+            desc: "GPT-4V 단독 운영(월 130만원·응답 30초)을 BLIP+CLIP+LLM 3-Stage 파이프라인으로 대체. OpenVINO 4-bit 양자화 + asyncio 병렬 처리로 응답 20초·운영비 30% 절감 달성. 2025 한국장애인해커톤 본선 진출.",
             pdfLink: "/projects/sodamdiary_ko.pdf",
             demoLink: "#",
             video: "/projects/sodamdiary_demo.mp4",
             image: "/projects/sodamdiary_thumb.png"
         },
         {
-            title: "Dotodo: 음성 입력 기반 인공지능 개인화 할 일 추천 앱 서비스",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "Langchain 기반 LLM RAG 시스템 구현 및 최적화를 통해 개인화된 할 일 추천 제공하며 고성능 추천 을 위한 VectorDB 및 NLP 파이프라인 구축",
-            pdfLink: "/projects/dotodo_ko.pdf",
+            title: "Pictag: 소상공인 맞춤형 경량화 CCTV AI SaaS",
+            tags: ["#Re-ID", "#OpenVINO", "#WebSocket"],
+            desc: "YOLO 백본 분해 후 Linear / Pooling / Attention Head 3가지 임베딩 방식 A/B 실험 — Attention 채택으로 Re-ID 정확도·학습 효율 50%↑. OpenVINO INT8 양자화로 GPU 없는 엣지 실시간 추론 달성. 4-Thread 독립 큐 파이프라인, Django+WebSocket 히트맵 대시보드.",
+            pdfLink: "/projects/pictag_ko.pdf",
             demoLink: "#",
-            video: "/projects/dotodo_demo.mov",
-            image: "/projects/dotodo_thumb.png"
+            video: "/projects/pictag_demo.mp4",
+            image: "/projects/pictag_thumb.png"
+        },
+        {
+            title: "Hosugator: Cloud-Native Portfolio Architecture",
+            tags: ["#Next.js", "#AWS", "#GitHub-Actions"],
+            desc: "Next.js 기반 포트폴리오를 AWS S3 + CloudFront 서버리스 환경으로 구축. GitHub Actions CI/CD 파이프라인으로 무중단 배포, OIDC 기반 키 없는 인증, Route 53 + ACM 보안 최적화.",
+            pdfLink: "/projects/hosugator_ko.pdf",
+            demoLink: "#",
+            video: "",
+            image: "/projects/hosugator_thumb_latest.png"
+        },
+        {
+            title: "Cureat: AI 미식 추천 시스템",
+            tags: ["#NLP", "#VectorDB", "#FastAPI"],
+            desc: "Okt/ko-BERT 자연어 분석으로 사용자 의도를 파악하고 Vector DB 코사인 유사도 검색으로 개인화 추천 제공. FastAPI 비동기 파이프라인으로 응답 지연 최소화.",
+            pdfLink: "/projects/cureat_ko.pdf",
+            demoLink: "#",
+            video: "/projects/cureat_demo.mov",
+            image: "/projects/cureat_thumb.png"
+        },
+        {
+            title: "Dorosee: CV/LLM 통합 멀티모달 UGV 플랫폼",
+            tags: ["#CV", "#LLM", "#ROS"],
+            desc: "Computer Vision과 LLM을 통합한 상황 인지 멀티모달 대화형 AI 인터페이스 탑재 무인 지상 차량(UGV) 플랫폼. 실시간 환경 인식과 자연어 상호작용을 결합.",
+            pdfLink: "/projects/dorosee_ko.pdf",
+            demoLink: "#",
+            video: "/projects/dorosee_demo.mp4",
+            image: "/projects/dorosee_thumb.png"
+        },
+        {
+            title: "KDLC: 물류센터 수요 예측 경진대회",
+            tags: ["#Time-Series", "#Ensemble", "#Feature-Engineering"],
+            desc: "45개+ 피처 공학(Lag·Rolling·sin/cos 주기성 인코딩)과 SARIMA+LSTM+LightGBM 3-Model 가중 앙상블. TimeSeriesSplit으로 Data Leakage 구조적 차단. 피처 설계가 모델 선택보다 성능에 더 큰 영향임을 실증.",
+            pdfLink: "/portfolio.pdf#page=12",
+            demoLink: "#",
+            video: "",
+            image: "/projects/kdlc_thumb.png"
         },
     ]
 };
