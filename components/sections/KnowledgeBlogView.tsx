@@ -11,6 +11,7 @@ interface BlogPost {
   category: string;
   readTime: number;
   tags: string[];
+  date?: string;
 }
 
 interface KnowledgeBlogViewProps {
@@ -29,20 +30,27 @@ export default function KnowledgeBlogView({ data, onPostClick }: KnowledgeBlogVi
     const posts: BlogPost[] = [];
     data.nodes.forEach((node: any) => {
       if (node.level === 2 && node.content) {
-        const category = node.parentId?.split('/').pop() || 'general';
+        const category = node.parentId?.split('/')[0] || 'general';
         const wordCount = node.content.split(' ').length;
         const readTime = Math.max(1, Math.ceil(wordCount / 200));
+        const tags = node.tags?.length ? node.tags : extractTags(node.content);
         posts.push({
           id: node.id,
           title: node.label,
           content: node.content,
           category: category,
           readTime,
-          tags: extractTags(node.content)
+          tags,
+          date: node.date,
         });
       }
     });
-    return posts.sort((a, b) => a.title.localeCompare(b.title));
+    return posts.sort((a, b) => {
+      if (a.date && b.date) return b.date.localeCompare(a.date);
+      if (a.date) return -1;
+      if (b.date) return 1;
+      return a.title.localeCompare(b.title);
+    });
   }, [data]);
 
   // 카테고리별 통계 데이터 생성
@@ -156,6 +164,12 @@ export default function KnowledgeBlogView({ data, onPostClick }: KnowledgeBlogVi
                         <Clock size={12} />
                         <span>{post.readTime} min read</span>
                       </div>
+                      {post.date && (
+                        <>
+                          <span className="w-1 h-1 bg-slate-300 rounded-full" />
+                          <span className="text-xs text-slate-400 font-medium">{post.date}</span>
+                        </>
+                      )}
                     </div>
                     <h4 className="text-xl font-bold text-slate-900 group-hover:text-[#13ecda] transition-colors">
                       {post.title}

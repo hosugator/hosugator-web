@@ -16,7 +16,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
   const { t } = useTranslation();
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('graph');
+  const [viewMode, setViewMode] = useState<ViewMode>('blog');
   const fgRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
