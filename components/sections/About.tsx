@@ -7,7 +7,7 @@ export default function About() {
   const { t } = useTranslation();
   
   return (
-    <section id="about" className="min-h-screen flex flex-col justify-center border-t border-slate-100 py-24">
+    <section id="about" className="min-h-screen flex flex-col justify-center py-24">
       {/* Layout에서 ml을 잡았으므로 추가 마진 없이 바로 시작 */}
       <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-8">
         {t.about.topLabel}

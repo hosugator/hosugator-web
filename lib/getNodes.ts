@@ -3,15 +3,31 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
+interface Node {
+  id: string;
+  label: string;
+  level: number;
+  content?: string;
+  parentId?: string;
+  date?: string;
+  tags?: string[];
+  type?: string;
+}
+
+interface Link {
+  source: string;
+  target: string;
+}
+
 export function getGraphData() {
   const notesDirectory = path.join(process.cwd(), 'content/notes');
   // 중앙 노드를 hosugator로 고정
-  const nodes: any[] = [{ id: 'hosugator', label: 'HOSUGATOR', level: 0 }];
-  const links: any[] = [];
+  const nodes: Node[] = [{ id: 'hosugator', label: 'HOSUGATOR', level: 0 }];
+  const links: Link[] = [];
 
   if (!fs.existsSync(notesDirectory)) return { nodes, links };
 
-  function walk(currentPath: string, parentId: string) {
+  function walk(currentPath: string, parentId: string): void {
     const items = fs.readdirSync(currentPath);
 
     items.forEach((item) => {
@@ -28,12 +44,17 @@ export function getGraphData() {
       } else if (item.endsWith('.md')) {
         // 2레벨 노드 (개별 노트 파일)
         const { data, content } = matter(fs.readFileSync(fullPath, 'utf8'));
+        const date = data.date || data.created || data.updated || undefined;
+        const tags = Array.isArray(data.tags) ? data.tags : (data.tags ? [data.tags] : []);
         nodes.push({
           id,
           label: data.title || item.replace('.md', ''),
           level: 2,
           content,
-          parentId
+          parentId,
+          date: date ? String(date) : undefined,
+          tags,
+          type: data.type || undefined,
         });
         links.push({ source: parentId, target: id });
       }

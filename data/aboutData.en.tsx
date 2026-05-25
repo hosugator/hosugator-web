@@ -4,24 +4,28 @@ import React from 'react';
 export const aboutDataEn = {
   topLabel: "About Me",
   title: {
-    main: "Business Context Meets",
-    highlight: "Technical Excellence."
+    main: "Field Insight Meets",
+    highlight: "System Design."
   },
   content: [
     {
       text: (
         <>
-          Beyond being just an engineer, I strive to be a <span className="text-slate-900 font-medium">problem solver who understands business context</span>. 
-          My experience coordinating tens of thousands of components and dozens of stakeholders in global EPC projects 
-          has now become the foundation for designing complex cloud infrastructure and AI pipelines.
+          My global EPC PM background — translating ambiguous field requirements from three-country stakeholders into technical specs —{' '}
+          now directly informs how I design Edge AI systems and LLM agents.{' '}
+          Under the principle of{' '}
+          <span className="text-slate-900 font-medium">'automate every recurring bottleneck,'</span>{' '}
+          I convert technical work into reusable assets through deliberate learning and Docs-as-Code.
         </>
       )
     },
     {
       text: (
         <>
-          I believe that technology proves its value not by itself, but when it creates business impact. 
-          Every process of reducing latency and cutting costs must ultimately lead to customer success.
+          My core role is{' '}
+          <span className="text-slate-900 font-medium">translating domain knowledge into the language of agentic systems.</span>{' '}
+          By connecting every layer — from data schema to HMI — under a consistent design philosophy,{' '}
+          I deliver verifiable business impact through AI deployed in production.
         </>
       )
     }

@@ -4,18 +4,63 @@ export const projectsDataEn = {
     title: "Technical \nImplementations.",
     items: [
         {
+            title: "Edge AI LMR: Intelligent Lens Thermoforming Process",
+            tags: ["#Industrial-AI", "#Edge", "#PyTorch"],
+            desc: "Manufacturing AI system built on a Field→Cloud 4-tier architecture with a 1D-CNN→LSTM→DQN 3-Stage AI chain. Cycle_ID Golden Key design enables single-key joins across all layers and immediate anomaly reproduction loops. AUROC 99.99%. Docker edge deployment + k3s migration architecture, React+TS real-time HMI in operation.",
+            pdfLink: "/portfolio.pdf#page=2",
+            demoLink: "#",
+            video: "",
+            image: "/projects/edge_ai_lmr_thumb.png"
+        },
+        {
+            title: "ERP Backup: Legacy ERP Data Migration Automation",
+            tags: ["#Automation", "#TypeScript", "#Playwright"],
+            desc: "Fully unattended automation engine that structurally eliminates async popup Race Conditions using Playwright + Promise.all — in an environment with no official API and non-standard dynamic popups. Built solo in week 1 at DTK. POM pattern for resilience, .env credential isolation, full CSV audit log. Days of manual work → 100% data integrity.",
+            pdfLink: "/portfolio.pdf#page=5",
+            demoLink: "#",
+            video: "",
+            image: "/projects/erp_backup_thumb.png"
+        },
+        {
+            title: "Dotodo: AI-Powered Personalized Task Recommendation with Voice Input",
+            tags: ["#LangChain", "#RAG", "#FastAPI"],
+            desc: "LangChain · ChromaDB RAG pipeline with MSA architecture (Backend/Model Server separation) for zero-downtime model upgrades. Mecab-ko morpheme analysis + 768D vector similarity Top-K=3 retrieval. LLM as a Judge self-evaluation loop cuts API costs by 60%.",
+            pdfLink: "/projects/dotodo_en.pdf",
+            demoLink: "#",
+            video: "/projects/dotodo_demo.mov",
+            image: "/projects/dotodo_thumb.png"
+        },
+        {
+            title: "Sodamdiary: Voice-Based Photo Description App for Visually Impaired",
+            tags: ["#VLM", "#OpenVINO", "#FastAPI"],
+            desc: "Replaced GPT-4V single-model (₩1.3M/mo · 30s latency) with BLIP+CLIP+LLM 3-Stage Pipeline. OpenVINO 4-bit quantization + asyncio parallel processing: 20s response · 30% cost reduction. 2025 Korea Disability Hackathon finalist.",
+            pdfLink: "/projects/sodamdiary_en.pdf",
+            demoLink: "#",
+            video: "/projects/sodamdiary_demo.mp4",
+            image: "/projects/sodamdiary_thumb.png"
+        },
+        {
+            title: "Pictag: Lightweight CCTV AI SaaS for Small Businesses",
+            tags: ["#Re-ID", "#OpenVINO", "#WebSocket"],
+            desc: "A/B tested Linear / Pooling / Attention Head embeddings from a decomposed YOLO backbone — Attention Head adopted for 50%↑ Re-ID accuracy and training efficiency. OpenVINO INT8 quantization enables real-time inference on CPU-only edge hardware. 4-Thread independent queue pipeline, Django+WebSocket heatmap dashboard.",
+            pdfLink: "/projects/pictag_en.pdf",
+            demoLink: "#",
+            video: "/projects/pictag_demo.mp4",
+            image: "/projects/pictag_thumb.png"
+        },
+        {
             title: "Hosugator: Cloud-Native Portfolio Architecture",
             tags: ["#Next.js", "#AWS", "#GitHub-Actions"],
-            desc: "Built a Next.js-based personal portfolio site in a serverless environment using AWS S3 and CloudFront. Implemented zero-downtime deployment system with GitHub Actions CI/CD pipeline, optimizing security and accessibility through Route 53 and ACM.",
+            desc: "Next.js portfolio deployed to AWS S3 + CloudFront serverless infrastructure. Zero-downtime CI/CD via GitHub Actions with OIDC keyless auth, Route 53 + ACM security optimization.",
             pdfLink: "/projects/hosugator_en.pdf",
             demoLink: "#",
-            video: "", // Architecture diagram animation etc.
+            video: "",
             image: "/projects/hosugator_thumb_latest.png"
         },
         {
             title: "Cureat: AI Culinary Recommendation System",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "Personalized recommendation system that analyzes user intent through Okt/ko-BERT natural language processing, achieving 60% response latency reduction via Vector DB-based cosine similarity search and FastAPI asynchronous pipelines.",
+            tags: ["#NLP", "#VectorDB", "#FastAPI"],
+            desc: "Personalized food recommendation system using Okt/ko-BERT natural language analysis for intent detection and Vector DB cosine similarity search. FastAPI async pipeline minimizes response latency.",
             pdfLink: "/projects/cureat_en.pdf",
             demoLink: "#",
             video: "/projects/cureat_demo.mov",
@@ -23,39 +68,21 @@ export const projectsDataEn = {
         },
         {
             title: "Dorosee: CV/LLM Integrated Multimodal UGV Platform",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "UGV (Unmanned Ground Vehicle) platform equipped with context-aware multimodal conversational AI interface. Integrates computer vision models and large language models to support real-time environmental recognition and natural language interaction.",
+            tags: ["#CV", "#LLM", "#ROS"],
+            desc: "UGV (Unmanned Ground Vehicle) platform with context-aware multimodal conversational AI combining real-time Computer Vision and LLM for environmental recognition and natural language interaction.",
             pdfLink: "/projects/dorosee_en.pdf",
             demoLink: "#",
             video: "/projects/dorosee_demo.mp4",
             image: "/projects/dorosee_thumb.png"
         },
         {
-            title: "Pictag: Lightweight CCTV AI SaaS for Small Businesses",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "Ensured system scalability and reusability by separating object detection, embedding generation, and re-identification logic through modular AI pipeline design. Implemented real-time video analysis and notification delivery using FastAPI-based asynchronous processing.",
-            pdfLink: "/projects/pictag_en.pdf",
+            title: "KDLC: Logistics Demand Forecasting Competition",
+            tags: ["#Time-Series", "#Ensemble", "#Feature-Engineering"],
+            desc: "45+ engineered features (Lag · Rolling · sin/cos cyclical encoding) with a SARIMA+LSTM+LightGBM 3-Model weighted ensemble. TimeSeriesSplit structurally prevents Data Leakage. Demonstrated that feature engineering outweighs model selection for forecast performance.",
+            pdfLink: "/portfolio.pdf#page=12",
             demoLink: "#",
-            video: "/projects/pictag_demo.mp4",
-            image: "/projects/pictag_thumb.png"
-        },
-        {
-            title: "Sodamdiary: Voice-Based Photo Description Diary App for Visually Impaired",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "Achieved 40% response time reduction by separating multi-model inference processes into parallel threads. Applied OpenVINO for inference optimization to minimize latency and improve performance.",
-            pdfLink: "/projects/sodamdiary_en.pdf",
-            demoLink: "#",
-            video: "/projects/sodamdiary_demo.mp4",
-            image: "/projects/sodamdiary_thumb.png"
-        },
-        {
-            title: "Dotodo: AI-Powered Personalized Task Recommendation App with Voice Input",
-            tags: ["#AI", "#FastAPI", "#VectorDB"],
-            desc: "Implemented and optimized Langchain-based LLM RAG system to provide personalized task recommendations. Built VectorDB and NLP pipeline for high-performance recommendations.",
-            pdfLink: "/projects/dotodo_en.pdf",
-            demoLink: "#",
-            video: "/projects/dotodo_demo.mov",
-            image: "/projects/dotodo_thumb.png"
+            video: "",
+            image: "/projects/kdlc_thumb.png"
         },
     ]
 };
