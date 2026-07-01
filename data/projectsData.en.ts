@@ -13,9 +13,9 @@ export const projectsDataEn = {
             image: "/projects/edge_ai_lmr_thumb.png"
         },
         {
-            title: "AlignAI: Vision Alignment Automation + Edge MLOps",
-            tags: ["#Industrial-AI", "#Segmentation", "#MLOps"],
-            desc: "100% detection · 91% pass rate · ~330ms CPU inference. Replaced rule-based OpenCV with U-Net (EfficientNet-B0) Segmentation. Supported 3 products from a single repo via a ProductConfig registry and single-handedly built a GitHub-SSOT ML CI/CD pipeline (GHCR→Argo CD) on a k3s edge cluster, with liveness/readiness + self-heal verified.",
+            title: "AlignAI: Vision Alignment + MLOps + On-site LLM Agent",
+            tags: ["#Industrial-AI", "#LLM-Agent", "#MLOps", "#k3s", "#React"],
+            desc: "Replaced rule-based OpenCV with U-Net Segmentation (100% detection · 91% pass rate), then built GitOps ML CI/CD (GHCR→Argo CD) on a Docker·k3s edge cluster and integrated a React+TS HMI (UI/UX) with an LLM agent (function calling · ReAct) that explains field anomalies — an end-to-end industrial AI system.",
             pdfLink: "/portfolio.pdf",
             demoLink: "#",
             video: "",

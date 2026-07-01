@@ -9,8 +9,8 @@ import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
 import { useSearchParams, useRouter } from 'next/navigation'; // Next.js 파라미터 훅 추가
 
-// 대표작(Selected Work) — 프로젝트명(콜론 앞) 기준
-const FEATURED = ['Edge AI LMR', 'Dotodo', 'Cureat'];
+// 대표작(Selected Work) — 프로젝트명(콜론 앞) 기준, 배열 순서대로 노출
+const FEATURED = ['AlignAI', 'Edge AI LMR', 'Dotodo', 'Cureat'];
 const shortNameOf = (title: string) => title.split(':')[0].trim();
 
 export default function Projects() {
@@ -65,7 +65,10 @@ export default function Projects() {
 
   if (!mounted) return <section id="projects" className="py-24"></section>;
 
-  const featured = currentData.items.filter((p) => FEATURED.includes(shortNameOf(p.title)));
+  type Project = typeof currentData.items[number];
+  const featured = FEATURED
+    .map((name) => currentData.items.find((p) => shortNameOf(p.title) === name))
+    .filter((p): p is Project => Boolean(p));
   const rest = currentData.items.filter((p) => !FEATURED.includes(shortNameOf(p.title)));
 
   return (
@@ -79,29 +82,36 @@ export default function Projects() {
         </h3>
       </div>
 
-      {/* Selected Work — 대표작 3개 (리치) */}
+      {/* Selected Work — 대표작 (리치) */}
       <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400 mb-6">
         Selected Work
       </div>
       <div className="border-t border-neutral-200 mb-16">
         {featured.map((project, index) => {
           const isCureat = shortNameOf(project.title).toLowerCase() === 'cureat';
+          const hasMedia = !!project.video || !!project.image;
+          const coverClass = "group relative sm:w-56 shrink-0 aspect-[16/10] rounded-xl bg-neutral-900 text-white overflow-hidden text-left p-4 flex flex-col justify-between hover:bg-neutral-800 transition-colors";
+          const coverInner = (
+            <>
+              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <span>{project.tags[0]?.replace('#', '')}</span>
+              </div>
+              <div className="flex items-end justify-between gap-2">
+                <span className="text-lg font-black leading-tight">{shortNameOf(project.title)}</span>
+                <ArrowUpRight size={18} className="text-white/40 group-hover:text-white transition-colors shrink-0" />
+              </div>
+            </>
+          );
+
           return (
             <div key={index} className="flex flex-col sm:flex-row gap-6 py-8 border-b border-neutral-200">
-              {/* 타이포그래픽 커버 (클릭 → 미디어 모달) */}
-              <button
-                onClick={() => openMedia(project)}
-                className="group relative sm:w-56 shrink-0 aspect-[16/10] rounded-xl bg-neutral-900 text-white overflow-hidden text-left p-4 flex flex-col justify-between hover:bg-neutral-800 transition-colors"
-              >
-                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-                  <span>{String(index + 1).padStart(2, '0')}</span>
-                  <span>{project.tags[0]?.replace('#', '')}</span>
-                </div>
-                <div className="flex items-end justify-between gap-2">
-                  <span className="text-lg font-black leading-tight">{shortNameOf(project.title)}</span>
-                  <ArrowUpRight size={18} className="text-white/40 group-hover:text-white transition-colors shrink-0" />
-                </div>
-              </button>
+              {/* 타이포그래픽 커버 (미디어 있으면 모달, 없으면 Case Study) */}
+              {hasMedia ? (
+                <button onClick={() => openMedia(project)} className={coverClass}>{coverInner}</button>
+              ) : (
+                <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className={coverClass}>{coverInner}</a>
+              )}
 
               {/* 콘텐츠 */}
               <div className="flex flex-col flex-1 min-w-0">
@@ -168,10 +178,9 @@ export default function Projects() {
                 href={project.pdfLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${shortNameOf(project.title)} case study`}
-                className="shrink-0 text-neutral-300 hover:text-accent transition-colors"
+                className="shrink-0 flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-accent transition-colors"
               >
-                <ArrowUpRight size={18} />
+                <FileText size={14} /> Case Study
               </a>
             </div>
           );

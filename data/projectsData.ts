@@ -13,9 +13,9 @@ export const projectsData = {
             image: "/projects/edge_ai_lmr_thumb.png"
         },
         {
-            title: "AlignAI: 비전 정렬 자동화 + 엣지 MLOps",
-            tags: ["#Industrial-AI", "#Segmentation", "#MLOps"],
-            desc: "탐지율 100% · PASS율 91% · CPU 추론 ~330ms. 규칙 기반 OpenCV를 U-Net(EfficientNet-B0) Segmentation으로 대체. ProductConfig 레지스트리로 단일 레포 3개 제품 지원, GitHub SSOT 기반 ML CI/CD(GHCR→Argo CD 자동 배포)를 k3s 엣지 클러스터에 단독 구축, liveness/readiness + self-heal 검증.",
+            title: "AlignAI: 비전 정렬 + MLOps + 현장 LLM 에이전트",
+            tags: ["#Industrial-AI", "#LLM-Agent", "#MLOps", "#k3s", "#React"],
+            desc: "규칙 기반 OpenCV를 U-Net Segmentation으로 대체해 탐지율 100%·PASS율 91% 달성. GitOps ML CI/CD(GHCR→Argo CD 자동 배포)를 Docker·k3s 엣지 클러스터에 단독 구축하고, React+TS HMI(UI/UX)와 현장 이상을 설명하는 LLM 에이전트(function calling·ReAct)까지 통합한 엔드투엔드 산업 AI 시스템.",
             pdfLink: "/portfolio.pdf",
             demoLink: "#",
             video: "",
