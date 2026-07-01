@@ -20,7 +20,17 @@ export default function About() {
             {t.about.title.main} <br />
             <span className="text-primary">{t.about.title.highlight}</span>
           </h3>
-          
+
+          {/* 진입 후크: 정량 지표 — 서술을 읽기 전에 임팩트를 먼저 보여준다 */}
+          <div className="flex flex-wrap gap-x-12 gap-y-6 border-y border-slate-100 py-6">
+            {t.about.stats.map((stat) => (
+              <div key={stat.label}>
+                <div className="text-4xl md:text-5xl font-black text-slate-900 leading-none">{stat.value}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-2">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
           <div className="space-y-6 text-xl font-extralight leading-relaxed text-slate-400">
             {t.about.content.map((item, i) => (
               <p key={i}>

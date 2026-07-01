@@ -29,5 +29,9 @@ export const aboutDataEn = {
         </>
       )
     }
+  ],
+  stats: [
+    { value: "99.99%", label: "AUROC · Edge AI LMR" },
+    { value: "80%", label: "TCO Reduction · Hosugator" }
   ]
 };
