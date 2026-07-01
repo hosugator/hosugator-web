@@ -9,6 +9,10 @@ import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
 import { useSearchParams, useRouter } from 'next/navigation'; // Next.js 파라미터 훅 추가
 
+// 대표작(Selected Work) — 프로젝트명(콜론 앞) 기준
+const FEATURED = ['Edge AI LMR', 'Dotodo', 'Cureat'];
+const shortNameOf = (title: string) => title.split(':')[0].trim();
+
 export default function Projects() {
   const { locale } = useLanguage(); // 현재 설정된 언어(ko/en) 가져오기
   const [mounted, setMounted] = useState(false); // 마운트 상태 추가
@@ -17,10 +21,8 @@ export default function Projects() {
   }, []);
   const router = useRouter(); // router 선언
 
-  // 언어에 맞는 데이터 선택
   const currentData = locale === 'en' ? projectsDataEn : projectsData;
   const clearParams = () => {
-    // 모달을 닫을 때 URL의 파라미터를 제거하여 재진입 방지
     router.replace('/#projects', { scroll: false });
   };
   const searchParams = useSearchParams();
@@ -51,7 +53,6 @@ export default function Projects() {
     }
   }, [searchParams]);
 
-  // 커버 클릭 시 실제 미디어(비디오/이미지)를 모달로 열기
   const openMedia = (project: { video?: string; image: string; title: string }) => {
     const hasVideo = !!project.video;
     setVideoModal({
@@ -62,12 +63,13 @@ export default function Projects() {
     });
   };
 
-  const displayItems = currentData.items;
+  if (!mounted) return <section id="projects" className="py-24"></section>;
 
-  if (!mounted) return <section id="projects" className="py-32"></section>;
+  const featured = currentData.items.filter((p) => FEATURED.includes(shortNameOf(p.title)));
+  const rest = currentData.items.filter((p) => !FEATURED.includes(shortNameOf(p.title)));
 
   return (
-    <section id="projects" className="py-24 border-t border-neutral-100 text-neutral-900">
+    <section id="projects" className="border-t border-neutral-100 py-24 text-neutral-900">
       <div className="mb-14">
         <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
           {currentData.topLabel}
@@ -77,12 +79,13 @@ export default function Projects() {
         </h3>
       </div>
 
-      {/* 단일 컬럼 프로젝트 리스트 */}
-      <div className="border-t border-neutral-200">
-        {displayItems.map((project, index) => {
-          const shortName = project.title.split(':')[0];
-          const isCureat = project.title.toLowerCase().includes('cureat');
-
+      {/* Selected Work — 대표작 3개 (리치) */}
+      <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400 mb-6">
+        Selected Work
+      </div>
+      <div className="border-t border-neutral-200 mb-16">
+        {featured.map((project, index) => {
+          const isCureat = shortNameOf(project.title).toLowerCase() === 'cureat';
           return (
             <div key={index} className="flex flex-col sm:flex-row gap-6 py-8 border-b border-neutral-200">
               {/* 타이포그래픽 커버 (클릭 → 미디어 모달) */}
@@ -95,7 +98,7 @@ export default function Projects() {
                   <span>{project.tags[0]?.replace('#', '')}</span>
                 </div>
                 <div className="flex items-end justify-between gap-2">
-                  <span className="text-lg font-black leading-tight">{shortName}</span>
+                  <span className="text-lg font-black leading-tight">{shortNameOf(project.title)}</span>
                   <ArrowUpRight size={18} className="text-white/40 group-hover:text-white transition-colors shrink-0" />
                 </div>
               </button>
@@ -129,6 +132,35 @@ export default function Projects() {
                   )}
                 </div>
               </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* More Projects — 나머지 한 줄 인덱스 */}
+      <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400 mb-4">
+        More Projects
+      </div>
+      <div className="border-t border-neutral-200">
+        {rest.map((project, j) => {
+          const n = String(featured.length + j + 1).padStart(2, '0');
+          const highlight = project.desc.split('.')[0];
+          return (
+            <div key={j} className="group flex items-center justify-between gap-4 py-4 border-b border-neutral-200">
+              <button onClick={() => openMedia(project)} className="flex items-baseline gap-4 min-w-0 text-left">
+                <span className="text-[11px] font-mono text-neutral-300 shrink-0">{n}</span>
+                <span className="font-black text-neutral-900 shrink-0 group-hover:text-accent transition-colors">{shortNameOf(project.title)}</span>
+                <span className="text-sm text-neutral-400 font-light truncate hidden sm:block">{highlight}</span>
+              </button>
+              <a
+                href={project.pdfLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${shortNameOf(project.title)} case study`}
+                className="shrink-0 text-neutral-300 hover:text-accent transition-colors"
+              >
+                <ArrowUpRight size={18} />
+              </a>
             </div>
           );
         })}
