@@ -13,6 +13,15 @@ export const projectsData = {
             image: "/projects/edge_ai_lmr_thumb.png"
         },
         {
+            title: "AlignAI: 비전 정렬 자동화 + 엣지 MLOps",
+            tags: ["#Industrial-AI", "#Segmentation", "#MLOps"],
+            desc: "탐지율 100% · PASS율 91% · CPU 추론 ~330ms. 규칙 기반 OpenCV를 U-Net(EfficientNet-B0) Segmentation으로 대체. ProductConfig 레지스트리로 단일 레포 3개 제품 지원, GitHub SSOT 기반 ML CI/CD(GHCR→Argo CD 자동 배포)를 k3s 엣지 클러스터에 단독 구축, liveness/readiness + self-heal 검증.",
+            pdfLink: "/portfolio.pdf",
+            demoLink: "#",
+            video: "",
+            image: ""
+        },
+        {
             title: "ERP Backup: 레거시 ERP 데이터 마이그레이션 자동화",
             tags: ["#Automation", "#TypeScript", "#Playwright"],
             desc: "수일 수작업 → 정합성 100% 완전 무인 자동화. 공식 API 부재+비표준 동적 팝업 환경에서 Playwright+Promise.all로 비동기 Race Condition 구조적 제거. 입사 1주차 단독 개발, POM 패턴·.env 자격증명 분리·CSV 전수 감사 로그.",
@@ -83,6 +92,15 @@ export const projectsData = {
             demoLink: "#",
             video: "",
             image: "/projects/kdlc_thumb.png"
+        },
+        {
+            title: "go2fit: 피트니스 소셜 앱 백엔드 & DB 설계",
+            tags: ["#Backend", "#PostgreSQL", "#DDD"],
+            desc: "User·Exercise·Community 3축 PostgreSQL 스키마 단독 설계. UUID PK(카카오 로그인) + 5계층 FK 체인으로 운동 기록 무결성, JWT Access+Refresh Rotation·TokenBlacklist·Idempotency Key 4중 보안. MediaPipe 포즈 추정 운동별 분석기(DDD)와 비동기 영상 잡 큐(FSM)·얼굴 비식별화 파이프라인 구현.",
+            pdfLink: "/portfolio.pdf",
+            demoLink: "#",
+            video: "",
+            image: ""
         },
     ]
 };

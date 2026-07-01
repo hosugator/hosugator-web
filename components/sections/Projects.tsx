@@ -145,13 +145,25 @@ export default function Projects() {
         {rest.map((project, j) => {
           const n = String(featured.length + j + 1).padStart(2, '0');
           const highlight = project.desc.split('.')[0];
+          const hasMedia = !!project.video || !!project.image;
+          const inner = (
+            <>
+              <span className="text-[11px] font-mono text-neutral-300 shrink-0">{n}</span>
+              <span className="font-black text-neutral-900 shrink-0 group-hover:text-accent transition-colors">{shortNameOf(project.title)}</span>
+              <span className="text-sm text-neutral-400 font-light truncate hidden sm:block">{highlight}</span>
+            </>
+          );
           return (
             <div key={j} className="group flex items-center justify-between gap-4 py-4 border-b border-neutral-200">
-              <button onClick={() => openMedia(project)} className="flex items-baseline gap-4 min-w-0 text-left">
-                <span className="text-[11px] font-mono text-neutral-300 shrink-0">{n}</span>
-                <span className="font-black text-neutral-900 shrink-0 group-hover:text-accent transition-colors">{shortNameOf(project.title)}</span>
-                <span className="text-sm text-neutral-400 font-light truncate hidden sm:block">{highlight}</span>
-              </button>
+              {hasMedia ? (
+                <button onClick={() => openMedia(project)} className="flex items-baseline gap-4 min-w-0 text-left">
+                  {inner}
+                </button>
+              ) : (
+                <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className="flex items-baseline gap-4 min-w-0 text-left">
+                  {inner}
+                </a>
+              )}
               <a
                 href={project.pdfLink}
                 target="_blank"

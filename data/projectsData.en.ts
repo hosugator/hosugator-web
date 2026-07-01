@@ -13,6 +13,15 @@ export const projectsDataEn = {
             image: "/projects/edge_ai_lmr_thumb.png"
         },
         {
+            title: "AlignAI: Vision Alignment Automation + Edge MLOps",
+            tags: ["#Industrial-AI", "#Segmentation", "#MLOps"],
+            desc: "100% detection · 91% pass rate · ~330ms CPU inference. Replaced rule-based OpenCV with U-Net (EfficientNet-B0) Segmentation. Supported 3 products from a single repo via a ProductConfig registry and single-handedly built a GitHub-SSOT ML CI/CD pipeline (GHCR→Argo CD) on a k3s edge cluster, with liveness/readiness + self-heal verified.",
+            pdfLink: "/portfolio.pdf",
+            demoLink: "#",
+            video: "",
+            image: ""
+        },
+        {
             title: "ERP Backup: Legacy ERP Data Migration Automation",
             tags: ["#Automation", "#TypeScript", "#Playwright"],
             desc: "Days of manual work → fully unattended automation at 100% integrity. With no official API and non-standard dynamic popups, Playwright + Promise.all structurally eliminates async Race Conditions. Built solo in week 1: POM pattern, .env credential isolation, full CSV audit log.",
@@ -83,6 +92,15 @@ export const projectsDataEn = {
             demoLink: "#",
             video: "",
             image: "/projects/kdlc_thumb.png"
+        },
+        {
+            title: "go2fit: Fitness Social App Backend & DB Design",
+            tags: ["#Backend", "#PostgreSQL", "#DDD"],
+            desc: "Solo-designed a 3-axis (User·Exercise·Community) PostgreSQL schema. UUID PK (Kakao login) + 5-layer FK chain for workout-record integrity, and 4-layer security (JWT Access+Refresh rotation, TokenBlacklist, Idempotency Key). MediaPipe per-exercise pose analyzers (DDD), an async video job queue (FSM), and a face de-identification pipeline.",
+            pdfLink: "/portfolio.pdf",
+            demoLink: "#",
+            video: "",
+            image: ""
         },
     ]
 };
