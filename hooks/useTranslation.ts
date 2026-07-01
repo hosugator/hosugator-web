@@ -1,7 +1,5 @@
 // hooks/useTranslation.ts
 import { useLanguage } from '@/contexts/LanguageContext';
-import { heroData } from '@/data/heroData';
-import { heroDataEn } from '@/data/heroData.en';
 import { aboutData } from '@/data/aboutData';
 import { aboutDataEn } from '@/data/aboutData.en';
 import { experienceData } from '@/data/experienceData';
@@ -18,7 +16,6 @@ export function useTranslation() {
   const { locale } = useLanguage();
 
   const t = {
-    hero: locale === 'en' ? heroDataEn : heroData,
     about: locale === 'en' ? aboutDataEn : aboutData,
     experience: locale === 'en' ? experienceDataEn : experienceData,
     projects: locale === 'en' ? projectsDataEn : projectsData,
