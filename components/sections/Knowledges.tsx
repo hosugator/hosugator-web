@@ -1,61 +1,27 @@
 'use client';
 
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import dynamic from 'next/dynamic';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { RefreshCcw, X, Info, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import ViewToggle, { ViewMode } from '@/components/ui/ViewToggle';
 import KnowledgeBlogView from '@/components/sections/KnowledgeBlogView';
-
-const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
+import KnowledgeCommitLog from '@/components/sections/KnowledgeCommitLog';
 
 export default function Knowledges({ initialData }: { initialData: any }) {
   const { t } = useTranslation();
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [mounted, setMounted] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>('blog');
-  const fgRef = useRef<any>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isFirstRender = useRef(true);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const fitToCenter = useCallback((duration = 800) => {
-    if (fgRef.current && containerRef.current) {
-      const isMobile = window.innerWidth < 768;
-      const padding = isMobile ? 30 : 80;
-      // zoomToFit이 전체 노드 바운딩 박스를 뷰포트 중앙에 맞춤 (별도 centerAt 불필요)
-      fgRef.current.zoomToFit(duration, padding);
-    }
-  }, [initialData]);
-
-  // 그래프 뷰로 전환 시 캔버스 크기 확정 후 재-fit (마운트 직후 오프셋 방지)
   useEffect(() => {
-    if (viewMode !== 'graph') return;
-    const id = setTimeout(() => fitToCenter(600), 500);
-    return () => clearTimeout(id);
-  }, [viewMode, fitToCenter]);
-
-  useEffect(() => {
-    if (fgRef.current) {
-      const rootNode = initialData.nodes.find((n: any) => n.id === 'hosugator' || n.id === 'me');
-      if (rootNode) { rootNode.fx = 0; rootNode.fy = 0; }
-      fgRef.current.d3Force('charge').strength(-450);
-      fgRef.current.d3Force('link').distance(90);
-    }
-  }, [initialData]);
-
-  useEffect(() => {
-    if (selectedNode) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    document.body.style.overflow = selectedNode ? 'hidden' : 'auto';
   }, [selectedNode]);
 
   const renderModal = () => {
@@ -123,73 +89,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
         </header>
 
         {viewMode === 'graph' ? (
-          /* 전용 풀너비 그래프 — edge-to-edge */
-          <div
-            ref={containerRef}
-            className="w-full h-[78vh] md:h-[85vh] border-y border-neutral-100 overflow-hidden bg-neutral-50/40 relative"
-          >
-            <div className="absolute top-4 left-4 z-50 flex items-center gap-2 px-3 py-1.5 bg-white/80 backdrop-blur rounded-full border border-slate-100 shadow-sm pointer-events-none">
-              <Info size={12} className="text-primary" />
-              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
-                Wheel to zoom • Drag to move • Click node for details
-              </p>
-            </div>
-                      
-            <ForceGraph2D
-              ref={fgRef}
-              graphData={initialData}
-              cooldownTime={3000}
-              onEngineStop={() => {
-                if (isFirstRender.current) {
-                  fitToCenter(1000);
-                  isFirstRender.current = false;
-                }
-              }}
-              onNodeClick={(node: any) => {
-                if (node.level === 2) setSelectedNode(node);
-              }}
-              nodeCanvasObject={(node, ctx, globalScale) => {
-                const label = node.label as string;
-                const isRoot = node.id === 'hosugator' || node.id === 'me';
-                const isFolder = node.level === 1;
-
-                const radius = isRoot ? 14 : isFolder ? 6 : 4;
-                ctx.beginPath();
-                ctx.arc(node.x!, node.y!, radius, 0, 2 * Math.PI, false);
-                // '#35618E' = --color-primary(globals.css) 캔버스는 CSS 유틸 불가라 리터럴 동기화
-                ctx.fillStyle = isRoot ? '#35618E' : isFolder ? '#94a3b8' : '#cbd5e1';
-                ctx.fill();
-
-                const textThreshold = 1.2;
-
-                if (isRoot || isFolder || globalScale > textThreshold) {
-                  const fontSize = isRoot ? 17 / globalScale : (isFolder ? 13 : 11) / globalScale;
-                  ctx.font = `${(isRoot || isFolder) ? '900' : '400'} ${fontSize}px Sans-Serif`;
-                  ctx.textAlign = 'center';
-                  ctx.textBaseline = 'middle';
-                  ctx.fillStyle = isRoot ? '#35618E' : isFolder ? '#475569' : '#64748b';
-                  ctx.fillText(label, node.x!, node.y! + (radius + 14 / globalScale));
-                }
-              }}
-              linkColor={() => 'rgba(203, 213, 225, 0.4)'}
-              linkWidth={0.5}
-              enablePointerInteraction={true}
-            />
-
-            <div className="absolute top-4 right-4 z-50 pointer-events-auto">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  fitToCenter(800);
-                }}
-                className="bg-white/90 backdrop-blur p-2.5 rounded-full border border-slate-100 text-primary shadow-lg active:scale-95 transition-all cursor-pointer"
-              >
-                <RefreshCcw size={18} />
-              </button>
-            </div>
-          </div>
+          <KnowledgeCommitLog data={initialData} onPostClick={setSelectedNode} />
         ) : (
           <div className="px-6 md:px-12 max-w-6xl mx-auto">
             <KnowledgeBlogView data={initialData} onPostClick={setSelectedNode} />

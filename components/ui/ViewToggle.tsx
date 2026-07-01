@@ -1,7 +1,7 @@
 // components/ui/ViewToggle.tsx
 "use client";
 import React from 'react';
-import { Network, List } from 'lucide-react';
+import { GitBranch, List } from 'lucide-react';
 
 export type ViewMode = 'graph' | 'blog';
 
@@ -21,8 +21,8 @@ export default function ViewToggle({ currentView, onViewChange }: ViewToggleProp
             : 'text-slate-500 hover:text-slate-700'
         }`}
       >
-        <Network size={16} />
-        <span className="hidden sm:inline">Graph</span>
+        <GitBranch size={16} />
+        <span className="hidden sm:inline">Log</span>
       </button>
       <button
         onClick={() => onViewChange('blog')}
