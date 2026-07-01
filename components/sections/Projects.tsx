@@ -132,13 +132,13 @@ export default function Projects() {
                   </p>
 
                   <div className="flex items-center gap-6 mt-auto pt-8">
-                    <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className="text-sm font-bold flex items-center gap-1.5 text-slate-400 hover:text-slate-900 transition-colors">
+                    <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className="text-sm font-bold flex items-center gap-1.5 text-slate-400 hover:text-accent transition-colors">
                       <FileText size={16} /> Case Study
                     </a>
                     {project.title.toLowerCase().includes("cureat") && (
                       <button
                         onClick={() => setIsCureatModalOpen(true)}
-                        className="group flex items-center gap-2 text-sm font-black text-rose-500 hover:text-rose-600 transition-colors"
+                        className="group flex items-center gap-2 text-sm font-black text-accent hover:text-accent/80 transition-colors"
                       >
                         LIVE DEMO
                         <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

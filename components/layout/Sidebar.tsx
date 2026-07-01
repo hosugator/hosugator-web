@@ -24,12 +24,12 @@ export default function Sidebar() {
           </Link>
           <nav className="flex flex-col gap-10 text-sm font-bold tracking-[0.2em] uppercase">
             {['About', 'Experience', 'Projects', 'Insights', 'Contact'].map((item) => (
-              <Link key={item} href={`/#${item.toLowerCase()}`} title={item} className="hover:text-primary transition-colors text-slate-900 flex items-center gap-6 ml-1">
+              <Link key={item} href={`/#${item.toLowerCase()}`} title={item} className="hover:text-accent transition-colors text-slate-900 flex items-center gap-6 ml-1">
                 <span className="min-w-[12px] text-center">{item[0]}</span>
                 {isHovered && <span className="animate-in fade-in slide-in-from-left-2 duration-300">{item}</span>}
               </Link>
             ))}
-            <Link href="/blog" title="Blog" className="hover:text-primary transition-colors text-slate-400 flex items-center gap-6 ml-1">
+            <Link href="/blog" title="Blog" className="hover:text-accent transition-colors text-slate-400 flex items-center gap-6 ml-1">
               <span className="min-w-[12px] text-center">B</span>
               {isHovered && <span className="animate-in fade-in slide-in-from-left-2 duration-300">Blog</span>}
             </Link>

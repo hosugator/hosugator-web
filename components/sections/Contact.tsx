@@ -20,7 +20,7 @@ export default function Contact() {
         <div className="flex flex-col sm:flex-row items-center gap-6 mt-6">
           <a 
             href={`mailto:${t.contact.email}`} 
-            className="bg-slate-900 text-white px-12 py-5 rounded-full font-bold text-lg hover:bg-primary hover:text-slate-900 transition-all shadow-xl shadow-slate-200 flex items-center gap-2"
+            className="bg-accent text-white px-12 py-5 rounded-full font-bold text-lg hover:bg-accent/90 transition-all shadow-xl shadow-accent/20 flex items-center gap-2"
           >
             Get In Touch <ArrowUpRight size={20} />
           </a>
@@ -32,7 +32,7 @@ export default function Contact() {
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4 rounded-full border border-slate-100 hover:border-primary text-slate-400 hover:text-primary transition-all"
+                className="p-4 rounded-full border border-slate-100 hover:border-accent text-slate-400 hover:text-accent transition-all"
               >
                 {social.icon === 'github' ? <Github size={24} /> : <Linkedin size={24} />}
               </a>

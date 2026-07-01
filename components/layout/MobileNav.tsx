@@ -8,7 +8,7 @@ import LanguageToggle from '@/components/ui/LanguageToggle';
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navItems = ['About', 'Experience', 'Projects', 'Knowledges', 'Contact'];
+  const navItems = ['About', 'Experience', 'Projects', 'Insights', 'Contact'];
 
   return (
     <div className="md:hidden fixed top-0 left-0 right-0 z-[200] bg-white border-b border-slate-100">
@@ -35,7 +35,7 @@ export default function MobileNav() {
               <Link
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="block text-lg font-bold text-slate-900 hover:text-primary transition-colors py-2"
+                className="block text-lg font-bold text-slate-900 hover:text-accent transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 {item}

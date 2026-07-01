@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  /* 커스텀 컬러 주입 */
-  --color-primary: #6366F1;
+  /* 커스텀 컬러 주입 — 모노 에디토리얼: 액센트를 근블랙으로 통일 */
+  --color-primary: #171717;
+  /* 기능성 액센트(딥 블루): CTA·링크·Live Demo·호버 등 상호작용 요소 전용 */
+  --color-accent: #35618E;
   --color-background-light: #ffffff;
   --color-background-dark: #102220;
   
   /* 폰트 및 기타 설정 */
-  --font-display: "Inter", sans-serif;
-  
+  --font-display: "Space Grotesk", sans-serif;
+
   /* 기존 디자인의 둥근 모서리 재현 */
   --radius-default: 0.25rem;
   --radius-lg: 0.5rem;
@@ -16,7 +18,7 @@
 }
 
 :root {
-  --font-inter: 'Inter', sans-serif;
+  --font-inter: var(--font-space-grotesk), var(--font-noto-sans-kr), 'Inter', sans-serif;
 }
 
 @utility custom-border {

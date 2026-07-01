@@ -1,20 +1,32 @@
 // app/layout.tsx
 "use client";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Space_Grotesk, Noto_Sans_KR } from "next/font/google";
 import Sidebar from "@/components/layout/Sidebar";
 import MobileNav from "@/components/layout/MobileNav";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
-const inter = Inter({ subsets: ["latin"] });
+// 모노 에디토리얼 그로테스크 — 라틴(Space Grotesk) + 국문(Noto Sans KR) 자체 호스팅
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+const notoSansKr = Noto_Sans_KR({
+  weight: ["300", "400", "500", "700", "900"],
+  variable: "--font-noto-sans-kr",
+  display: "swap",
+  preload: false,
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className="overflow-x-hidden">
+    <html lang="ko" className={`${spaceGrotesk.variable} ${notoSansKr.variable} overflow-x-hidden`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </head>
-      <body className={`${inter.className} bg-white text-slate-900 antialiased overflow-x-hidden touch-pan-y`}>
+      <body className={`bg-white text-neutral-900 antialiased overflow-x-hidden touch-pan-y`}>
         <LanguageProvider>
           <MobileNav />
           <div className="flex flex-col md:flex-row min-h-screen w-full overflow-x-hidden">
