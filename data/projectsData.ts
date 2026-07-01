@@ -60,7 +60,7 @@ export const projectsData = {
         {
             title: "Cureat: AI 미식 추천 시스템",
             tags: ["#NLP", "#VectorDB", "#FastAPI"],
-            desc: "Okt/ko-BERT 자연어 분석으로 사용자 의도를 파악하고 Vector DB 코사인 유사도 검색으로 개인화 추천 제공. FastAPI 비동기 파이프라인으로 응답 지연 최소화.",
+            desc: "파편화된 비정형 미식 데이터를 수집하고 Ko-BERT 필터링으로 광고성 콘텐츠를 20%+ 제거. Okt 형태소 분석으로 사용자 의도를 파악하고 2-Stage 하이브리드 검색(Vector DB 코사인 유사도)으로 정교한 개인화 추천을 구현. FastAPI 비동기 파이프라인으로 응답 지연 최소화.",
             pdfLink: "/projects/cureat_ko.pdf",
             demoLink: "#",
             video: "/projects/cureat_demo.mov",
@@ -69,7 +69,7 @@ export const projectsData = {
         {
             title: "Dorosee: CV/LLM 통합 멀티모달 UGV 플랫폼",
             tags: ["#CV", "#LLM", "#ROS"],
-            desc: "Computer Vision과 LLM을 통합한 상황 인지 멀티모달 대화형 AI 인터페이스 탑재 무인 지상 차량(UGV) 플랫폼. 실시간 환경 인식과 자연어 상호작용을 결합.",
+            desc: "2025 UWC 해커톤 대상 수상작. YOLOv8 파인튜닝과 LLM 음성 인터페이스를 결합한 상황 인지 멀티모달 UGV(무인 지상 차량) 플랫폼. Unity 3D 시뮬레이션 환경으로 하드웨어 제약을 극복하고 AI 모델 통합 테스트를 완수.",
             pdfLink: "/projects/dorosee_ko.pdf",
             demoLink: "#",
             video: "/projects/dorosee_demo.mp4",

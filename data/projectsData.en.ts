@@ -60,7 +60,7 @@ export const projectsDataEn = {
         {
             title: "Cureat: AI Culinary Recommendation System",
             tags: ["#NLP", "#VectorDB", "#FastAPI"],
-            desc: "Personalized food recommendation system using Okt/ko-BERT natural language analysis for intent detection and Vector DB cosine similarity search. FastAPI async pipeline minimizes response latency.",
+            desc: "Collects fragmented unstructured culinary data and removes 20%+ of ad-driven content via Ko-BERT filtering. Detects user intent with Okt morpheme analysis and delivers refined personalization through a 2-Stage hybrid search (Vector DB cosine similarity). FastAPI async pipeline minimizes response latency.",
             pdfLink: "/projects/cureat_en.pdf",
             demoLink: "#",
             video: "/projects/cureat_demo.mov",
@@ -69,7 +69,7 @@ export const projectsDataEn = {
         {
             title: "Dorosee: CV/LLM Integrated Multimodal UGV Platform",
             tags: ["#CV", "#LLM", "#ROS"],
-            desc: "UGV (Unmanned Ground Vehicle) platform with context-aware multimodal conversational AI combining real-time Computer Vision and LLM for environmental recognition and natural language interaction.",
+            desc: "2025 UWC Hackathon Grand Prize winner. A context-aware multimodal UGV (Unmanned Ground Vehicle) platform combining YOLOv8 fine-tuning with an LLM voice interface. A Unity 3D simulation environment overcame hardware constraints and completed integrated AI model testing.",
             pdfLink: "/projects/dorosee_en.pdf",
             demoLink: "#",
             video: "/projects/dorosee_demo.mp4",
