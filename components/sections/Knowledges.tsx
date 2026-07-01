@@ -75,7 +75,10 @@ export default function Knowledges({ initialData }: { initialData: any }) {
         </button>
 
         {/* 문서 컬럼 (손글씨) */}
-        <article className="font-hand max-w-2xl mx-auto px-6 pt-24 md:pt-28 pb-32 text-neutral-800">
+        <article
+          className="max-w-2xl mx-auto px-6 pt-24 md:pt-28 pb-32 text-neutral-800"
+          style={{ fontFamily: 'var(--font-pen), cursive' }}
+        >
           <div className="text-xs font-sans font-bold tracking-[0.25em] uppercase text-accent mb-4">
             {selectedNode.parentId?.split('/').pop() || 'Note'}
           </div>
