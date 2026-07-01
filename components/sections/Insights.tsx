@@ -5,12 +5,12 @@ export default function Insights() {
   const { t } = useTranslation();
 
   return (
-    <section id="insights" className="min-h-screen flex flex-col justify-center border-t border-neutral-100 py-24">
+    <section id="insights" className="border-t border-neutral-100 py-24">
       <div className="mb-14">
-        <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-neutral-900 mb-4">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
           {t.insights.topLabel}
         </h2>
-        <h3 className="text-4xl md:text-6xl font-black tracking-tighter text-neutral-900 whitespace-pre-line leading-none">
+        <h3 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.95] text-neutral-900 whitespace-pre-line">
           {t.insights.title}
         </h3>
       </div>

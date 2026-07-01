@@ -69,10 +69,10 @@ export default function Projects() {
   return (
     <section id="projects" className="py-24 border-t border-neutral-100 text-neutral-900">
       <div className="mb-14">
-        <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-neutral-900 mb-4">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
           {currentData.topLabel}
         </h2>
-        <h3 className="text-4xl md:text-6xl font-black tracking-tighter text-neutral-900 whitespace-pre-line leading-none">
+        <h3 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.95] text-neutral-900 whitespace-pre-line">
           {currentData.title}
         </h3>
       </div>
