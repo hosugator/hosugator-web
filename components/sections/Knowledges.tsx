@@ -28,14 +28,18 @@ export default function Knowledges({ initialData }: { initialData: any }) {
   const fitToCenter = useCallback((duration = 800) => {
     if (fgRef.current && containerRef.current) {
       const isMobile = window.innerWidth < 768;
-      const padding = isMobile ? 40 : 250;
+      const padding = isMobile ? 30 : 80;
+      // zoomToFit이 전체 노드 바운딩 박스를 뷰포트 중앙에 맞춤 (별도 centerAt 불필요)
       fgRef.current.zoomToFit(duration, padding);
-      // 초기 위치 좌표 (제목과 정렬 시 필요에 따라 조절)
-      const targetX = isMobile ? 0 : 550;
-      const targetY = isMobile ? 0 : 250;
-      fgRef.current.centerAt(targetX, targetY, duration);
     }
   }, [initialData]);
+
+  // 그래프 뷰로 전환 시 캔버스 크기 확정 후 재-fit (마운트 직후 오프셋 방지)
+  useEffect(() => {
+    if (viewMode !== 'graph') return;
+    const id = setTimeout(() => fitToCenter(600), 500);
+    return () => clearTimeout(id);
+  }, [viewMode, fitToCenter]);
 
   useEffect(() => {
     if (fgRef.current) {
@@ -61,39 +65,45 @@ export default function Knowledges({ initialData }: { initialData: any }) {
 
     return createPortal(
       <div
-        className="fixed inset-0 z-[10000] flex items-end md:items-center justify-center bg-slate-900/60 backdrop-blur-sm"
+        className="fixed inset-0 z-[10000] flex items-end md:items-center justify-center bg-neutral-900/50 backdrop-blur-sm md:p-6"
         onClick={() => setSelectedNode(null)}
       >
         <div
-          className="bg-white rounded-t-2xl md:rounded-3xl shadow-2xl w-full max-w-3xl h-[85vh] md:h-auto md:max-h-[85vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-300"
+          className="relative bg-[#faf9f4] rounded-t-2xl md:rounded-2xl shadow-2xl ring-1 ring-black/5 w-full max-w-2xl h-[88vh] md:h-auto md:max-h-[86vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-300"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="px-5 py-3 md:px-8 md:py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-            <span className="text-[8px] md:text-[10px] font-black tracking-[0.2em] uppercase text-primary bg-white border border-primary/20 px-2 py-1 rounded-full">
-              {selectedNode.parentId?.split('/').pop() || 'Category'}
+          {/* 상단: 카테고리 + 닫기 */}
+          <div className="flex items-center justify-between px-6 md:px-10 pt-5 pb-3 shrink-0">
+            <span className="text-[10px] font-black tracking-[0.25em] uppercase text-accent">
+              {selectedNode.parentId?.split('/').pop() || 'Note'}
             </span>
-            <button onClick={() => setSelectedNode(null)} className="p-2 text-slate-400">
+            <button onClick={() => setSelectedNode(null)} className="p-2 -mr-2 text-neutral-400 hover:text-neutral-900 transition-colors">
               <X size={18} />
             </button>
           </div>
 
-          <div className="p-6 md:p-10 overflow-y-auto">
-            <h4 className="text-xl md:text-4xl font-black tracking-tighter mb-6 text-slate-900 border-b pb-4">
-              {selectedNode.label}
-            </h4>
-            <article className="max-w-none text-[12px] md:text-base text-slate-700 leading-relaxed font-light">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  h2: ({ ...props }) => <h2 className="text-lg md:text-2xl font-black tracking-tighter text-slate-900 mt-6 mb-3 border-l-4 border-primary pl-3" {...props} />,
-                  strong: ({ ...props }) => <strong className="font-bold text-primary" {...props} />,
-                  code: ({ ...props }) => <code className="bg-slate-100 px-1 py-0.5 rounded text-primary font-mono text-[10px] md:text-sm" {...props} />,
-                  ul: ({ ...props }) => <ul className="list-disc ml-5 mb-4 space-y-1.5" {...props} />,
-                }}
-              >
-                {selectedNode.content}
-              </ReactMarkdown>
-            </article>
+          {/* 노트 본문: 좌측 마진 룰 + 크림 페이퍼 + 넉넉한 행간 */}
+          <div className="flex-1 overflow-y-auto px-6 md:px-10 pb-12">
+            <div className="md:pl-8 md:border-l border-accent/25">
+              <h4 className="text-2xl md:text-4xl font-black tracking-tighter mb-8 text-neutral-900 leading-[1.1]">
+                {selectedNode.label}
+              </h4>
+              <article className="max-w-none text-[13px] md:text-[15px] text-neutral-700 leading-[1.9] font-light">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h2: ({ ...props }) => <h2 className="text-lg md:text-2xl font-black tracking-tight text-neutral-900 mt-8 mb-3" {...props} />,
+                    strong: ({ ...props }) => <strong className="font-bold text-neutral-900" {...props} />,
+                    code: ({ ...props }) => <code className="bg-neutral-900/5 px-1.5 py-0.5 rounded text-accent font-mono text-[12px] md:text-sm" {...props} />,
+                    ul: ({ ...props }) => <ul className="list-disc ml-5 mb-4 space-y-1.5" {...props} />,
+                    a: ({ ...props }) => <a className="text-accent underline underline-offset-2" {...props} />,
+                    p: ({ ...props }) => <p className="mb-4" {...props} />,
+                  }}
+                >
+                  {selectedNode.content}
+                </ReactMarkdown>
+              </article>
+            </div>
           </div>
         </div>
       </div>,
@@ -121,7 +131,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
           /* 수정 포인트: mx-auto 제거로 좌측 정렬, max-w 및 h 값으로 크기 조정 가능 */
           <div
             ref={containerRef}
-            className="w-full max-w-5xl h-[400px] md:h-[550px] border border-slate-100 rounded-xl md:rounded-3xl overflow-hidden bg-slate-50/30 relative shadow-sm"
+            className="w-full h-[72vh] md:h-[80vh] border border-neutral-100 rounded-2xl overflow-hidden bg-neutral-50/40 relative shadow-sm"
           >
             <div className="absolute top-4 left-4 z-50 flex items-center gap-2 px-3 py-1.5 bg-white/80 backdrop-blur rounded-full border border-slate-100 shadow-sm pointer-events-none">
               <Info size={12} className="text-primary" />
@@ -151,8 +161,8 @@ export default function Knowledges({ initialData }: { initialData: any }) {
                 const radius = isRoot ? 14 : isFolder ? 6 : 4;
                 ctx.beginPath();
                 ctx.arc(node.x!, node.y!, radius, 0, 2 * Math.PI, false);
-                // '#6366F1' = --color-primary(globals.css) 캔버스는 CSS 유틸 불가라 리터럴 동기화
-                ctx.fillStyle = isRoot ? '#6366F1' : isFolder ? '#94a3b8' : '#cbd5e1';
+                // '#35618E' = --color-primary(globals.css) 캔버스는 CSS 유틸 불가라 리터럴 동기화
+                ctx.fillStyle = isRoot ? '#35618E' : isFolder ? '#94a3b8' : '#cbd5e1';
                 ctx.fill();
 
                 const textThreshold = 1.2;
@@ -162,7 +172,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
                   ctx.font = `${(isRoot || isFolder) ? '900' : '400'} ${fontSize}px Sans-Serif`;
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'middle';
-                  ctx.fillStyle = isRoot ? '#6366F1' : isFolder ? '#475569' : '#64748b';
+                  ctx.fillStyle = isRoot ? '#35618E' : isFolder ? '#475569' : '#64748b';
                   ctx.fillText(label, node.x!, node.y! + (radius + 14 / globalScale));
                 }
               }}
