@@ -3,7 +3,7 @@
 import { projectsDataEn } from '@/data/projectsData.en'; // 영어 데이터 추가
 import { useLanguage } from '@/contexts/LanguageContext'; // 추가
 import { useState, useEffect } from 'react';
-import { FileText, ArrowRight, PlayCircle, ImageIcon } from 'lucide-react';
+import { FileText, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { projectsData } from '@/data/projectsData';
 import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
@@ -25,7 +25,6 @@ export default function Projects() {
   };
   const searchParams = useSearchParams();
   const [isCureatModalOpen, setIsCureatModalOpen] = useState(false);
-  // 모달 상태에 type 추가
   const [videoModal, setVideoModal] = useState({
     isOpen: false,
     src: '',
@@ -43,113 +42,96 @@ export default function Projects() {
     }
 
     if (viewTarget === 'architecture') {
-      // Hosugator 아키텍처 이미지를 띄우는 로직
       setVideoModal({
         isOpen: true,
-        src: "/projects/hosugator_thumb_latest.png", // 아키텍처 이미지 경로
+        src: "/projects/hosugator_thumb_latest.png",
         title: "Hosugator: Cloud-Native Architecture",
         type: 'image'
       });
     }
   }, [searchParams]);
 
+  // 커버 클릭 시 실제 미디어(비디오/이미지)를 모달로 열기
+  const openMedia = (project: { video?: string; image: string; title: string }) => {
+    const hasVideo = !!project.video;
+    setVideoModal({
+      isOpen: true,
+      src: hasVideo ? project.video! : project.image,
+      title: project.title,
+      type: hasVideo ? 'video' : 'image',
+    });
+  };
+
   const displayItems = currentData.items;
 
-  // 마운트되기 전에는 아무것도 렌더링하지 않거나 기본 구조만 렌더링하여 서버-클라이언트 차이 제거
   if (!mounted) return <section id="projects" className="py-32"></section>;
 
   return (
-    <section id="projects" className="py-32 border-t border-slate-100 text-slate-900 bg-white">
-      <div className="container mx-auto px-6 mb-16 text-left">
-        <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-primary mb-4">
+    <section id="projects" className="py-24 border-t border-neutral-100 text-neutral-900">
+      <div className="mb-14">
+        <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-neutral-900 mb-4">
           {currentData.topLabel}
         </h2>
-        <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter text-slate-900 whitespace-pre-line leading-none">
+        <h3 className="text-4xl md:text-6xl font-black tracking-tighter text-neutral-900 whitespace-pre-line leading-none">
           {currentData.title}
         </h3>
       </div>
 
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
-          {displayItems.map((project, index) => {
-            // Hosugator 프로젝트 여부 확인
-            const isArchitectureImg = project.title.toLowerCase().includes("hosugator");
+      {/* 단일 컬럼 프로젝트 리스트 */}
+      <div className="border-t border-neutral-200">
+        {displayItems.map((project, index) => {
+          const shortName = project.title.split(':')[0];
+          const isCureat = project.title.toLowerCase().includes('cureat');
 
-            return (
-              <div key={index} className="flex flex-col text-left">
-                <div
-                  className="w-full aspect-[16/10] rounded-lg bg-white overflow-hidden border border-slate-100 relative group/media cursor-pointer"
-                  onClick={() => setVideoModal({
-                    isOpen: true,
-                    src: isArchitectureImg ? project.image : project.video,
-                    title: project.title,
-                    type: isArchitectureImg ? 'image' : 'video'
-                  })}
-                >
-                  {!isArchitectureImg && project.video ? (
-                    <>
-                      <video
-                        src={project.video}
-                        poster={project.image}
-                        muted loop playsInline
-                        className="w-full h-full object-contain transition-transform duration-500 group-hover/media:scale-105"
-                        onMouseEnter={(e) => e.currentTarget.play()}
-                        onMouseLeave={(e) => { e.currentTarget.pause(); e.currentTarget.currentTime = 0; }}
-                      />
-                      <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover/media:opacity-100 transition-opacity flex items-center justify-center">
-                        <div className="bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/30">
-                          <PlayCircle className="text-white" size={32} />
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover group-hover/media:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-slate-900/5 opacity-0 group-hover/media:opacity-100 transition-opacity flex items-center justify-center">
-                        <div className="bg-white/20 backdrop-blur-md p-3 rounded-full border border-white/30">
-                          <ImageIcon className="text-white" size={32} />
-                        </div>
-                      </div>
-                    </>
+          return (
+            <div key={index} className="flex flex-col sm:flex-row gap-6 py-8 border-b border-neutral-200">
+              {/* 타이포그래픽 커버 (클릭 → 미디어 모달) */}
+              <button
+                onClick={() => openMedia(project)}
+                className="group relative sm:w-56 shrink-0 aspect-[16/10] rounded-xl bg-neutral-900 text-white overflow-hidden text-left p-4 flex flex-col justify-between hover:bg-neutral-800 transition-colors"
+              >
+                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <span>{project.tags[0]?.replace('#', '')}</span>
+                </div>
+                <div className="flex items-end justify-between gap-2">
+                  <span className="text-lg font-black leading-tight">{shortName}</span>
+                  <ArrowUpRight size={18} className="text-white/40 group-hover:text-white transition-colors shrink-0" />
+                </div>
+              </button>
+
+              {/* 콘텐츠 */}
+              <div className="flex flex-col flex-1 min-w-0">
+                <div className="flex flex-wrap gap-1.5 mb-3">
+                  {project.tags.map(tag => (
+                    <span key={tag} className="text-[9px] font-black px-2 py-0.5 bg-neutral-50 text-neutral-400 rounded border border-neutral-100 tracking-wider uppercase">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h4 className="text-lg md:text-xl font-black text-neutral-900 leading-snug">{project.title}</h4>
+                <p className="text-neutral-500 text-sm leading-relaxed font-light mt-2 max-w-xl">
+                  {project.desc}
+                </p>
+
+                <div className="flex items-center gap-5 mt-auto pt-5 text-xs">
+                  <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className="font-bold flex items-center gap-1.5 text-neutral-400 hover:text-accent transition-colors">
+                    <FileText size={14} /> Case Study
+                  </a>
+                  {isCureat && (
+                    <button
+                      onClick={() => setIsCureatModalOpen(true)}
+                      className="group flex items-center gap-2 font-black text-accent hover:text-accent/80 transition-colors"
+                    >
+                      LIVE DEMO
+                      <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
                   )}
                 </div>
-
-                <div className="mt-8 flex flex-col flex-1 text-left">
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map(tag => (
-                      <span key={tag} className="text-[10px] font-black px-2 py-1 bg-slate-50 text-slate-400 rounded border border-slate-100 tracking-wider uppercase">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h4 className="text-xl font-black text-slate-900">{project.title}</h4>
-                  <p className="text-slate-500 text-sm leading-relaxed font-light mt-2 line-clamp-3">
-                    {project.desc}
-                  </p>
-
-                  <div className="flex items-center gap-6 mt-auto pt-8">
-                    <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className="text-sm font-bold flex items-center gap-1.5 text-slate-400 hover:text-accent transition-colors">
-                      <FileText size={16} /> Case Study
-                    </a>
-                    {project.title.toLowerCase().includes("cureat") && (
-                      <button
-                        onClick={() => setIsCureatModalOpen(true)}
-                        className="group flex items-center gap-2 text-sm font-black text-accent hover:text-accent/80 transition-colors"
-                      >
-                        LIVE DEMO
-                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                      </button>
-                    )}
-                  </div>
-                </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
       </div>
 
       <CureatDemoModal isOpen={isCureatModalOpen} onClose={() => { setIsCureatModalOpen(false); clearParams(); }} />
