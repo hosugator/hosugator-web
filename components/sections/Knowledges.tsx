@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import dynamic from 'next/dynamic';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { RefreshCcw, X, Info } from 'lucide-react';
+import { RefreshCcw, X, Info, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import ViewToggle, { ViewMode } from '@/components/ui/ViewToggle';
 import KnowledgeBlogView from '@/components/sections/KnowledgeBlogView';
@@ -64,74 +64,66 @@ export default function Knowledges({ initialData }: { initialData: any }) {
     if (!modalRoot) return null;
 
     return createPortal(
-      <div
-        className="fixed inset-0 z-[10000] flex items-end md:items-center justify-center bg-neutral-900/50 backdrop-blur-sm md:p-6"
-        onClick={() => setSelectedNode(null)}
-      >
-        <div
-          className="relative bg-[#faf9f4] rounded-t-2xl md:rounded-2xl shadow-2xl ring-1 ring-black/5 w-full max-w-2xl h-[88vh] md:h-auto md:max-h-[86vh] overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-300"
-          onClick={(e) => e.stopPropagation()}
+      /* 전용 풀너비 문서 뷰 — 손글씨 폰트 + 문서(종이) 느낌 */
+      <div className="fixed inset-0 z-[10000] bg-[#faf9f4] overflow-y-auto animate-in fade-in duration-200">
+        {/* 좌상단 돌아가기 */}
+        <button
+          onClick={() => setSelectedNode(null)}
+          className="fixed top-5 left-5 md:top-8 md:left-8 z-10 flex items-center gap-2 text-sm font-bold text-neutral-500 hover:text-neutral-900 transition-colors"
         >
-          {/* 상단: 카테고리 + 닫기 */}
-          <div className="flex items-center justify-between px-6 md:px-10 pt-5 pb-3 shrink-0">
-            <span className="text-[10px] font-black tracking-[0.25em] uppercase text-accent">
-              {selectedNode.parentId?.split('/').pop() || 'Note'}
-            </span>
-            <button onClick={() => setSelectedNode(null)} className="p-2 -mr-2 text-neutral-400 hover:text-neutral-900 transition-colors">
-              <X size={18} />
-            </button>
-          </div>
+          <ArrowLeft size={18} /> 돌아가기
+        </button>
 
-          {/* 노트 본문: 좌측 마진 룰 + 크림 페이퍼 + 넉넉한 행간 */}
-          <div className="flex-1 overflow-y-auto px-6 md:px-10 pb-12">
-            <div className="md:pl-8 md:border-l border-accent/25">
-              <h4 className="text-2xl md:text-4xl font-black tracking-tighter mb-8 text-neutral-900 leading-[1.1]">
-                {selectedNode.label}
-              </h4>
-              <article className="max-w-none text-[13px] md:text-[15px] text-neutral-700 leading-[1.9] font-light">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    h2: ({ ...props }) => <h2 className="text-lg md:text-2xl font-black tracking-tight text-neutral-900 mt-8 mb-3" {...props} />,
-                    strong: ({ ...props }) => <strong className="font-bold text-neutral-900" {...props} />,
-                    code: ({ ...props }) => <code className="bg-neutral-900/5 px-1.5 py-0.5 rounded text-accent font-mono text-[12px] md:text-sm" {...props} />,
-                    ul: ({ ...props }) => <ul className="list-disc ml-5 mb-4 space-y-1.5" {...props} />,
-                    a: ({ ...props }) => <a className="text-accent underline underline-offset-2" {...props} />,
-                    p: ({ ...props }) => <p className="mb-4" {...props} />,
-                  }}
-                >
-                  {selectedNode.content}
-                </ReactMarkdown>
-              </article>
-            </div>
+        {/* 문서 컬럼 (손글씨) */}
+        <article className="font-hand max-w-2xl mx-auto px-6 pt-24 md:pt-28 pb-32 text-neutral-800">
+          <div className="text-xs font-sans font-bold tracking-[0.25em] uppercase text-accent mb-4">
+            {selectedNode.parentId?.split('/').pop() || 'Note'}
           </div>
-        </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-10 leading-tight text-neutral-900">
+            {selectedNode.label}
+          </h1>
+          <div className="text-lg md:text-xl leading-loose">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h2: ({ ...props }) => <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 mt-10 mb-3" {...props} />,
+                strong: ({ ...props }) => <strong className="font-bold text-neutral-900" {...props} />,
+                code: ({ ...props }) => <code className="font-sans bg-neutral-900/5 px-1.5 py-0.5 rounded text-accent text-[13px] md:text-[15px]" {...props} />,
+                ul: ({ ...props }) => <ul className="list-disc ml-6 mb-5 space-y-2" {...props} />,
+                a: ({ ...props }) => <a className="text-accent underline underline-offset-2" {...props} />,
+                p: ({ ...props }) => <p className="mb-5" {...props} />,
+              }}
+            >
+              {selectedNode.content}
+            </ReactMarkdown>
+          </div>
+        </article>
       </div>,
       modalRoot
     );
   };
 
   return (
-    <section id="knowledges" className="py-12 md:py-32 border-t border-slate-100 relative text-slate-900">
-      <div className="container mx-auto px-6">
-        <header className="mb-6 md:mb-12 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+    <section id="knowledges" className="py-10 md:py-16 relative text-neutral-900">
+      <div className="w-full">
+        <header className="px-6 md:px-12 mb-6 md:mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
-            <h2 className="text-[9px] md:text-[14px] font-bold tracking-[0.4em] uppercase text-primary mb-2">
+            <h2 className="text-[11px] font-semibold tracking-[0.3em] uppercase text-neutral-900 mb-2">
               {t.knowledge.topLabel}
             </h2>
-            <h3 className="text-lg md:text-6xl font-black tracking-tighter whitespace-pre-line leading-tight">
+            <h3 className="text-4xl md:text-6xl font-black tracking-tighter whitespace-pre-line leading-[0.95]">
               {t.knowledge.title}
             </h3>
           </div>
-          
+
           <ViewToggle currentView={viewMode} onViewChange={setViewMode} />
         </header>
 
         {viewMode === 'graph' ? (
-          /* 수정 포인트: mx-auto 제거로 좌측 정렬, max-w 및 h 값으로 크기 조정 가능 */
+          /* 전용 풀너비 그래프 — edge-to-edge */
           <div
             ref={containerRef}
-            className="w-full h-[72vh] md:h-[80vh] border border-neutral-100 rounded-2xl overflow-hidden bg-neutral-50/40 relative shadow-sm"
+            className="w-full h-[78vh] md:h-[85vh] border-y border-neutral-100 overflow-hidden bg-neutral-50/40 relative"
           >
             <div className="absolute top-4 left-4 z-50 flex items-center gap-2 px-3 py-1.5 bg-white/80 backdrop-blur rounded-full border border-slate-100 shadow-sm pointer-events-none">
               <Info size={12} className="text-primary" />
@@ -196,9 +188,11 @@ export default function Knowledges({ initialData }: { initialData: any }) {
             </div>
           </div>
         ) : (
-          <KnowledgeBlogView data={initialData} onPostClick={setSelectedNode} />
+          <div className="px-6 md:px-12 max-w-6xl mx-auto">
+            <KnowledgeBlogView data={initialData} onPostClick={setSelectedNode} />
+          </div>
         )}
-        
+
         {renderModal()}
       </div>
     </section>

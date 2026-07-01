@@ -10,6 +10,8 @@
   
   /* 폰트 및 기타 설정 */
   --font-display: "Space Grotesk", sans-serif;
+  /* 손글씨(필기) 스택 — 노트 문서 뷰 전용 */
+  --font-hand: var(--font-gaegu), "Gaegu", cursive;
 
   /* 기존 디자인의 둥근 모서리 재현 */
   --radius-default: 0.25rem;

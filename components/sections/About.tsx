@@ -49,7 +49,7 @@ export default function About() {
       </div>
 
       {/* 서술 (단일 컬럼, 내용 집중) */}
-      <div className="space-y-5 text-[15px] md:text-base font-light leading-relaxed text-neutral-600 max-w-2xl">
+      <div className="space-y-5 text-[15px] md:text-base font-light leading-relaxed text-neutral-600">
         {t.about.content.map((item, i) => (
           <p key={i}>{item.text}</p>
         ))}

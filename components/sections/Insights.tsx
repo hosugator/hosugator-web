@@ -18,7 +18,7 @@ export default function Insights() {
       {/* 단일 컬럼 원칙 리스트 */}
       <div>
         {t.insights.items.map((item, index) => (
-          <div key={index} className="py-8 border-t border-neutral-200 max-w-2xl">
+          <div key={index} className="py-8 border-t border-neutral-200">
             <div className="text-xs font-mono font-bold text-neutral-400 mb-3 tracking-widest">
               {item.number} — {item.title}
             </div>

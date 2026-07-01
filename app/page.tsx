@@ -10,7 +10,7 @@ import { Suspense } from 'react';
 
 export default function Home() {
   return (
-    <>
+    <div className="relative w-full md:max-w-4xl md:mx-auto px-5 md:px-8 pb-20">
       <About />
       <Experience />
       <Insights />
@@ -19,6 +19,6 @@ export default function Home() {
       </Suspense>
       <Contact />
       <Footer />
-    </>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 // app/layout.tsx
 "use client";
 import "./globals.css";
-import { Space_Grotesk, Noto_Sans_KR } from "next/font/google";
+import { Space_Grotesk, Noto_Sans_KR, Gaegu } from "next/font/google";
 import TopNav from "@/components/layout/TopNav";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
@@ -18,10 +18,18 @@ const notoSansKr = Noto_Sans_KR({
   display: "swap",
   preload: false,
 });
+// 손글씨(필기) — 노트 문서 뷰 전용
+const gaegu = Gaegu({
+  weight: ["300", "400", "700"],
+  subsets: ["latin"],
+  variable: "--font-gaegu",
+  display: "swap",
+  preload: false,
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={`${spaceGrotesk.variable} ${notoSansKr.variable} overflow-x-hidden`}>
+    <html lang="ko" className={`${spaceGrotesk.variable} ${notoSansKr.variable} ${gaegu.variable} overflow-x-hidden`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </head>
@@ -34,10 +42,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               aria-hidden
               className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(60%_55%_at_50%_0%,rgba(53,97,142,0.10),transparent_70%)]"
             />
-            {/* 좁은 중앙 컬럼으로 좌우 여백 극대화(웹 느낌) */}
-            <div className="relative w-full md:max-w-4xl md:mx-auto px-5 md:px-8 pb-20 overflow-x-hidden">
-              {children}
-            </div>
+            {/* 폭은 각 페이지가 제어 (홈=중앙 컬럼 / 블로그=풀너비) */}
+            {children}
           </main>
           {/* Portal용 루트: 반드시 여기에 있어야 scale의 영향을 받지 않습니다 */}
           <div id="modal-root" />

@@ -27,7 +27,7 @@ export default function Experience() {
             <p className="text-[11px] font-bold text-neutral-500 mt-1 mb-4 uppercase tracking-widest">
               {exp.role}
             </p>
-            <p className="text-[15px] md:text-base font-light leading-relaxed text-neutral-600 max-w-2xl">
+            <p className="text-[15px] md:text-base font-light leading-relaxed text-neutral-600">
               {exp.description}
             </p>
             <div className="flex flex-wrap gap-1.5 mt-5">
