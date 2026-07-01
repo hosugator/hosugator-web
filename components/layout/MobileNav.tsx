@@ -35,7 +35,7 @@ export default function MobileNav() {
               <Link
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="block text-lg font-bold text-slate-900 hover:text-[#13ecda] transition-colors py-2"
+                className="block text-lg font-bold text-slate-900 hover:text-primary transition-colors py-2"
                 onClick={() => setIsOpen(false)}
               >
                 {item}

@@ -8,14 +8,14 @@ export default function Hero() {
 
   return (
     <section id="hero" className="min-h-screen flex flex-col justify-center">
-      <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-6">
+      <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-primary mb-6">
         {topLabel}
       </h2>
       
       <h1 className="text-7xl md:text-[100px] font-black leading-[0.95] tracking-tighter text-slate-900 mb-12">
         {mainTitle.line1}<br />
         {mainTitle.line2}<br />
-        <span className="text-[#13ecda] italic">{mainTitle.highlight}</span>
+        <span className="text-primary italic">{mainTitle.highlight}</span>
       </h1>
       
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-slate-100">

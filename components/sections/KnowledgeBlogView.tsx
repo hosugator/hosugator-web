@@ -96,7 +96,7 @@ export default function KnowledgeBlogView({ data, onPostClick }: KnowledgeBlogVi
           placeholder={locale === 'en' ? 'Search through knowledge base...' : '전체 지식 베이스 검색...'}
           value={searchTerm}
           onChange={(e) => handleFilterChange('search', e.target.value)}
-          className="w-full pl-12 pr-4 py-4 bg-white border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-[#13ecda] focus:border-transparent outline-none transition-all shadow-sm"
+          className="w-full pl-12 pr-4 py-4 bg-white border-2 border-slate-100 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all shadow-sm"
         />
       </div>
 
@@ -108,23 +108,23 @@ export default function KnowledgeBlogView({ data, onPostClick }: KnowledgeBlogVi
             <button
               key={cat}
               onClick={() => handleFilterChange('category', cat)}
-              className="group p-6 bg-white border border-slate-100 rounded-2xl hover:border-[#13ecda] hover:shadow-xl transition-all text-left"
+              className="group p-6 bg-white border border-slate-100 rounded-2xl hover:border-primary hover:shadow-xl transition-all text-left"
             >
               <div className="flex items-start justify-between mb-4">
-                <div className="p-3 bg-slate-50 group-hover:bg-[#13ecda]/10 rounded-xl transition-colors">
-                  <Layers size={24} className="text-slate-400 group-hover:text-[#13ecda]" />
+                <div className="p-3 bg-slate-50 group-hover:bg-primary/10 rounded-xl transition-colors">
+                  <Layers size={24} className="text-slate-400 group-hover:text-primary" />
                 </div>
                 <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded-md">
                   {categoryStats[cat]} Posts
                 </span>
               </div>
-              <h3 className="text-lg font-bold text-slate-800 group-hover:text-[#13ecda] transition-colors mb-2">
+              <h3 className="text-lg font-bold text-slate-800 group-hover:text-primary transition-colors mb-2">
                 {formatCategoryName(cat)}
               </h3>
               <p className="text-sm text-slate-500 line-clamp-2">
                 {locale === 'en' ? `Explore articles about ${cat}` : `${formatCategoryName(cat)} 관련 지식 탐색`}
               </p>
-              <div className="mt-4 flex items-center text-sm font-bold text-[#13ecda] opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">
+              <div className="mt-4 flex items-center text-sm font-bold text-primary opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">
                 {locale === 'en' ? 'Browse Category' : '카테고리 보기'} <ChevronRight size={16} />
               </div>
             </button>
@@ -141,7 +141,7 @@ export default function KnowledgeBlogView({ data, onPostClick }: KnowledgeBlogVi
               <ChevronRight size={16} className="rotate-180" />
               {locale === 'en' ? 'Back to All Categories' : '전체 카테고리로 돌아가기'}
             </button>
-            <span className="text-sm font-medium text-[#13ecda] bg-[#13ecda]/10 px-3 py-1 rounded-full">
+            <span className="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
               {selectedCategory !== 'all' ? formatCategoryName(selectedCategory) : 'Search Results'}: {filteredPosts.length}
             </span>
           </div>
@@ -151,12 +151,12 @@ export default function KnowledgeBlogView({ data, onPostClick }: KnowledgeBlogVi
               <article
                 key={post.id}
                 onClick={() => onPostClick(data.nodes.find((n: any) => n.id === post.id))}
-                className="group p-6 bg-white border border-slate-200 rounded-2xl hover:border-[#13ecda] hover:shadow-md transition-all cursor-pointer"
+                className="group p-6 bg-white border border-slate-200 rounded-2xl hover:border-primary hover:shadow-md transition-all cursor-pointer"
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-[#13ecda]">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-primary">
                         {post.category}
                       </span>
                       <span className="w-1 h-1 bg-slate-300 rounded-full" />
@@ -171,7 +171,7 @@ export default function KnowledgeBlogView({ data, onPostClick }: KnowledgeBlogVi
                         </>
                       )}
                     </div>
-                    <h4 className="text-xl font-bold text-slate-900 group-hover:text-[#13ecda] transition-colors">
+                    <h4 className="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors">
                       {post.title}
                     </h4>
                     {/* 선택된 경우에만 혹은 검색 시에만 태그 노출 */}
@@ -185,7 +185,7 @@ export default function KnowledgeBlogView({ data, onPostClick }: KnowledgeBlogVi
                       </div>
                     )}
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-[#13ecda] transition-all">
+                  <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-primary transition-all">
                     <ChevronRight size={20} className="text-slate-400 group-hover:text-white transition-colors" />
                   </div>
                 </div>

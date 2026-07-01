@@ -16,7 +16,7 @@ export default function LanguageToggle({ isExpanded = true }: LanguageToggleProp
   };
 
   // 공통 스타일: 배경 제거, 호버 시 텍스트 색상 변경 및 아주 연한 배경
-  const commonButtonStyles = "flex items-center transition-all duration-300 text-slate-500 hover:text-[#13ecda] hover:bg-slate-50/50 rounded-lg";
+  const commonButtonStyles = "flex items-center transition-all duration-300 text-slate-500 hover:text-primary hover:bg-slate-50/50 rounded-lg";
 
   if (!isExpanded) {
     // 사이드바가 최소화되어 있을 때

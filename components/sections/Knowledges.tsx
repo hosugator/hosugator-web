@@ -151,7 +151,8 @@ export default function Knowledges({ initialData }: { initialData: any }) {
                 const radius = isRoot ? 14 : isFolder ? 6 : 4;
                 ctx.beginPath();
                 ctx.arc(node.x!, node.y!, radius, 0, 2 * Math.PI, false);
-                ctx.fillStyle = isRoot ? '#13ecda' : isFolder ? '#94a3b8' : '#cbd5e1';
+                // '#6366F1' = --color-primary(globals.css) 캔버스는 CSS 유틸 불가라 리터럴 동기화
+                ctx.fillStyle = isRoot ? '#6366F1' : isFolder ? '#94a3b8' : '#cbd5e1';
                 ctx.fill();
 
                 const textThreshold = 1.2;
@@ -161,7 +162,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
                   ctx.font = `${(isRoot || isFolder) ? '900' : '400'} ${fontSize}px Sans-Serif`;
                   ctx.textAlign = 'center';
                   ctx.textBaseline = 'middle';
-                  ctx.fillStyle = isRoot ? '#13ecda' : isFolder ? '#475569' : '#64748b';
+                  ctx.fillStyle = isRoot ? '#6366F1' : isFolder ? '#475569' : '#64748b';
                   ctx.fillText(label, node.x!, node.y! + (radius + 14 / globalScale));
                 }
               }}

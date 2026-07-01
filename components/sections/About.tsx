@@ -9,7 +9,7 @@ export default function About() {
   return (
     <section id="about" className="min-h-screen flex flex-col justify-center py-24">
       {/* Layout에서 ml을 잡았으므로 추가 마진 없이 바로 시작 */}
-      <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-8">
+      <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-primary mb-8">
         {t.about.topLabel}
       </h2>
 
@@ -18,7 +18,7 @@ export default function About() {
         <div className="lg:col-span-7 space-y-8">
           <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 leading-tight">
             {t.about.title.main} <br />
-            <span className="text-[#13ecda]">{t.about.title.highlight}</span>
+            <span className="text-primary">{t.about.title.highlight}</span>
           </h3>
           
           <div className="space-y-6 text-xl font-extralight leading-relaxed text-slate-400">
@@ -42,7 +42,7 @@ export default function About() {
                 priority // Hero 섹션과 가까우므로 우선순위 로딩
               />            
             </div>
-            <div className="absolute inset-4 border border-[#13ecda]/20 rounded-xl pointer-events-none group-hover:inset-2 transition-all duration-500" />
+            <div className="absolute inset-4 border border-primary/20 rounded-xl pointer-events-none group-hover:inset-2 transition-all duration-500" />
           </div>
         </div>
       </div>

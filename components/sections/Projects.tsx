@@ -101,7 +101,7 @@ export default function Projects() {
   return (
     <section id="projects" className="py-32 border-t border-slate-100 overflow-hidden text-slate-900 bg-white">
       <div className="container mx-auto px-6 mb-16 text-left">
-        <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-4">
+        <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-primary mb-4">
           {currentData.topLabel}
         </h2>
         <div className="flex justify-between items-end">
