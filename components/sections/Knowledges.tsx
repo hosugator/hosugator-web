@@ -44,6 +44,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
   const [search, setSearch] = useState('');
   const [visible, setVisible] = useState(INITIAL_VISIBLE);
   const [projectFilter, setProjectFilter] = useState<string | null>(null);
+  const [view, setView] = useState<'log' | 'map'>('log');
 
   useEffect(() => {
     setMounted(true);
@@ -87,14 +88,20 @@ export default function Knowledges({ initialData }: { initialData: any }) {
     });
   }, [posts, branch, search, projectFilter]);
 
+  // 개요(Map) 트리: subject → project 카운트
+  const tree = useMemo(() => {
+    const t: Record<string, Record<string, number>> = {};
+    posts.forEach(p => {
+      const proj = p.node.project ? String(p.node.project) : '';
+      if (!proj) return;
+      if (!t[p.category]) t[p.category] = {};
+      t[p.category][proj] = (t[p.category][proj] || 0) + 1;
+    });
+    return t;
+  }, [posts]);
+
   const shown = filtered.slice(0, visible);
   const headLabel = projectFilter ? projectFilter : (branch === 'all' ? 'main' : formatCategoryName(branch));
-
-  // 스윔레인: 현재 필터에 존재하는 브랜치를 레인으로 배치 (count 순)
-  const laneKeys = branches.map(b => b.key).filter(k => filtered.some(p => p.category === k));
-  const laneOf: Record<string, number> = Object.fromEntries(laneKeys.map((k, i) => [k, i]));
-  const LANE = 16; // px per lane
-  const gutter = Math.max(1, laneKeys.length) * LANE;
 
   const chip = (active: boolean) =>
     `flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${active ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-neutral-200 text-neutral-500 hover:border-neutral-400'}`;
@@ -187,125 +194,162 @@ export default function Knowledges({ initialData }: { initialData: any }) {
 
   return (
     <section id="knowledges" className="py-10 md:py-16 text-neutral-900">
-      <div className="mb-8">
-        <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
-          Knowledge Commit Log
-        </h2>
-        <h3 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95] whitespace-pre-line">
-          {locale === 'en' ? 'Technical\nExpertise.' : '기술 지식\n커밋 로그.'}
-        </h3>
-      </div>
-
-      {/* 검색 */}
-      <div className="relative mb-6">
-        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder={locale === 'en' ? 'Search the log…' : '로그 검색…'}
-          className="w-full pl-11 pr-4 py-3 bg-white border border-neutral-200 rounded-full text-sm outline-none transition-colors focus:border-accent"
-        />
-      </div>
-
-      {/* 프로젝트 필터 배너 */}
-      {projectFilter && (
-        <div className="flex items-center justify-between gap-3 mb-6 px-4 py-3 rounded-xl bg-accent/5 border border-accent/20">
-          <span className="text-sm font-semibold text-accent">
-            {locale === 'en' ? 'Notes for project' : '프로젝트 관련 노트'}: {projectFilter} ({filtered.length})
-          </span>
-          <button onClick={() => setProjectFilter(null)} className="text-xs font-bold text-neutral-400 hover:text-neutral-900 transition-colors">
-            ✕ {locale === 'en' ? 'clear' : '해제'}
-          </button>
+      <div className="mb-8 flex items-end justify-between gap-4">
+        <div>
+          <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
+            Knowledge Commit Log
+          </h2>
+          <h3 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95] whitespace-pre-line">
+            {locale === 'en' ? 'Technical\nExpertise.' : '기술 지식\n커밋 로그.'}
+          </h3>
         </div>
-      )}
-
-      {/* 브랜치 필터 */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        <button onClick={() => selectBranch('all')} className={chip(!projectFilter && branch === 'all')}>
-          {locale === 'en' ? 'All' : '전체'}
-          <span className="font-mono opacity-60">{posts.length}</span>
-        </button>
-        {branches.map(b => (
-          <button key={b.key} onClick={() => selectBranch(b.key)} className={chip(!projectFilter && branch === b.key)}>
-            <span className="w-2 h-2 rounded-full" style={{ background: colorOf[b.key] }} />
-            {formatCategoryName(b.key)}
-            <span className="font-mono opacity-60">{b.count}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* 커밋 로그 — 스윔레인 그래프 */}
-      <div className="relative">
-        {/* HEAD 마커 — 로그 최상단, 강조 */}
-        <div className="flex items-stretch pb-2">
-          <div className="relative shrink-0" style={{ width: gutter + 'px' }}>
-            {laneKeys.map((k, i) => (
-              <span key={k} aria-hidden className="absolute top-3 bottom-0 w-px"
-                style={{ left: (i * LANE + LANE / 2) + 'px', background: (colorOf[k] || '#94a3b8') + '2e' }} />
-            ))}
-            <span className="absolute top-3 left-0 -translate-x-0 w-4 h-4 rounded-full bg-accent ring-4 ring-white shadow-[0_0_10px_rgba(53,97,142,0.6)]"
-              style={{ left: (LANE / 2) + 'px', transform: 'translate(-50%,-50%)' }} />
-          </div>
-          <div className="flex items-center gap-2 pl-4 pt-1">
-            <span className="font-mono text-xs font-bold text-accent">HEAD</span>
-            <span className="font-mono text-xs text-neutral-400">→</span>
-            <span className="font-mono text-xs font-bold text-neutral-900">{headLabel}</span>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-accent bg-accent/10 px-2 py-0.5 rounded-full">latest</span>
-          </div>
-        </div>
-
-        {shown.map((p) => {
-          const lane = laneOf[p.category] ?? 0;
-          return (
+        {/* Log | Map 토글 */}
+        <div className="flex items-center gap-1 rounded-full border border-neutral-200 p-1 text-xs font-semibold shrink-0">
+          {(['log', 'map'] as const).map(v => (
             <button
-              key={p.id}
-              onClick={() => setSelectedNode(p.node)}
-              className="group relative w-full flex items-stretch border-b border-neutral-100 text-left"
+              key={v}
+              onClick={() => setView(v)}
+              className={`px-3 py-1 rounded-full transition-colors ${view === v ? 'bg-neutral-900 text-white' : 'text-neutral-500 hover:text-neutral-900'}`}
             >
-              {/* 그래프 거터: 브랜치 레인 + 커밋 점 */}
-              <div className="relative shrink-0" style={{ width: gutter + 'px' }}>
-                {laneKeys.map((k, i) => (
-                  <span key={k} aria-hidden className="absolute top-0 bottom-0 w-px"
-                    style={{ left: (i * LANE + LANE / 2) + 'px', background: (colorOf[k] || '#94a3b8') + '2e' }} />
-                ))}
-                <span
-                  className="absolute top-1/2 w-2.5 h-2.5 rounded-full ring-4 ring-white transition-transform group-hover:scale-125"
-                  style={{ left: (lane * LANE + LANE / 2) + 'px', transform: 'translate(-50%,-50%)', background: colorOf[p.category] || '#94a3b8' }}
-                />
-              </div>
-              {/* 콘텐츠 */}
-              <div className="flex-1 min-w-0 py-3.5 pl-4">
-                <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-[11px] font-mono text-neutral-400 mb-1">
-                  <span className="text-neutral-300">{shortHash(p.id)}</span>
-                  <span className="font-sans font-bold uppercase tracking-wider" style={{ color: colorOf[p.category] }}>
-                    {formatCategoryName(p.category)}
-                  </span>
-                  {p.date && <span>{fmtDate(p.date)}</span>}
-                  <span>· {p.readTime}m</span>
-                </div>
-                <div className="font-bold text-neutral-900 group-hover:text-accent transition-colors truncate">
-                  {p.title}
-                </div>
-              </div>
+              {v === 'log' ? 'Log' : 'Map'}
             </button>
-          );
-        })}
+          ))}
+        </div>
       </div>
 
-      {filtered.length === 0 && (
-        <p className="text-sm text-neutral-400 py-10 text-center">
-          {locale === 'en' ? 'No commits found.' : '검색 결과가 없습니다.'}
-        </p>
-      )}
+      {view === 'map' ? (
+        /* 개요 Map — subject(상위) → project 트리 */
+        <div>
+          <p className="text-sm text-neutral-500 mb-8">
+            {locale === 'en' ? 'Knowledge structure by subject and project. Click to browse the log.' : 'subject·project 기준 지식 구조 개요. 클릭하면 로그로 이동합니다.'}
+          </p>
+          <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
+            {branches.map(b => {
+              const projs = tree[b.key] ? Object.entries(tree[b.key]).sort((a, c) => c[1] - a[1]) : [];
+              return (
+                <div key={b.key}>
+                  <button onClick={() => { selectBranch(b.key); setView('log'); }} className="group flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full" style={{ background: colorOf[b.key] }} />
+                    <span className="font-black text-neutral-900 group-hover:text-accent transition-colors">{formatCategoryName(b.key)}</span>
+                    <span className="font-mono text-xs text-neutral-400">{b.count}</span>
+                  </button>
+                  {projs.length > 0 && (
+                    <div className="mt-2 ml-[4px] border-l border-neutral-200 pl-5 space-y-1.5">
+                      {projs.map(([pn, cnt]) => (
+                        <button
+                          key={pn}
+                          onClick={() => { setProjectFilter(pn); setView('log'); }}
+                          className="flex items-center gap-2 text-sm text-neutral-500 hover:text-accent transition-colors"
+                        >
+                          {pn}
+                          <span className="font-mono text-[11px] text-neutral-300">{cnt}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* 검색 */}
+          <div className="relative mb-6">
+            <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={locale === 'en' ? 'Search the log…' : '로그 검색…'}
+              className="w-full pl-11 pr-4 py-3 bg-white border border-neutral-200 rounded-full text-sm outline-none transition-colors focus:border-accent"
+            />
+          </div>
 
-      {visible < filtered.length && (
-        <button
-          onClick={() => setVisible((v) => v + 60)}
-          className="mt-8 w-full py-3 rounded-full border border-neutral-200 text-sm font-semibold text-neutral-500 hover:border-neutral-400 transition-colors"
-        >
-          {locale === 'en' ? `Load more (${filtered.length - visible} left)` : `더 보기 (${filtered.length - visible}개 남음)`}
-        </button>
+          {/* 프로젝트 필터 배너 */}
+          {projectFilter && (
+            <div className="flex items-center justify-between gap-3 mb-6 px-4 py-3 rounded-xl bg-accent/5 border border-accent/20">
+              <span className="text-sm font-semibold text-accent">
+                {locale === 'en' ? 'Notes for project' : '프로젝트 관련 노트'}: {projectFilter} ({filtered.length})
+              </span>
+              <button onClick={() => setProjectFilter(null)} className="text-xs font-bold text-neutral-400 hover:text-neutral-900 transition-colors">
+                ✕ {locale === 'en' ? 'clear' : '해제'}
+              </button>
+            </div>
+          )}
+
+          {/* 브랜치 필터 */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            <button onClick={() => selectBranch('all')} className={chip(!projectFilter && branch === 'all')}>
+              {locale === 'en' ? 'All' : '전체'}
+              <span className="font-mono opacity-60">{posts.length}</span>
+            </button>
+            {branches.map(b => (
+              <button key={b.key} onClick={() => selectBranch(b.key)} className={chip(!projectFilter && branch === b.key)}>
+                <span className="w-2 h-2 rounded-full" style={{ background: colorOf[b.key] }} />
+                {formatCategoryName(b.key)}
+                <span className="font-mono opacity-60">{b.count}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* 커밋 로그 — 단일 레일 */}
+          <div className="relative pl-2">
+            <div aria-hidden className="absolute left-2 top-6 bottom-3 w-px bg-neutral-200" />
+
+            {/* HEAD 마커 */}
+            <div className="relative pl-7 pb-6">
+              <span className="absolute left-2 top-0.5 -translate-x-1/2 w-4 h-4 rounded-full bg-accent ring-4 ring-white shadow-[0_0_10px_rgba(53,97,142,0.6)]" />
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs font-bold text-accent">HEAD</span>
+                <span className="font-mono text-xs text-neutral-400">→</span>
+                <span className="font-mono text-xs font-bold text-neutral-900">{headLabel}</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest text-accent bg-accent/10 px-2 py-0.5 rounded-full">latest</span>
+              </div>
+            </div>
+
+            {shown.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => setSelectedNode(p.node)}
+                className="group relative w-full flex items-center gap-4 py-3.5 pl-7 border-b border-neutral-100 text-left"
+              >
+                <span
+                  className="absolute left-2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full ring-4 ring-white transition-transform group-hover:scale-125"
+                  style={{ background: colorOf[p.category] || '#94a3b8' }}
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center flex-wrap gap-x-2.5 gap-y-1 text-[11px] font-mono text-neutral-400 mb-1">
+                    <span className="text-neutral-300">{shortHash(p.id)}</span>
+                    <span className="font-sans font-bold uppercase tracking-wider" style={{ color: colorOf[p.category] }}>
+                      {formatCategoryName(p.category)}
+                    </span>
+                    {p.date && <span>{fmtDate(p.date)}</span>}
+                    <span>· {p.readTime}m</span>
+                  </div>
+                  <div className="font-bold text-neutral-900 group-hover:text-accent transition-colors truncate">
+                    {p.title}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {filtered.length === 0 && (
+            <p className="text-sm text-neutral-400 py-10 text-center">
+              {locale === 'en' ? 'No commits found.' : '검색 결과가 없습니다.'}
+            </p>
+          )}
+
+          {visible < filtered.length && (
+            <button
+              onClick={() => setVisible((v) => v + 60)}
+              className="mt-8 w-full py-3 rounded-full border border-neutral-200 text-sm font-semibold text-neutral-500 hover:border-neutral-400 transition-colors"
+            >
+              {locale === 'en' ? `Load more (${filtered.length - visible} left)` : `더 보기 (${filtered.length - visible}개 남음)`}
+            </button>
+          )}
+        </>
       )}
 
       {renderNote()}
