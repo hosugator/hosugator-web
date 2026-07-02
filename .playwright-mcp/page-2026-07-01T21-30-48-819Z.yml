@@ -1,0 +1,76 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "HOSUGATOR." [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]:
+        - link "Blog" [ref=e6] [cursor=pointer]:
+          - /url: /blog/
+        - button "Switch to English" [ref=e7]:
+          - img [ref=e8]
+          - generic [ref=e11]: English
+  - main [ref=e12]:
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - heading "Knowledge Graph" [level=2] [ref=e17]
+          - heading "Technical Expertise." [level=3] [ref=e18]
+        - generic [ref=e19]:
+          - button "Log" [ref=e20]:
+            - img [ref=e21]
+            - generic [ref=e25]: Log
+          - button "Blog" [ref=e26]:
+            - img [ref=e27]
+            - generic [ref=e28]: Blog
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - img [ref=e32]
+          - textbox "전체 지식 베이스 검색..." [ref=e35]
+        - generic [ref=e36]:
+          - button "14 Posts Ai Systems Ai Systems 관련 지식 탐색 카테고리 보기" [ref=e37]:
+            - generic [ref=e38]:
+              - img [ref=e40]
+              - generic [ref=e44]: 14 Posts
+            - heading "Ai Systems" [level=3] [ref=e45]
+            - paragraph [ref=e46]: Ai Systems 관련 지식 탐색
+            - generic [ref=e47]:
+              - text: 카테고리 보기
+              - img [ref=e48]
+          - button "9 Posts Engineering Engineering 관련 지식 탐색 카테고리 보기" [ref=e50]:
+            - generic [ref=e51]:
+              - img [ref=e53]
+              - generic [ref=e57]: 9 Posts
+            - heading "Engineering" [level=3] [ref=e58]
+            - paragraph [ref=e59]: Engineering 관련 지식 탐색
+            - generic [ref=e60]:
+              - text: 카테고리 보기
+              - img [ref=e61]
+          - button "5 Posts Knowledge Ops Knowledge Ops 관련 지식 탐색 카테고리 보기" [ref=e63]:
+            - generic [ref=e64]:
+              - img [ref=e66]
+              - generic [ref=e70]: 5 Posts
+            - heading "Knowledge Ops" [level=3] [ref=e71]
+            - paragraph [ref=e72]: Knowledge Ops 관련 지식 탐색
+            - generic [ref=e73]:
+              - text: 카테고리 보기
+              - img [ref=e74]
+          - button "54 Posts Projects Projects 관련 지식 탐색 카테고리 보기" [ref=e76]:
+            - generic [ref=e77]:
+              - img [ref=e79]
+              - generic [ref=e83]: 54 Posts
+            - heading "Projects" [level=3] [ref=e84]
+            - paragraph [ref=e85]: Projects 관련 지식 탐색
+            - generic [ref=e86]:
+              - text: 카테고리 보기
+              - img [ref=e87]
+          - button "372 Posts Study Study 관련 지식 탐색 카테고리 보기" [ref=e89]:
+            - generic [ref=e90]:
+              - img [ref=e92]
+              - generic [ref=e96]: 372 Posts
+            - heading "Study" [level=3] [ref=e97]
+            - paragraph [ref=e98]: Study 관련 지식 탐색
+            - generic [ref=e99]:
+              - text: 카테고리 보기
+              - img [ref=e100]
+  - button "Open Next.js Dev Tools" [ref=e107] [cursor=pointer]:
+    - img [ref=e108]

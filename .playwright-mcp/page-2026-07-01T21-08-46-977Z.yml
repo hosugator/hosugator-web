@@ -1,0 +1,125 @@
+- generic [active] [ref=f32e1]:
+  - banner [ref=f32e2]:
+    - generic [ref=f32e3]:
+      - link "HOSUGATOR." [ref=f32e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f32e5]:
+        - link "Blog" [ref=f32e6] [cursor=pointer]:
+          - /url: /blog/
+        - button "Switch to English" [ref=f32e7]:
+          - img [ref=f32e8]
+          - generic [ref=f32e11]: English
+  - main [ref=f32e12]:
+    - generic [ref=f32e14]:
+      - generic [ref=f32e15]:
+        - generic [ref=f32e16]:
+          - heading "Knowledge Graph" [level=2] [ref=f32e17]
+          - heading "Technical Expertise." [level=3] [ref=f32e18]
+        - generic [ref=f32e19]:
+          - button "Graph" [ref=f32e20]:
+            - img [ref=f32e21]
+            - generic [ref=f32e26]: Graph
+          - button "Blog" [ref=f32e27]:
+            - img [ref=f32e28]
+            - generic [ref=f32e29]: Blog
+      - generic [ref=f32e123]:
+        - generic [ref=f32e124]:
+          - img [ref=f32e125]
+          - textbox "전체 지식 베이스 검색..." [ref=f32e128]
+        - generic [ref=f32e129]:
+          - generic [ref=f32e195]:
+            - button "전체 카테고리로 돌아가기" [ref=f32e196]:
+              - img [ref=f32e197]
+              - text: 전체 카테고리로 돌아가기
+            - generic [ref=f32e199]: "Engineering: 9"
+          - generic [ref=f32e200]:
+            - article [ref=f32e201] [cursor=pointer]:
+              - generic [ref=f32e202]:
+                - generic [ref=f32e203]:
+                  - generic [ref=f32e204]:
+                    - generic [ref=f32e205]: engineering
+                    - generic [ref=f32e207]:
+                      - img [ref=f32e208]
+                      - generic [ref=f32e211]: 2 min read
+                    - generic [ref=f32e213]: Wed May 13 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "adr-frontmatter-layering" [level=4] [ref=f32e214]
+                  - generic [ref=f32e215]:
+                    - generic [ref=f32e216]: "#pkm"
+                    - generic [ref=f32e217]: "#zettelkasten"
+                    - generic [ref=f32e218]: "#frontmatter"
+                    - generic [ref=f32e219]: "#adr"
+                - img [ref=f32e221]
+            - article [ref=f32e223] [cursor=pointer]:
+              - generic [ref=f32e224]:
+                - generic [ref=f32e225]:
+                  - generic [ref=f32e226]:
+                    - generic [ref=f32e227]: engineering
+                    - generic [ref=f32e229]:
+                      - img [ref=f32e230]
+                      - generic [ref=f32e233]: 1 min read
+                    - generic [ref=f32e235]: Thu May 14 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "adr-line-detection-best-model-criterion" [level=4] [ref=f32e236]
+                  - generic [ref=f32e237]:
+                    - generic [ref=f32e238]: "#training"
+                    - generic [ref=f32e239]: "#model-selection"
+                    - generic [ref=f32e240]: "#detection-rate"
+                    - generic [ref=f32e241]: "#iou"
+                - img [ref=f32e243]
+            - article [ref=f32e245] [cursor=pointer]:
+              - generic [ref=f32e246]:
+                - generic [ref=f32e247]:
+                  - generic [ref=f32e248]:
+                    - generic [ref=f32e249]: engineering
+                    - generic [ref=f32e251]:
+                      - img [ref=f32e252]
+                      - generic [ref=f32e255]: 4 min read
+                    - generic [ref=f32e257]: Sun May 17 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "Insight - Resume as Code Tooling" [level=4] [ref=f32e258]
+                  - generic [ref=f32e259]:
+                    - generic [ref=f32e260]: "#resume"
+                    - generic [ref=f32e261]: "#tooling"
+                    - generic [ref=f32e262]: "#slidev"
+                    - generic [ref=f32e263]: "#typst"
+                    - generic [ref=f32e264]: "#workflow"
+                    - generic [ref=f32e265]: "#comparison"
+                    - generic [ref=f32e266]: "#engineering-practice"
+                - img [ref=f32e268]
+            - article [ref=f32e270] [cursor=pointer]:
+              - generic [ref=f32e271]:
+                - generic [ref=f32e272]:
+                  - generic [ref=f32e273]:
+                    - generic [ref=f32e274]: engineering
+                    - generic [ref=f32e276]:
+                      - img [ref=f32e277]
+                      - generic [ref=f32e280]: 2 min read
+                    - generic [ref=f32e282]: Mon May 11 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "adr-lmr-edge-배포전략-docker-vs-k3s" [level=4] [ref=f32e283]
+                  - generic [ref=f32e284]:
+                    - generic [ref=f32e285]: "#edge-ai"
+                    - generic [ref=f32e286]: "#docker"
+                    - generic [ref=f32e287]: "#k3s"
+                    - generic [ref=f32e288]: "#kubernetes"
+                    - generic [ref=f32e289]: "#deployment"
+                    - generic [ref=f32e290]: "#adr"
+                - img [ref=f32e292]
+            - article [ref=f32e294] [cursor=pointer]:
+              - generic [ref=f32e295]:
+                - generic [ref=f32e296]:
+                  - generic [ref=f32e297]:
+                    - generic [ref=f32e298]: engineering
+                    - generic [ref=f32e300]:
+                      - img [ref=f32e301]
+                      - generic [ref=f32e304]: 2 min read
+                    - generic [ref=f32e306]: Fri May 15 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "adr-business-doc-architecture" [level=4] [ref=f32e307]
+                  - generic [ref=f32e308]:
+                    - generic [ref=f32e309]: "#documentation"
+                    - generic [ref=f32e310]: "#information-architecture"
+                    - generic [ref=f32e311]: "#business"
+                - img [ref=f32e313]
+          - button "전체 9개 글 모두 보기" [ref=f32e315]:
+            - text: 전체 9개 글 모두 보기
+            - img [ref=f32e316]
+  - button "Open Next.js Dev Tools" [ref=f32e108] [cursor=pointer]:
+    - img [ref=f32e109]
+  - alert [ref=f32e122]

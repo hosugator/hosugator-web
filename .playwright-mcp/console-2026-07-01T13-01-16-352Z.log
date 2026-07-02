@@ -1,0 +1,4 @@
+[    1323ms] [WARNING] [.WebGL-0x13c08ab8800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels @ https://www.daypunk.com/:0
+[    1342ms] [WARNING] [.WebGL-0x13c08ab8800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels @ https://www.daypunk.com/:0
+[    1358ms] [WARNING] [.WebGL-0x13c08ab8800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels @ https://www.daypunk.com/:0
+[    1374ms] [WARNING] [.WebGL-0x13c08ab8800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat) @ https://www.daypunk.com/:0
