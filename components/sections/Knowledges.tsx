@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Search, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
+import Mermaid from '@/components/ui/Mermaid';
 
 // 브랜치(카테고리) 색상 — 모노 에디토리얼과 어울리는 muted 팔레트, 정렬 인덱스로 안정 매핑
 const BRANCH_COLORS = ['#35618E', '#3F6B52', '#9B5B3B', '#6B5B95', '#9B4B4B', '#4A7A8A', '#8A7A3B', '#7A5B8A'];
@@ -103,8 +104,8 @@ export default function Knowledges({ initialData }: { initialData: any }) {
           <ArrowLeft size={18} /> {locale === 'en' ? 'Back' : '돌아가기'}
         </button>
 
-        {/* 좌측 flush 사이드바 (화면 왼쪽 끝에 부착) — 같은 브랜치 관련 노트 */}
-        <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-72 z-10 border-r border-neutral-200/70 bg-[#f4f2ec] pt-32 pb-10 px-6 overflow-y-auto scrollbar-hide">
+        {/* 사이드바: 화면 왼쪽에 고정 */}
+        <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-60 z-10 border-r border-neutral-200/70 bg-[#f4f2ec] pt-32 pb-10 px-6 overflow-y-auto scrollbar-hide">
           <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-neutral-400 mb-4">
             <span className="w-2 h-2 rounded-full" style={{ background: colorOf[noteCat] || '#94a3b8' }} />
             {formatCategoryName(noteCat)}
@@ -125,9 +126,8 @@ export default function Knowledges({ initialData }: { initialData: any }) {
           </div>
         </aside>
 
-        {/* 본문 — 사이드바 바로 옆, 넓은 폭으로 가독성 최대화 */}
-        <div className="md:pl-72">
-          <article className="max-w-4xl px-6 md:px-10 pt-32 md:pt-36 pb-32 text-neutral-800">
+        {/* 본문: 화면(뷰포트) 전체 기준 중앙 정렬, 메인보다 넓게 */}
+        <article className="max-w-5xl mx-auto px-6 pt-32 md:pt-36 pb-32 text-neutral-800">
             <div className="text-xs font-bold tracking-[0.25em] uppercase text-accent mb-4">
               {selectedNode.parentId?.split('/').pop() || 'Note'}
             </div>
@@ -138,7 +138,25 @@ export default function Knowledges({ initialData }: { initialData: any }) {
                 components={{
                   h2: ({ ...props }) => <h2 className="text-2xl md:text-3xl font-bold text-neutral-900 mt-10 mb-3" {...props} />,
                   strong: ({ ...props }) => <strong className="font-bold text-neutral-900" {...props} />,
-                  code: ({ ...props }) => <code className="font-mono bg-neutral-900/5 px-1.5 py-0.5 rounded text-accent text-[13px] md:text-[15px]" {...props} />,
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  code: ({ className, children, ...props }: any) => {
+                    const isBlock = typeof className === 'string' && className.startsWith('language-');
+                    if (isBlock) return <code className="font-mono" {...props}>{children}</code>;
+                    return <code className="font-mono bg-neutral-900/5 px-1.5 py-0.5 rounded text-accent text-[13px] md:text-[15px]" {...props}>{children}</code>;
+                  },
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  pre: ({ children }: any) => {
+                    const child = Array.isArray(children) ? children[0] : children;
+                    const cls = child?.props?.className || '';
+                    if (typeof cls === 'string' && cls.includes('language-mermaid')) {
+                      return <Mermaid code={String(child.props.children).replace(/\n$/, '')} />;
+                    }
+                    return <pre className="bg-neutral-900/5 rounded-lg p-4 overflow-x-auto text-[13px] my-5 font-mono">{children}</pre>;
+                  },
+                  table: ({ ...props }) => <div className="my-6 overflow-x-auto"><table className="w-full text-sm border-collapse" {...props} /></div>,
+                  thead: ({ ...props }) => <thead className="border-b-2 border-neutral-300" {...props} />,
+                  th: ({ ...props }) => <th className="px-3 py-2 font-bold text-neutral-900 text-left align-top" {...props} />,
+                  td: ({ ...props }) => <td className="px-3 py-2 border-t border-neutral-200 align-top" {...props} />,
                   ul: ({ ...props }) => <ul className="list-disc ml-6 mb-5 space-y-2" {...props} />,
                   a: ({ ...props }) => <a className="text-accent underline underline-offset-2" {...props} />,
                   p: ({ ...props }) => <p className="mb-5" {...props} />,
@@ -147,8 +165,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
                 {selectedNode.content}
               </ReactMarkdown>
             </div>
-          </article>
-        </div>
+        </article>
       </div>,
       modalRoot
     );
