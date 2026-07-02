@@ -1,9 +1,50 @@
-// app/layout.tsx
-"use client";
+// app/layout.tsx  (Server Component — metadata/viewport export 가능)
+// "use client"를 제거해도 안전한 이유: 이 파일은 훅을 직접 호출하지 않는다.
+// next/font는 서버 컴포넌트에서 동작하고, 클라이언트 경계는 각자 "use client"를
+// 가진 LanguageProvider·TopNav에서 유지된다.
 import "./globals.css";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Noto_Sans_KR } from "next/font/google";
 import TopNav from "@/components/layout/TopNav";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+
+const SITE_URL = "https://hosugator.com";
+const SITE_DESC =
+  "비즈니스 문제를 코드로 직접 해결하는 AI 엔지니어 홍승완. Industrial AI·LLM Agent·Cloud-Native 프로젝트와 지식 로그.";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "홍승완 · AI Engineer",
+    template: "%s · Hosugator",
+  },
+  description: SITE_DESC,
+  keywords: ["AI Engineer", "홍승완", "Hosugator", "Industrial AI", "LLM Agent", "MLOps", "Cloud-Native"],
+  authors: [{ name: "홍승완 (Seungwan Hong)" }],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Hosugator",
+    title: "홍승완 · AI Engineer",
+    description: SITE_DESC,
+    locale: "ko_KR",
+    images: [{ url: "/images/my-profile.jpg", width: 1200, height: 630, alt: "홍승완 · AI Engineer" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "홍승완 · AI Engineer",
+    description: SITE_DESC,
+    images: ["/images/my-profile.jpg"],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 // 모노 에디토리얼 그로테스크 — 라틴(Space Grotesk) + 국문(Noto Sans KR) 자체 호스팅
 const spaceGrotesk = Space_Grotesk({
@@ -22,9 +63,6 @@ const notoSansKr = Noto_Sans_KR({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko" className={`${spaceGrotesk.variable} ${notoSansKr.variable} overflow-x-hidden`}>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      </head>
       <body className={`bg-white text-neutral-900 antialiased overflow-x-hidden touch-pan-y`}>
         <LanguageProvider>
           <TopNav />
