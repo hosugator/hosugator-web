@@ -60,7 +60,7 @@ export const projectsDataEn = {
         {
             title: "Hosugator: Cloud-Native Portfolio Architecture",
             tags: ["#Next.js", "#AWS", "#GitHub-Actions"],
-            desc: "80%↓ TCO serverless portfolio infrastructure. Next.js static export → AWS S3 + CloudFront. Zero-downtime CI/CD via GitHub Actions, IAM OIDC keyless auth, Route 53 + ACM security optimization.",
+            desc: "80%↓ TCO. Re-architected cost by migrating AWS serverless (ALB+ECS) to a self-managed EC2/Nginx setup, then converged on S3 static hosting to match the site's static nature. Zero-downtime CI/CD via GitHub Actions + IAM OIDC keyless auth (role-based temporary credentials, no access keys).",
             pdfLink: "/projects/hosugator_en.pdf",
             demoLink: "#",
             video: "",

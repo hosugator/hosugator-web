@@ -60,7 +60,7 @@ export const projectsData = {
         {
             title: "Hosugator: Cloud-Native Portfolio Architecture",
             tags: ["#Next.js", "#AWS", "#GitHub-Actions"],
-            desc: "TCO 80%↓ 서버리스 포트폴리오 인프라. Next.js 정적 export → AWS S3 + CloudFront 구성. GitHub Actions CI/CD 무중단 배포, IAM OIDC 키리스 인증, Route 53 + ACM 보안 최적화.",
+            desc: "TCO 80%↓. AWS 서버리스(ALB+ECS)를 EC2/Nginx 자가 관리형으로 전환해 비용 구조를 재설계하고, 정적 특성에 맞춰 최종 S3 정적 호스팅으로 수렴. GitHub Actions + IAM OIDC 키리스 CI/CD(액세스 키 없이 역할 기반 임시 자격증명)로 무중단 배포.",
             pdfLink: "/projects/hosugator_ko.pdf",
             demoLink: "#",
             video: "",
