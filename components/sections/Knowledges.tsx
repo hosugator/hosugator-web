@@ -44,7 +44,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
   const [search, setSearch] = useState('');
   const [visible, setVisible] = useState(INITIAL_VISIBLE);
   const [projectFilter, setProjectFilter] = useState<string | null>(null);
-  const [view, setView] = useState<'log' | 'map'>('log');
+  const [view, setView] = useState<'log' | 'map'>('map');
 
   useEffect(() => {
     setMounted(true);
@@ -102,9 +102,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
 
   const shown = filtered.slice(0, visible);
   const headLabel = projectFilter ? projectFilter : (branch === 'all' ? 'main' : formatCategoryName(branch));
-
-  const chip = (active: boolean) =>
-    `flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${active ? 'border-neutral-900 bg-neutral-900 text-white' : 'border-neutral-200 text-neutral-500 hover:border-neutral-400'}`;
+  const ctxLabel = projectFilter ? projectFilter : (branch === 'all' ? (locale === 'en' ? 'All commits' : '전체 커밋') : formatCategoryName(branch));
 
   const selectBranch = (key: string) => { setBranch(key); setProjectFilter(null); };
 
@@ -194,35 +192,29 @@ export default function Knowledges({ initialData }: { initialData: any }) {
 
   return (
     <section id="knowledges" className="py-10 md:py-16 text-neutral-900">
-      <div className="mb-8 flex items-end justify-between gap-4">
-        <div>
-          <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
-            Knowledge Commit Log
-          </h2>
-          <h3 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95] whitespace-pre-line">
-            {locale === 'en' ? 'Technical\nExpertise.' : '기술 지식\n커밋 로그.'}
-          </h3>
-        </div>
-        {/* Log | Map 토글 */}
-        <div className="flex items-center gap-1 rounded-full border border-neutral-200 p-1 text-xs font-semibold shrink-0">
-          {(['log', 'map'] as const).map(v => (
-            <button
-              key={v}
-              onClick={() => setView(v)}
-              className={`px-3 py-1 rounded-full transition-colors ${view === v ? 'bg-neutral-900 text-white' : 'text-neutral-500 hover:text-neutral-900'}`}
-            >
-              {v === 'log' ? 'Log' : 'Map'}
-            </button>
-          ))}
-        </div>
+      <div className="mb-8">
+        <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
+          Knowledge Commit Log
+        </h2>
+        <h3 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95] whitespace-pre-line">
+          {locale === 'en' ? 'Technical\nExpertise.' : '기술 지식\n커밋 로그.'}
+        </h3>
       </div>
 
       {view === 'map' ? (
         /* 개요 Map — subject(상위) → project 트리 */
         <div>
-          <p className="text-sm text-neutral-500 mb-8">
-            {locale === 'en' ? 'Knowledge structure by subject and project. Click to browse the log.' : 'subject·project 기준 지식 구조 개요. 클릭하면 로그로 이동합니다.'}
-          </p>
+          <div className="flex items-center justify-between gap-3 mb-8">
+            <p className="text-sm text-neutral-500">
+              {locale === 'en' ? 'Knowledge structure by subject and project. Click to browse the log.' : 'subject·project 기준 지식 구조 개요. 클릭하면 로그로 이동합니다.'}
+            </p>
+            <button
+              onClick={() => { setBranch('all'); setProjectFilter(null); setView('log'); }}
+              className="shrink-0 text-sm font-bold text-accent hover:underline"
+            >
+              {locale === 'en' ? 'View full log →' : '전체 로그 보기 →'}
+            </button>
+          </div>
           <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
             {branches.map(b => {
               const projs = tree[b.key] ? Object.entries(tree[b.key]).sort((a, c) => c[1] - a[1]) : [];
@@ -254,43 +246,33 @@ export default function Knowledges({ initialData }: { initialData: any }) {
         </div>
       ) : (
         <>
+          {/* 개요로 돌아가기 + 현재 컨텍스트 */}
+          <div className="flex items-center justify-between gap-3 mb-6">
+            <button
+              onClick={() => { setView('map'); setBranch('all'); setProjectFilter(null); }}
+              className="flex items-center gap-1.5 text-sm font-bold text-neutral-500 hover:text-accent transition-colors"
+            >
+              <ArrowLeft size={16} /> {locale === 'en' ? 'Overview' : '개요'}
+            </button>
+            <span className="flex items-baseline gap-2">
+              {branch !== 'all' && !projectFilter && (
+                <span className="w-2 h-2 rounded-full self-center" style={{ background: colorOf[branch] }} />
+              )}
+              <span className="font-bold text-neutral-900">{ctxLabel}</span>
+              <span className="font-mono text-xs text-neutral-400">{filtered.length}</span>
+            </span>
+          </div>
+
           {/* 검색 */}
-          <div className="relative mb-6">
+          <div className="relative mb-8">
             <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={locale === 'en' ? 'Search the log…' : '로그 검색…'}
+              placeholder={locale === 'en' ? 'Search this log…' : '로그 검색…'}
               className="w-full pl-11 pr-4 py-3 bg-white border border-neutral-200 rounded-full text-sm outline-none transition-colors focus:border-accent"
             />
-          </div>
-
-          {/* 프로젝트 필터 배너 */}
-          {projectFilter && (
-            <div className="flex items-center justify-between gap-3 mb-6 px-4 py-3 rounded-xl bg-accent/5 border border-accent/20">
-              <span className="text-sm font-semibold text-accent">
-                {locale === 'en' ? 'Notes for project' : '프로젝트 관련 노트'}: {projectFilter} ({filtered.length})
-              </span>
-              <button onClick={() => setProjectFilter(null)} className="text-xs font-bold text-neutral-400 hover:text-neutral-900 transition-colors">
-                ✕ {locale === 'en' ? 'clear' : '해제'}
-              </button>
-            </div>
-          )}
-
-          {/* 브랜치 필터 */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            <button onClick={() => selectBranch('all')} className={chip(!projectFilter && branch === 'all')}>
-              {locale === 'en' ? 'All' : '전체'}
-              <span className="font-mono opacity-60">{posts.length}</span>
-            </button>
-            {branches.map(b => (
-              <button key={b.key} onClick={() => selectBranch(b.key)} className={chip(!projectFilter && branch === b.key)}>
-                <span className="w-2 h-2 rounded-full" style={{ background: colorOf[b.key] }} />
-                {formatCategoryName(b.key)}
-                <span className="font-mono opacity-60">{b.count}</span>
-              </button>
-            ))}
           </div>
 
           {/* 커밋 로그 — 단일 레일 */}
