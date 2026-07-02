@@ -3,7 +3,7 @@
 import { projectsDataEn } from '@/data/projectsData.en'; // 영어 데이터 추가
 import { useLanguage } from '@/contexts/LanguageContext'; // 추가
 import { useState, useEffect } from 'react';
-import { FileText, ArrowRight, ArrowUpRight, PlayCircle } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, PlayCircle } from 'lucide-react';
 import { projectsData } from '@/data/projectsData';
 import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
@@ -123,9 +123,6 @@ export default function Projects() {
                   <a href={relatedHref} className="font-bold flex items-center gap-1.5 text-neutral-400 hover:text-accent transition-colors">
                     {locale === 'en' ? 'Related Notes' : '관련 노트'} <ArrowRight size={13} />
                   </a>
-                  <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" aria-label="Case Study" title="Case Study" className="text-neutral-400 hover:text-accent transition-colors">
-                    <FileText size={16} />
-                  </a>
                   {isCureat && (
                     <button
                       onClick={() => setIsCureatModalOpen(true)}
@@ -160,27 +157,23 @@ export default function Projects() {
                 <span className="font-black text-neutral-900 shrink-0 group-hover:text-accent transition-colors">{shortNameOf(project.title)}</span>
                 <span className="text-sm text-neutral-400 font-light truncate hidden sm:block">{highlight}</span>
               </button>
-              <div className="flex items-center gap-4 shrink-0 text-neutral-400">
-                {hasMedia && (
-                  <button onClick={() => openMedia(project)} aria-label="Play demo" className="hover:text-accent transition-colors">
-                    <PlayCircle size={16} />
-                  </button>
-                )}
-                <a
-                  href={project.pdfLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Case Study"
-                  title="Case Study"
-                  className="hover:text-accent transition-colors"
-                >
-                  <FileText size={16} />
-                </a>
-              </div>
+              {hasMedia && (
+                <button onClick={() => openMedia(project)} aria-label="Play demo" className="shrink-0 text-neutral-400 hover:text-accent transition-colors">
+                  <PlayCircle size={16} />
+                </button>
+              )}
             </div>
           );
         })}
       </div>
+
+      <a
+        href="/portfolio"
+        className="group mt-8 inline-flex items-center gap-2 text-sm font-black text-neutral-900 hover:text-accent transition-colors"
+      >
+        {locale === 'en' ? 'View all projects' : '전체 프로젝트 보기'}
+        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+      </a>
 
       <CureatDemoModal isOpen={isCureatModalOpen} onClose={() => { setIsCureatModalOpen(false); clearParams(); }} />
       <ProjectVideoModal

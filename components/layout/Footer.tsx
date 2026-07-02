@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="w-full border-t border-slate-100 py-12 px-12 md:px-24 bg-white">
@@ -12,8 +14,18 @@ export default function Footer() {
         </p>
         
         <div className="flex gap-8">
-          <a href="#" className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900">Privacy</a>
-          <a href="#" className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900">Resume</a>
+          <Link
+            href="/portfolio"
+            className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900"
+          >
+            Portfolio
+          </Link>
+          <Link
+            href="/resume"
+            className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900"
+          >
+            Resume
+          </Link>
         </div>
       </div>
     </footer>
