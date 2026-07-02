@@ -5,10 +5,10 @@ export const insightsDataEn = {
   items: [
     {
       number: "01",
-      title: "Business Acumen",
-      principle: "Reframing a business problem as an agentic problem is half the design work.",
-      desc: "My EPC PM experience translating ambiguous demands from three-country stakeholders into technical specs transfers directly to AI design. The technically better choice isn't always best once relationship and operating costs are counted — technical choices are operational cost decisions.",
-      project: "EPC PM → Edge AI LMR",
+      title: "End-to-End Ownership",
+      principle: "AI works in the field only when you own the whole cycle — from defining the business problem to deploying and operating the product.",
+      desc: "Managing the full lifecycle of long EPC projects as a global PM now translates into full-stack execution across planning, data, ML, infrastructure, deployment, and operations. I proved business impact by deploying and operating AI on real production lines via GitOps and k3s.",
+      project: "EPC PM → AlignAI deploy/ops",
     },
     {
       number: "02",
