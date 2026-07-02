@@ -4,7 +4,7 @@ updated: 2026-05-25
 type: log
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[Hosugator Site]]"
+project: "[[Hosugator Web]]"
 tags:
   - cloudfront
   - s3
@@ -60,4 +60,4 @@ function handler(event) {
 
 See Also:
 - [[Hosugator blog and insights restructure 2026-05]]
-- [[Hosugator Site]]
+- [[Hosugator Web]]
