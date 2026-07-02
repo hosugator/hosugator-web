@@ -35,6 +35,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* 클릭 가능한 요소는 커서 포인터 */
+button:not(:disabled),
+[role="button"],
+summary {
+  cursor: pointer;
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;

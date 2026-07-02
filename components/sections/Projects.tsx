@@ -3,7 +3,7 @@
 import { projectsDataEn } from '@/data/projectsData.en'; // 영어 데이터 추가
 import { useLanguage } from '@/contexts/LanguageContext'; // 추가
 import { useState, useEffect } from 'react';
-import { FileText, ArrowRight, ArrowUpRight, BookOpen } from 'lucide-react';
+import { FileText, ArrowRight, ArrowUpRight, PlayCircle } from 'lucide-react';
 import { projectsData } from '@/data/projectsData';
 import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
@@ -34,33 +34,17 @@ export default function Projects() {
     type: 'video' as 'video' | 'image'
   });
 
-  // URL 파라미터 기반 모달 딥링크 (?demo=cureat, ?view=architecture)
+  // URL 파라미터 기반 데모 딥링크 (?demo=cureat)
   useEffect(() => {
-    const demoTarget = searchParams.get('demo');
-    const viewTarget = searchParams.get('view');
-
-    if (demoTarget === 'cureat') {
+    if (searchParams.get('demo') === 'cureat') {
       setIsCureatModalOpen(true);
-    }
-
-    if (viewTarget === 'architecture') {
-      setVideoModal({
-        isOpen: true,
-        src: "/projects/hosugator_thumb_latest.png",
-        title: "Hosugator: Cloud-Native Architecture",
-        type: 'image'
-      });
     }
   }, [searchParams]);
 
-  const openMedia = (project: { video?: string; image: string; title: string }) => {
-    const hasVideo = !!project.video;
-    setVideoModal({
-      isOpen: true,
-      src: hasVideo ? project.video! : project.image,
-      title: project.title,
-      type: hasVideo ? 'video' : 'image',
-    });
+  // 미디어는 동영상만 (이미지는 목데이터라 제거)
+  const openMedia = (project: { video?: string; title: string }) => {
+    if (!project.video) return;
+    setVideoModal({ isOpen: true, src: project.video, title: project.title, type: 'video' });
   };
 
   if (!mounted) return <section id="projects" className="py-24"></section>;
@@ -89,29 +73,37 @@ export default function Projects() {
       <div className="border-t border-neutral-200 mb-16">
         {featured.map((project, index) => {
           const isCureat = shortNameOf(project.title).toLowerCase() === 'cureat';
-          const hasMedia = !!project.video || !!project.image;
-          const coverClass = "group relative sm:w-56 shrink-0 aspect-[16/10] rounded-xl bg-neutral-900 text-white overflow-hidden text-left p-4 flex flex-col justify-between hover:bg-neutral-800 transition-colors";
-          const coverInner = (
-            <>
-              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <span>{project.tags[0]?.replace('#', '')}</span>
-              </div>
-              <div className="flex items-end justify-between gap-2">
-                <span className="text-lg font-black leading-tight">{shortNameOf(project.title)}</span>
-                <ArrowUpRight size={18} className="text-white/40 group-hover:text-white transition-colors shrink-0" />
-              </div>
-            </>
-          );
+          const hasMedia = !!project.video;
+          const relatedHref = `/blog?project=${encodeURIComponent(shortNameOf(project.title))}`;
 
           return (
             <div key={index} className="flex flex-col sm:flex-row gap-6 py-8 border-b border-neutral-200">
-              {/* 타이포그래픽 커버 (미디어 있으면 모달, 없으면 Case Study) */}
-              {hasMedia ? (
-                <button onClick={() => openMedia(project)} className={coverClass}>{coverInner}</button>
-              ) : (
-                <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className={coverClass}>{coverInner}</a>
-              )}
+              {/* 커버: 클릭 → 관련 노트 / 미디어 있으면 재생 버튼 */}
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={() => router.push(relatedHref)}
+                className="group relative sm:w-56 shrink-0 aspect-[16/10] rounded-xl bg-neutral-900 text-white overflow-hidden text-left p-4 flex flex-col justify-between hover:bg-neutral-800 transition-colors"
+              >
+                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <span>{project.tags[0]?.replace('#', '')}</span>
+                </div>
+                <div className="flex items-end justify-between gap-2">
+                  <span className="text-lg font-black leading-tight">{shortNameOf(project.title)}</span>
+                  {hasMedia ? (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); openMedia(project); }}
+                      aria-label="Play demo"
+                      className="shrink-0 grid place-items-center w-9 h-9 rounded-full bg-white/15 border border-white/25 backdrop-blur-sm hover:bg-white/25 transition-colors"
+                    >
+                      <PlayCircle size={18} />
+                    </button>
+                  ) : (
+                    <ArrowUpRight size={18} className="text-white/40 shrink-0" />
+                  )}
+                </div>
+              </div>
 
               {/* 콘텐츠 */}
               <div className="flex flex-col flex-1 min-w-0">
@@ -128,11 +120,11 @@ export default function Projects() {
                 </p>
 
                 <div className="flex items-center gap-5 mt-auto pt-5 text-xs">
-                  <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className="font-bold flex items-center gap-1.5 text-neutral-400 hover:text-accent transition-colors">
-                    <FileText size={14} /> Case Study
+                  <a href={relatedHref} className="font-bold flex items-center gap-1.5 text-neutral-400 hover:text-accent transition-colors">
+                    {locale === 'en' ? 'Related Notes' : '관련 노트'} <ArrowRight size={13} />
                   </a>
-                  <a href={`/blog?project=${encodeURIComponent(shortNameOf(project.title))}`} className="font-bold flex items-center gap-1.5 text-neutral-400 hover:text-accent transition-colors">
-                    <BookOpen size={14} /> {locale === 'en' ? 'Related Notes' : '관련 노트'}
+                  <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" aria-label="Case Study" title="Case Study" className="text-neutral-400 hover:text-accent transition-colors">
+                    <FileText size={16} />
                   </a>
                   {isCureat && (
                     <button
@@ -158,33 +150,33 @@ export default function Projects() {
         {rest.map((project, j) => {
           const n = String(featured.length + j + 1).padStart(2, '0');
           const highlight = project.desc.split('.')[0];
-          const hasMedia = !!project.video || !!project.image;
-          const inner = (
-            <>
-              <span className="text-[11px] font-mono text-neutral-300 shrink-0">{n}</span>
-              <span className="font-black text-neutral-900 shrink-0 group-hover:text-accent transition-colors">{shortNameOf(project.title)}</span>
-              <span className="text-sm text-neutral-400 font-light truncate hidden sm:block">{highlight}</span>
-            </>
-          );
+          const hasMedia = !!project.video;
+          const relatedHref = `/blog?project=${encodeURIComponent(shortNameOf(project.title))}`;
           return (
             <div key={j} className="group flex items-center justify-between gap-4 py-4 border-b border-neutral-200">
-              {hasMedia ? (
-                <button onClick={() => openMedia(project)} className="flex items-baseline gap-4 min-w-0 text-left">
-                  {inner}
-                </button>
-              ) : (
-                <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className="flex items-baseline gap-4 min-w-0 text-left">
-                  {inner}
+              {/* 프로젝트명 클릭 → 관련 노트 */}
+              <button onClick={() => router.push(relatedHref)} className="flex items-baseline gap-4 min-w-0 text-left">
+                <span className="text-[11px] font-mono text-neutral-300 shrink-0">{n}</span>
+                <span className="font-black text-neutral-900 shrink-0 group-hover:text-accent transition-colors">{shortNameOf(project.title)}</span>
+                <span className="text-sm text-neutral-400 font-light truncate hidden sm:block">{highlight}</span>
+              </button>
+              <div className="flex items-center gap-4 shrink-0 text-neutral-400">
+                {hasMedia && (
+                  <button onClick={() => openMedia(project)} aria-label="Play demo" className="hover:text-accent transition-colors">
+                    <PlayCircle size={16} />
+                  </button>
+                )}
+                <a
+                  href={project.pdfLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Case Study"
+                  title="Case Study"
+                  className="hover:text-accent transition-colors"
+                >
+                  <FileText size={16} />
                 </a>
-              )}
-              <a
-                href={project.pdfLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 flex items-center gap-1.5 text-xs font-bold text-neutral-400 hover:text-accent transition-colors"
-              >
-                <FileText size={14} /> Case Study
-              </a>
+              </div>
             </div>
           );
         })}
