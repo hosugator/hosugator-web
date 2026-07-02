@@ -42,6 +42,9 @@ next-env.d.ts
 .aider*
 
 # binary
-*.jpeg 
-*.jpg 
+*.jpeg
+*.jpg
 *.png
+
+# playwright mcp (자동 생성 아티팩트)
+.playwright-mcp/
