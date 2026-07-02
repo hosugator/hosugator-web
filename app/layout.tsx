@@ -1,7 +1,7 @@
 // app/layout.tsx
 "use client";
 import "./globals.css";
-import { Space_Grotesk, Noto_Sans_KR, Nanum_Pen_Script } from "next/font/google";
+import { Space_Grotesk, Noto_Sans_KR } from "next/font/google";
 import TopNav from "@/components/layout/TopNav";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
@@ -18,18 +18,10 @@ const notoSansKr = Noto_Sans_KR({
   display: "swap",
   preload: false,
 });
-// 손글씨(필기) — 노트 문서 뷰 전용, 단정한 펜 필기체
-const nanumPen = Nanum_Pen_Script({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-pen",
-  display: "swap",
-  preload: false,
-});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={`${spaceGrotesk.variable} ${notoSansKr.variable} ${nanumPen.variable} overflow-x-hidden`}>
+    <html lang="ko" className={`${spaceGrotesk.variable} ${notoSansKr.variable} overflow-x-hidden`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </head>
