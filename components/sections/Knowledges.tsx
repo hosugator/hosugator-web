@@ -49,7 +49,20 @@ export default function Knowledges({ initialData }: { initialData: any }) {
   useEffect(() => {
     setMounted(true);
     const proj = new URLSearchParams(window.location.search).get('project');
-    if (proj) setProjectFilter(proj);
+    if (proj) { setProjectFilter(proj); setView('log'); }
+  }, []);
+
+  // 상단 바 Blog 클릭(이미 블로그 페이지) → 노트 닫고 블로그 루트(Map, 최상단)로
+  useEffect(() => {
+    const goHome = () => {
+      setSelectedNode(null);
+      setView('map');
+      setBranch('all');
+      setProjectFilter(null);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    window.addEventListener('hg:blog-home', goHome);
+    return () => window.removeEventListener('hg:blog-home', goHome);
   }, []);
   useEffect(() => { document.body.style.overflow = selectedNode ? 'hidden' : 'auto'; }, [selectedNode]);
   useEffect(() => { setVisible(INITIAL_VISIBLE); }, [branch, search, projectFilter]);
@@ -82,7 +95,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
     const q = search.toLowerCase();
     return posts.filter(p => {
       const okProject = !projectFilter || (p.node.project && normProject(p.node.project) === normProject(projectFilter));
-      const okBranch = projectFilter ? true : (branch === 'all' || p.category === branch);
+      const okBranch = branch === 'all' || p.category === branch;
       const okSearch = !q || p.title.toLowerCase().includes(q) || p.content.toLowerCase().includes(q);
       return okProject && okBranch && okSearch;
     });
@@ -102,7 +115,12 @@ export default function Knowledges({ initialData }: { initialData: any }) {
 
   const shown = filtered.slice(0, visible);
   const headLabel = projectFilter ? projectFilter : (branch === 'all' ? 'main' : formatCategoryName(branch));
-  const ctxLabel = projectFilter ? projectFilter : (branch === 'all' ? (locale === 'en' ? 'All commits' : '전체 커밋') : formatCategoryName(branch));
+  const ctxLabel = (() => {
+    const b = branch === 'all' ? '' : formatCategoryName(branch);
+    if (projectFilter && b) return `${b} · ${projectFilter}`;
+    if (projectFilter) return projectFilter;
+    return b || (locale === 'en' ? 'All commits' : '전체 커밋');
+  })();
 
   const selectBranch = (key: string) => { setBranch(key); setProjectFilter(null); };
 
@@ -220,17 +238,18 @@ export default function Knowledges({ initialData }: { initialData: any }) {
               const projs = tree[b.key] ? Object.entries(tree[b.key]).sort((a, c) => c[1] - a[1]) : [];
               return (
                 <div key={b.key}>
-                  <button onClick={() => { selectBranch(b.key); setView('log'); }} className="group flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ background: colorOf[b.key] }} />
-                    <span className="font-black text-neutral-900 group-hover:text-accent transition-colors">{formatCategoryName(b.key)}</span>
+                  {/* subject — 상위, 강조 */}
+                  <button onClick={() => { selectBranch(b.key); setView('log'); }} className="group flex items-center gap-2.5 mb-1">
+                    <span className="w-3 h-3 rounded-full" style={{ background: colorOf[b.key] }} />
+                    <span className="text-lg font-black tracking-tight text-neutral-900 group-hover:text-accent transition-colors">{formatCategoryName(b.key)}</span>
                     <span className="font-mono text-xs text-neutral-400">{b.count}</span>
                   </button>
                   {projs.length > 0 && (
-                    <div className="mt-2 ml-[4px] border-l border-neutral-200 pl-5 space-y-1.5">
+                    <div className="mt-1 ml-[5px] border-l border-neutral-200 pl-5 space-y-1">
                       {projs.map(([pn, cnt]) => (
                         <button
                           key={pn}
-                          onClick={() => { setProjectFilter(pn); setView('log'); }}
+                          onClick={() => { setBranch(b.key); setProjectFilter(pn); setView('log'); }}
                           className="flex items-center gap-2 text-sm text-neutral-500 hover:text-accent transition-colors"
                         >
                           {pn}
