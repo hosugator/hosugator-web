@@ -12,8 +12,8 @@ export default function Footer() {
         </p>
         
         <div className="flex gap-8">
-          <a href="#" className="text-xs font-bold hover:text-primary transition-colors tracking-widest uppercase text-slate-900">Privacy</a>
-          <a href="#" className="text-xs font-bold hover:text-primary transition-colors tracking-widest uppercase text-slate-900">Resume</a>
+          <a href="#" className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900">Privacy</a>
+          <a href="#" className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900">Resume</a>
         </div>
       </div>
     </footer>

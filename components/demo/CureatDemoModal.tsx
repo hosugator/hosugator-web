@@ -95,7 +95,7 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
                 <div className="flex-1 overflow-y-auto p-8 space-y-6 min-h-[300px]">
                     {!result && !isLoading && (
                         <div className="text-center py-12">
-                            <div className="w-16 h-16 bg-[#13ecda]/10 rounded-2xl flex items-center justify-center mx-auto mb-4 text-[#13ecda]">
+                            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4 text-primary">
                                 <PlayCircle size={32} />
                             </div>
                             <p className="text-slate-900 font-bold italic">{t.example}</p>
@@ -105,7 +105,7 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
 
                     {isLoading && (
                         <div className="flex flex-col items-center justify-center py-12 space-y-4">
-                            <Loader2 className="animate-spin text-[#13ecda]" size={40} />
+                            <Loader2 className="animate-spin text-primary" size={40} />
                             <p className="text-slate-500 text-sm font-medium">{t.loading}</p>
                         </div>
                     )}
@@ -113,7 +113,7 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
                     {result && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 text-left">
                             {/* AI 답변 요약 */}
-                            <div className="bg-[#13ecda]/5 p-5 rounded-2xl border border-[#13ecda]/20 shadow-sm">
+                            <div className="bg-primary/5 p-5 rounded-2xl border border-primary/20 shadow-sm">
                                 <p className="text-slate-800 font-medium leading-relaxed">
                                     {result.answer}
                                 </p>
@@ -126,7 +126,7 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
                                     <div key={idx} className="bg-white border border-slate-100 rounded-2xl p-5 hover:shadow-md transition-shadow">
                                         <div className="flex justify-between items-start mb-3">
                                             <div>
-                                                <span className="text-[10px] font-bold text-[#13ecda] uppercase tracking-tight mb-1 block">Restaurant {idx + 1}</span>
+                                                <span className="text-[10px] font-bold text-primary uppercase tracking-tight mb-1 block">Restaurant {idx + 1}</span>
                                                 <h5 className="text-lg font-black text-slate-900 leading-none">{place.name}</h5>
                                             </div>
                                             {place.is_ad_filtered && (
@@ -170,13 +170,13 @@ export default function CureatDemoModal({ isOpen, onClose }: CureatDemoModalProp
                             value={userInput}
                             onChange={(e) => setUserInput(e.target.value)}
                             placeholder={t.inputLabel}
-                            className="w-full pl-6 pr-14 py-4 rounded-2xl border-none bg-white shadow-inner focus:ring-2 focus:ring-[#13ecda] outline-none text-slate-900 placeholder:text-slate-300"
+                            className="w-full pl-6 pr-14 py-4 rounded-2xl border-none bg-white shadow-inner focus:ring-2 focus:ring-primary outline-none text-slate-900 placeholder:text-slate-300"
                             disabled={isLoading}
                         />
                         <button
                             type="submit"
                             disabled={isLoading || !userInput.trim()}
-                            className="absolute right-2 top-2 bottom-2 px-4 bg-slate-900 text-white rounded-xl hover:bg-[#13ecda] transition-colors disabled:opacity-30 flex items-center justify-center"
+                            className="absolute right-2 top-2 bottom-2 px-4 bg-slate-900 text-white rounded-xl hover:bg-primary transition-colors disabled:opacity-30 flex items-center justify-center"
                         >
                             <Send size={18} />
                         </button>

@@ -1,0 +1,33 @@
+- generic [ref=f27e1]:
+  - banner [ref=f27e2]:
+    - generic [ref=f27e3]:
+      - link "HOSUGATOR." [ref=f27e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f27e5]:
+        - link "Blog" [ref=f27e6] [cursor=pointer]:
+          - /url: /blog/
+        - button "Switch to English" [ref=f27e7]:
+          - img [ref=f27e8]
+          - generic [ref=f27e11]: English
+  - main [ref=f27e12]:
+    - generic [ref=f27e15]:
+      - generic [ref=f27e16]:
+        - generic [ref=f27e17]:
+          - heading "Knowledge Graph" [level=2] [ref=f27e18]
+          - heading "Technical Expertise." [level=3] [ref=f27e19]
+        - generic [ref=f27e20]:
+          - button "Graph" [active] [ref=f27e21]:
+            - img [ref=f27e22]
+            - generic [ref=f27e27]: Graph
+          - button "Blog" [ref=f27e28]:
+            - img [ref=f27e29]
+            - generic [ref=f27e30]: Blog
+      - generic [ref=f27e112]:
+        - generic:
+          - img
+          - paragraph: Wheel to zoom • Drag to move • Click node for details
+        - button [ref=f27e117] [cursor=pointer]:
+          - img [ref=f27e118]
+  - button "Open Next.js Dev Tools" [ref=f27e108] [cursor=pointer]:
+    - img [ref=f27e109]
+  - alert [ref=f27e123]

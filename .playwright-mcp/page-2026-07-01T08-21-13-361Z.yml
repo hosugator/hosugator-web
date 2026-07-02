@@ -1,0 +1,395 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e3]:
+    - link "HOSUGATOR." [ref=f3e4] [cursor=pointer]:
+      - /url: /
+    - generic [ref=f3e5]:
+      - button "Switch to English" [ref=f3e6]:
+        - img [ref=f3e7]
+        - generic [ref=f3e10]: English
+      - button [ref=f3e11]:
+        - img [ref=f3e12]
+  - main [ref=f3e14]:
+    - generic [ref=f3e15]:
+      - generic [ref=f3e16]:
+        - heading "About Me" [level=2] [ref=f3e17]
+        - generic [ref=f3e18]:
+          - generic [ref=f3e19]:
+            - heading "현장 감각과 시스템 설계." [level=3] [ref=f3e20]:
+              - text: 현장 감각과
+              - text: 시스템 설계.
+            - generic [ref=f3e21]:
+              - paragraph [ref=f3e22]: 글로벌 EPC PM으로 3국 이해관계자의 요구를 기술 명세로 번역하던 현장 감각이, 이제 Edge AI 시스템과 LLM 에이전트 설계의 밑거름이 됩니다. '반복되는 병목은 반드시 자동화한다'는 원칙 아래, 의도적 감속 학습과 Docs-as-Code로 기술을 자산화합니다.
+              - paragraph [ref=f3e23]: 도메인을 고객의 언어로 번역해 에이전트를 정의하는 것이 핵심 역할입니다. 데이터 스키마부터 HMI까지 전 계층을 일관된 설계 철학으로 연결하며, 실제 공정에 AI를 배포한 경험으로 비즈니스 임팩트를 증명합니다.
+          - img "Seung Wan Profile" [ref=f3e27]
+      - generic [ref=f3e29]:
+        - generic [ref=f3e30]:
+          - heading "Experience" [level=2] [ref=f3e31]
+          - heading "Professional Journey." [level=3] [ref=f3e32]
+        - generic [ref=f3e33]:
+          - generic [ref=f3e36]:
+            - generic [ref=f3e37]: 2026 - Present
+            - generic [ref=f3e38]:
+              - heading "DTK" [level=4] [ref=f3e39]
+              - paragraph [ref=f3e40]: AI Developer
+              - paragraph [ref=f3e41]: "Vision AI 시스템 단독 설계·구현 전담. 성균관대 산학협력 AOI(PatchCore·SAM·합성 데이터 비교 검증), AlignAI(U-Net Segmentation 완전 자동 정렬). Edge AI LMR: Field→Cloud 4계층 아키텍처, 1D-CNN→LSTM→DQN 3-Stage AI 체인, AUROC 99.99%. Corning Varioptic(프랑스) 광학 액추에이터 배급사 계약 협상 창구 병행."
+              - generic [ref=f3e42]:
+                - generic [ref=f3e43]: Vision AI
+                - generic [ref=f3e44]: Edge AI
+                - generic [ref=f3e45]: PyTorch
+                - generic [ref=f3e46]: Docker
+                - generic [ref=f3e47]: React+TS
+                - generic [ref=f3e48]: Data-centric ML
+          - generic [ref=f3e50]:
+            - generic [ref=f3e51]: 2024 - 2025
+            - generic [ref=f3e52]:
+              - heading "Intel AI for Future Workforce" [level=4] [ref=f3e53]
+              - paragraph [ref=f3e54]: AI 풀라이프사이클 실전 과정
+              - paragraph [ref=f3e55]: 1,000시간+ 엔드투엔드 AI 개발 실전 이수. Dotodo(LangChain RAG·LLM as a Judge), Sodam Diary(VLM 3-Stage 파이프라인·해커톤 본선), Pictag(Re-ID SaaS·OpenVINO INT8), Dorosee(UGV), KDLC(시계열 3-Model 앙상블) 등 다수 팀 프로젝트.
+              - generic [ref=f3e56]:
+                - generic [ref=f3e57]: LangChain
+                - generic [ref=f3e58]: RAG
+                - generic [ref=f3e59]: OpenVINO
+                - generic [ref=f3e60]: FastAPI
+                - generic [ref=f3e61]: PyTorch
+                - generic [ref=f3e62]: AWS
+          - generic [ref=f3e64]:
+            - generic [ref=f3e65]: 2024 - 2025
+            - generic [ref=f3e66]:
+              - heading "Zeeco Asia" [level=4] [ref=f3e67]
+              - paragraph [ref=f3e68]: Project Manager
+              - paragraph [ref=f3e69]: 글로벌 연소 설비 기업 수십억 규모 EPC 프로젝트 총괄. 3국(미·인·한) 이해관계자 기술 조율 허브 역할. 추상적 현장 요구를 기술 명세로 번역하여 Q/C/D 관리, 목표 마진율 +4% 초과 달성.
+              - generic [ref=f3e70]:
+                - generic [ref=f3e71]: Strategic Communication
+                - generic [ref=f3e72]: Problem Solving
+                - generic [ref=f3e73]: PM
+                - generic [ref=f3e74]: Global Projects
+      - generic [ref=f3e76]:
+        - generic [ref=f3e77]:
+          - heading "Engineering Principles" [level=2] [ref=f3e78]
+          - heading "6가지 엔지니어링 원칙." [level=3] [ref=f3e79]
+        - generic [ref=f3e80]:
+          - generic [ref=f3e81]:
+            - generic [ref=f3e82]: "01"
+            - heading "비즈니스 감각" [level=4] [ref=f3e83]
+            - paragraph [ref=f3e84]: “비즈니스 문제를 에이전틱 문제로 재정의하는 것이 에이전트 설계의 절반이다.”
+            - paragraph [ref=f3e85]: EPC PM 시절 3국 이해관계자의 추상적 현장 요구를 기술 명세로 번역한 경험이 AI 설계에 직결됩니다. 기술 선택이 곧 운영 비용임을 현장에서 증명했습니다.
+            - generic [ref=f3e86]: EPC PM → Edge AI LMR
+          - generic [ref=f3e87]:
+            - generic [ref=f3e88]: "02"
+            - heading "자동화" [level=4] [ref=f3e89]
+            - paragraph [ref=f3e90]: “반복 병목은 코드로 제거한다 — 자동화 범위를 먼저 정의해야 yak shaving을 피한다.”
+            - paragraph [ref=f3e91]: ERP Backup에서 공식 API 부재 환경을 Playwright + Promise.all로 돌파, 수일 수작업을 완전 무인 자동화로 전환했습니다. 정합성 100% 달성.
+            - generic [ref=f3e92]: ERP Backup
+          - generic [ref=f3e93]:
+            - generic [ref=f3e94]: "03"
+            - heading "시스템 설계" [level=4] [ref=f3e95]
+            - paragraph [ref=f3e96]: “데이터의 골든 키를 먼저 정의하면 시스템의 나머지는 따라온다.”
+            - paragraph [ref=f3e97]: 다축 센서 데이터를 타임스탬프만으로 연결할 수 없는 문제에서 Cycle_ID를 Golden Key로 설정, 전 계층 단일 키 조인과 이상 구간 즉시 재현 루프를 확보했습니다.
+            - generic [ref=f3e98]: Edge AI LMR
+          - generic [ref=f3e99]:
+            - generic [ref=f3e100]: "04"
+            - heading "지식 관리" [level=4] [ref=f3e101]
+            - paragraph [ref=f3e102]: “AI가 대체할 수 없는 나의 맥락과 의사결정은 PKM에 저장한다.”
+            - paragraph [ref=f3e103]: Obsidian Smart Connections로 노트를 벡터 인덱스화하고 세션 맥락을 Zettelkasten에 연결하는 워크플로우를 직접 구축했습니다. RAG 아키텍처를 학습 도구 자체에 내재화.
+            - generic [ref=f3e104]: PKM + DaC
+          - generic [ref=f3e105]:
+            - generic [ref=f3e106]: "05"
+            - heading "트러블슈팅" [level=4] [ref=f3e107]
+            - paragraph [ref=f3e108]: “에러는 로그 기반으로 후보 원인을 좁혀 재발을 막는다.”
+            - paragraph [ref=f3e109]: GPU 드라이버 충돌로 비결정적 발현된 문제를 dmesg·journalctl 파싱으로 특정하고, ADR로 기록해 동일 이슈 재발을 구조적으로 방지했습니다.
+            - generic [ref=f3e110]: AlignAI · Linux
+          - generic [ref=f3e111]:
+            - generic [ref=f3e112]: "06"
+            - heading "도구 활용" [level=4] [ref=f3e113]
+            - paragraph [ref=f3e114]: “도구는 목적을 위해 존재한다 — 지금 이 작업이 목적에 유용한가를 먼저 자문한다.”
+            - paragraph [ref=f3e115]: LLM, CLI, PKM, 자동화 스크립트 등 다양한 도구를 조합하지만, 항상 '이 도구가 지금 목표에 기여하는가'를 먼저 검토합니다. 도구 학습이 목적을 대체하지 않도록 경계합니다.
+            - generic [ref=f3e116]: 전 프로젝트 공통
+      - generic [ref=f3e117]:
+        - generic [ref=f3e118]:
+          - heading "Featured Projects" [level=2] [ref=f3e119]
+          - heading "Technical Implementations." [level=3] [ref=f3e121]
+        - generic [ref=f3e123]:
+          - generic [ref=f3e124]:
+            - generic [ref=f3e125] [cursor=pointer]:
+              - 'img "Edge AI LMR: 렌즈 열성형 공정 지능화" [ref=f3e126]'
+              - img [ref=f3e129]
+            - generic [ref=f3e133]:
+              - generic [ref=f3e134]:
+                - generic [ref=f3e135]: "#Industrial-AI"
+                - generic [ref=f3e136]: "#Edge"
+                - generic [ref=f3e137]: "#PyTorch"
+              - 'heading "Edge AI LMR: 렌즈 열성형 공정 지능화" [level=4] [ref=f3e138]'
+              - paragraph [ref=f3e139]: Field→Cloud 4계층 아키텍처 위에 1D-CNN→LSTM→DQN 3-Stage AI 체인을 구축한 제조 현장 AI 시스템. Cycle_ID Golden Key 설계로 전 계층 단일 키 조인 및 이상 구간 즉시 재현 루프 확보. AUROC 99.99% 달성. Docker 엣지 배포 + k3s 전환 아키텍처 설계, React+TS 실시간 HMI 운영 중.
+              - link "Case Study" [ref=f3e141] [cursor=pointer]:
+                - /url: /portfolio.pdf#page=2
+                - img [ref=f3e142]
+                - text: Case Study
+          - generic [ref=f3e145]:
+            - generic [ref=f3e146] [cursor=pointer]:
+              - 'img "ERP Backup: 레거시 ERP 데이터 마이그레이션 자동화" [ref=f3e147]'
+              - img [ref=f3e150]
+            - generic [ref=f3e154]:
+              - generic [ref=f3e155]:
+                - generic [ref=f3e156]: "#Automation"
+                - generic [ref=f3e157]: "#TypeScript"
+                - generic [ref=f3e158]: "#Playwright"
+              - 'heading "ERP Backup: 레거시 ERP 데이터 마이그레이션 자동화" [level=4] [ref=f3e159]'
+              - paragraph [ref=f3e160]: 공식 API 부재 + 비표준 동적 팝업 환경에서 Playwright + Promise.all로 비동기 Race Condition을 구조적으로 제거한 완전 무인 자동화 엔진. 입사 1주차 단독 개발. POM 패턴 유지보수성, .env 자격증명 분리, CSV 전수 감사 로그(Auditability). 수일 수작업 → 정합성 100% 달성.
+              - link "Case Study" [ref=f3e162] [cursor=pointer]:
+                - /url: /portfolio.pdf#page=5
+                - img [ref=f3e163]
+                - text: Case Study
+          - generic [ref=f3e166]:
+            - img [ref=f3e171] [cursor=pointer]
+            - generic [ref=f3e174]:
+              - generic [ref=f3e175]:
+                - generic [ref=f3e176]: "#LangChain"
+                - generic [ref=f3e177]: "#RAG"
+                - generic [ref=f3e178]: "#FastAPI"
+              - 'heading "Dotodo: 음성 입력 기반 AI 개인화 할 일 추천 서비스" [level=4] [ref=f3e179]'
+              - paragraph [ref=f3e180]: LangChain · ChromaDB 기반 RAG 파이프라인과 MSA 아키텍처(Backend/Model Server 분리)로 모델 업그레이드 무중단 구현. Mecab-ko 형태소 분석 + 768D 벡터 유사도 Top-K=3 검색. LLM as a Judge 자율 품질 검증 루프로 API 비용 60% 절감.
+              - link "Case Study" [ref=f3e182] [cursor=pointer]:
+                - /url: /projects/dotodo_ko.pdf
+                - img [ref=f3e183]
+                - text: Case Study
+          - generic [ref=f3e186]:
+            - img [ref=f3e191] [cursor=pointer]
+            - generic [ref=f3e194]:
+              - generic [ref=f3e195]:
+                - generic [ref=f3e196]: "#VLM"
+                - generic [ref=f3e197]: "#OpenVINO"
+                - generic [ref=f3e198]: "#FastAPI"
+              - 'heading "Sodamdiary: 시각장애인을 위한 음성 기반 사진 해설 앱" [level=4] [ref=f3e199]'
+              - paragraph [ref=f3e200]: GPT-4V 단독 운영(월 130만원·응답 30초)을 BLIP+CLIP+LLM 3-Stage 파이프라인으로 대체. OpenVINO 4-bit 양자화 + asyncio 병렬 처리로 응답 20초·운영비 30% 절감 달성. 2025 한국장애인해커톤 본선 진출.
+              - link "Case Study" [ref=f3e202] [cursor=pointer]:
+                - /url: /projects/sodamdiary_ko.pdf
+                - img [ref=f3e203]
+                - text: Case Study
+          - generic [ref=f3e206]:
+            - img [ref=f3e211] [cursor=pointer]
+            - generic [ref=f3e214]:
+              - generic [ref=f3e215]:
+                - generic [ref=f3e216]: "#Re-ID"
+                - generic [ref=f3e217]: "#OpenVINO"
+                - generic [ref=f3e218]: "#WebSocket"
+              - 'heading "Pictag: 소상공인 맞춤형 경량화 CCTV AI SaaS" [level=4] [ref=f3e219]'
+              - paragraph [ref=f3e220]: YOLO 백본 분해 후 Linear / Pooling / Attention Head 3가지 임베딩 방식 A/B 실험 — Attention 채택으로 Re-ID 정확도·학습 효율 50%↑. OpenVINO INT8 양자화로 GPU 없는 엣지 실시간 추론 달성. 4-Thread 독립 큐 파이프라인, Django+WebSocket 히트맵 대시보드.
+              - link "Case Study" [ref=f3e222] [cursor=pointer]:
+                - /url: /projects/pictag_ko.pdf
+                - img [ref=f3e223]
+                - text: Case Study
+          - generic [ref=f3e226]:
+            - generic [ref=f3e227] [cursor=pointer]:
+              - 'img "Hosugator: Cloud-Native Portfolio Architecture" [ref=f3e228]'
+              - img [ref=f3e231]
+            - generic [ref=f3e235]:
+              - generic [ref=f3e236]:
+                - generic [ref=f3e237]: "#Next.js"
+                - generic [ref=f3e238]: "#AWS"
+                - generic [ref=f3e239]: "#GitHub-Actions"
+              - 'heading "Hosugator: Cloud-Native Portfolio Architecture" [level=4] [ref=f3e240]'
+              - paragraph [ref=f3e241]: Next.js 기반 포트폴리오를 AWS S3 + CloudFront 서버리스 환경으로 구축. GitHub Actions CI/CD 파이프라인으로 무중단 배포, OIDC 기반 키 없는 인증, Route 53 + ACM 보안 최적화.
+              - link "Case Study" [ref=f3e243] [cursor=pointer]:
+                - /url: /projects/hosugator_ko.pdf
+                - img [ref=f3e244]
+                - text: Case Study
+          - generic [ref=f3e247]:
+            - img [ref=f3e252] [cursor=pointer]
+            - generic [ref=f3e255]:
+              - generic [ref=f3e256]:
+                - generic [ref=f3e257]: "#NLP"
+                - generic [ref=f3e258]: "#VectorDB"
+                - generic [ref=f3e259]: "#FastAPI"
+              - 'heading "Cureat: AI 미식 추천 시스템" [level=4] [ref=f3e260]'
+              - paragraph [ref=f3e261]: Okt/ko-BERT 자연어 분석으로 사용자 의도를 파악하고 Vector DB 코사인 유사도 검색으로 개인화 추천 제공. FastAPI 비동기 파이프라인으로 응답 지연 최소화.
+              - generic [ref=f3e262]:
+                - link "Case Study" [ref=f3e263] [cursor=pointer]:
+                  - /url: /projects/cureat_ko.pdf
+                  - img [ref=f3e264]
+                  - text: Case Study
+                - button "LIVE DEMO" [ref=f3e267]:
+                  - text: LIVE DEMO
+                  - img [ref=f3e268]
+          - generic [ref=f3e270]:
+            - img [ref=f3e275] [cursor=pointer]
+            - generic [ref=f3e278]:
+              - generic [ref=f3e279]:
+                - generic [ref=f3e280]: "#CV"
+                - generic [ref=f3e281]: "#LLM"
+                - generic [ref=f3e282]: "#ROS"
+              - 'heading "Dorosee: CV/LLM 통합 멀티모달 UGV 플랫폼" [level=4] [ref=f3e283]'
+              - paragraph [ref=f3e284]: Computer Vision과 LLM을 통합한 상황 인지 멀티모달 대화형 AI 인터페이스 탑재 무인 지상 차량(UGV) 플랫폼. 실시간 환경 인식과 자연어 상호작용을 결합.
+              - link "Case Study" [ref=f3e286] [cursor=pointer]:
+                - /url: /projects/dorosee_ko.pdf
+                - img [ref=f3e287]
+                - text: Case Study
+          - generic [ref=f3e290]:
+            - generic [ref=f3e291] [cursor=pointer]:
+              - 'img "KDLC: 물류센터 수요 예측 경진대회" [ref=f3e292]'
+              - img [ref=f3e295]
+            - generic [ref=f3e299]:
+              - generic [ref=f3e300]:
+                - generic [ref=f3e301]: "#Time-Series"
+                - generic [ref=f3e302]: "#Ensemble"
+                - generic [ref=f3e303]: "#Feature-Engineering"
+              - 'heading "KDLC: 물류센터 수요 예측 경진대회" [level=4] [ref=f3e304]'
+              - paragraph [ref=f3e305]: 45개+ 피처 공학(Lag·Rolling·sin/cos 주기성 인코딩)과 SARIMA+LSTM+LightGBM 3-Model 가중 앙상블. TimeSeriesSplit으로 Data Leakage 구조적 차단. 피처 설계가 모델 선택보다 성능에 더 큰 영향임을 실증.
+              - link "Case Study" [ref=f3e307] [cursor=pointer]:
+                - /url: /portfolio.pdf#page=12
+                - img [ref=f3e308]
+                - text: Case Study
+          - generic [ref=f3e311]:
+            - generic [ref=f3e312] [cursor=pointer]:
+              - 'img "Edge AI LMR: 렌즈 열성형 공정 지능화" [ref=f3e313]'
+              - img [ref=f3e316]
+            - generic [ref=f3e320]:
+              - generic [ref=f3e321]:
+                - generic [ref=f3e322]: "#Industrial-AI"
+                - generic [ref=f3e323]: "#Edge"
+                - generic [ref=f3e324]: "#PyTorch"
+              - 'heading "Edge AI LMR: 렌즈 열성형 공정 지능화" [level=4] [ref=f3e325]'
+              - paragraph [ref=f3e326]: Field→Cloud 4계층 아키텍처 위에 1D-CNN→LSTM→DQN 3-Stage AI 체인을 구축한 제조 현장 AI 시스템. Cycle_ID Golden Key 설계로 전 계층 단일 키 조인 및 이상 구간 즉시 재현 루프 확보. AUROC 99.99% 달성. Docker 엣지 배포 + k3s 전환 아키텍처 설계, React+TS 실시간 HMI 운영 중.
+              - link "Case Study" [ref=f3e328] [cursor=pointer]:
+                - /url: /portfolio.pdf#page=2
+                - img [ref=f3e329]
+                - text: Case Study
+          - generic [ref=f3e332]:
+            - generic [ref=f3e333] [cursor=pointer]:
+              - 'img "ERP Backup: 레거시 ERP 데이터 마이그레이션 자동화" [ref=f3e334]'
+              - img [ref=f3e337]
+            - generic [ref=f3e341]:
+              - generic [ref=f3e342]:
+                - generic [ref=f3e343]: "#Automation"
+                - generic [ref=f3e344]: "#TypeScript"
+                - generic [ref=f3e345]: "#Playwright"
+              - 'heading "ERP Backup: 레거시 ERP 데이터 마이그레이션 자동화" [level=4] [ref=f3e346]'
+              - paragraph [ref=f3e347]: 공식 API 부재 + 비표준 동적 팝업 환경에서 Playwright + Promise.all로 비동기 Race Condition을 구조적으로 제거한 완전 무인 자동화 엔진. 입사 1주차 단독 개발. POM 패턴 유지보수성, .env 자격증명 분리, CSV 전수 감사 로그(Auditability). 수일 수작업 → 정합성 100% 달성.
+              - link "Case Study" [ref=f3e349] [cursor=pointer]:
+                - /url: /portfolio.pdf#page=5
+                - img [ref=f3e350]
+                - text: Case Study
+          - generic [ref=f3e353]:
+            - img [ref=f3e358] [cursor=pointer]
+            - generic [ref=f3e361]:
+              - generic [ref=f3e362]:
+                - generic [ref=f3e363]: "#LangChain"
+                - generic [ref=f3e364]: "#RAG"
+                - generic [ref=f3e365]: "#FastAPI"
+              - 'heading "Dotodo: 음성 입력 기반 AI 개인화 할 일 추천 서비스" [level=4] [ref=f3e366]'
+              - paragraph [ref=f3e367]: LangChain · ChromaDB 기반 RAG 파이프라인과 MSA 아키텍처(Backend/Model Server 분리)로 모델 업그레이드 무중단 구현. Mecab-ko 형태소 분석 + 768D 벡터 유사도 Top-K=3 검색. LLM as a Judge 자율 품질 검증 루프로 API 비용 60% 절감.
+              - link "Case Study" [ref=f3e369] [cursor=pointer]:
+                - /url: /projects/dotodo_ko.pdf
+                - img [ref=f3e370]
+                - text: Case Study
+          - generic [ref=f3e373]:
+            - img [ref=f3e378] [cursor=pointer]
+            - generic [ref=f3e381]:
+              - generic [ref=f3e382]:
+                - generic [ref=f3e383]: "#VLM"
+                - generic [ref=f3e384]: "#OpenVINO"
+                - generic [ref=f3e385]: "#FastAPI"
+              - 'heading "Sodamdiary: 시각장애인을 위한 음성 기반 사진 해설 앱" [level=4] [ref=f3e386]'
+              - paragraph [ref=f3e387]: GPT-4V 단독 운영(월 130만원·응답 30초)을 BLIP+CLIP+LLM 3-Stage 파이프라인으로 대체. OpenVINO 4-bit 양자화 + asyncio 병렬 처리로 응답 20초·운영비 30% 절감 달성. 2025 한국장애인해커톤 본선 진출.
+              - link "Case Study" [ref=f3e389] [cursor=pointer]:
+                - /url: /projects/sodamdiary_ko.pdf
+                - img [ref=f3e390]
+                - text: Case Study
+          - generic [ref=f3e393]:
+            - img [ref=f3e398] [cursor=pointer]
+            - generic [ref=f3e401]:
+              - generic [ref=f3e402]:
+                - generic [ref=f3e403]: "#Re-ID"
+                - generic [ref=f3e404]: "#OpenVINO"
+                - generic [ref=f3e405]: "#WebSocket"
+              - 'heading "Pictag: 소상공인 맞춤형 경량화 CCTV AI SaaS" [level=4] [ref=f3e406]'
+              - paragraph [ref=f3e407]: YOLO 백본 분해 후 Linear / Pooling / Attention Head 3가지 임베딩 방식 A/B 실험 — Attention 채택으로 Re-ID 정확도·학습 효율 50%↑. OpenVINO INT8 양자화로 GPU 없는 엣지 실시간 추론 달성. 4-Thread 독립 큐 파이프라인, Django+WebSocket 히트맵 대시보드.
+              - link "Case Study" [ref=f3e409] [cursor=pointer]:
+                - /url: /projects/pictag_ko.pdf
+                - img [ref=f3e410]
+                - text: Case Study
+          - generic [ref=f3e413]:
+            - generic [ref=f3e414] [cursor=pointer]:
+              - 'img "Hosugator: Cloud-Native Portfolio Architecture" [ref=f3e415]'
+              - img [ref=f3e418]
+            - generic [ref=f3e422]:
+              - generic [ref=f3e423]:
+                - generic [ref=f3e424]: "#Next.js"
+                - generic [ref=f3e425]: "#AWS"
+                - generic [ref=f3e426]: "#GitHub-Actions"
+              - 'heading "Hosugator: Cloud-Native Portfolio Architecture" [level=4] [ref=f3e427]'
+              - paragraph [ref=f3e428]: Next.js 기반 포트폴리오를 AWS S3 + CloudFront 서버리스 환경으로 구축. GitHub Actions CI/CD 파이프라인으로 무중단 배포, OIDC 기반 키 없는 인증, Route 53 + ACM 보안 최적화.
+              - link "Case Study" [ref=f3e430] [cursor=pointer]:
+                - /url: /projects/hosugator_ko.pdf
+                - img [ref=f3e431]
+                - text: Case Study
+          - generic [ref=f3e434]:
+            - img [ref=f3e439] [cursor=pointer]
+            - generic [ref=f3e442]:
+              - generic [ref=f3e443]:
+                - generic [ref=f3e444]: "#NLP"
+                - generic [ref=f3e445]: "#VectorDB"
+                - generic [ref=f3e446]: "#FastAPI"
+              - 'heading "Cureat: AI 미식 추천 시스템" [level=4] [ref=f3e447]'
+              - paragraph [ref=f3e448]: Okt/ko-BERT 자연어 분석으로 사용자 의도를 파악하고 Vector DB 코사인 유사도 검색으로 개인화 추천 제공. FastAPI 비동기 파이프라인으로 응답 지연 최소화.
+              - generic [ref=f3e449]:
+                - link "Case Study" [ref=f3e450] [cursor=pointer]:
+                  - /url: /projects/cureat_ko.pdf
+                  - img [ref=f3e451]
+                  - text: Case Study
+                - button "LIVE DEMO" [ref=f3e454]:
+                  - text: LIVE DEMO
+                  - img [ref=f3e455]
+          - generic [ref=f3e457]:
+            - img [ref=f3e462] [cursor=pointer]
+            - generic [ref=f3e465]:
+              - generic [ref=f3e466]:
+                - generic [ref=f3e467]: "#CV"
+                - generic [ref=f3e468]: "#LLM"
+                - generic [ref=f3e469]: "#ROS"
+              - 'heading "Dorosee: CV/LLM 통합 멀티모달 UGV 플랫폼" [level=4] [ref=f3e470]'
+              - paragraph [ref=f3e471]: Computer Vision과 LLM을 통합한 상황 인지 멀티모달 대화형 AI 인터페이스 탑재 무인 지상 차량(UGV) 플랫폼. 실시간 환경 인식과 자연어 상호작용을 결합.
+              - link "Case Study" [ref=f3e473] [cursor=pointer]:
+                - /url: /projects/dorosee_ko.pdf
+                - img [ref=f3e474]
+                - text: Case Study
+          - generic [ref=f3e477]:
+            - generic [ref=f3e478] [cursor=pointer]:
+              - 'img "KDLC: 물류센터 수요 예측 경진대회" [ref=f3e479]'
+              - img [ref=f3e482]
+            - generic [ref=f3e486]:
+              - generic [ref=f3e487]:
+                - generic [ref=f3e488]: "#Time-Series"
+                - generic [ref=f3e489]: "#Ensemble"
+                - generic [ref=f3e490]: "#Feature-Engineering"
+              - 'heading "KDLC: 물류센터 수요 예측 경진대회" [level=4] [ref=f3e491]'
+              - paragraph [ref=f3e492]: 45개+ 피처 공학(Lag·Rolling·sin/cos 주기성 인코딩)과 SARIMA+LSTM+LightGBM 3-Model 가중 앙상블. TimeSeriesSplit으로 Data Leakage 구조적 차단. 피처 설계가 모델 선택보다 성능에 더 큰 영향임을 실증.
+              - link "Case Study" [ref=f3e494] [cursor=pointer]:
+                - /url: /portfolio.pdf#page=12
+                - img [ref=f3e495]
+                - text: Case Study
+      - generic [ref=f3e499]:
+        - heading "Interested in working together?" [level=2] [ref=f3e500]
+        - paragraph [ref=f3e501]: 비즈니스 가치와 기술적 구현 사이의 가교 역할을 할 수 있는 기회를 찾고 있습니다. 함께 혁신을 만들어갈 팀을 기다립니다.
+        - generic [ref=f3e502]:
+          - link "Get In Touch" [ref=f3e503] [cursor=pointer]:
+            - /url: mailto:hosugator@google.com
+            - text: Get In Touch
+            - img [ref=f3e504]
+          - generic [ref=f3e507]:
+            - link [ref=f3e508] [cursor=pointer]:
+              - /url: https://github.com/hosugator
+              - img [ref=f3e509]
+            - link [ref=f3e512] [cursor=pointer]:
+              - /url: https://linkedin.com/in/seungwanhong
+              - img [ref=f3e513]
+      - generic [ref=f3e518]:
+        - generic [ref=f3e519]:
+          - generic [ref=f3e520]: H.
+          - paragraph [ref=f3e521]: hosugator.com
+        - paragraph [ref=f3e522]: © 2026 Hosu. Designed for the AI-first era.
+        - generic [ref=f3e523]:
+          - link "Privacy" [ref=f3e524] [cursor=pointer]:
+            - /url: "#"
+          - link "Resume" [ref=f3e525] [cursor=pointer]:
+            - /url: "#"
+  - alert [ref=f3e526]

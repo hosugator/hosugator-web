@@ -1,0 +1,278 @@
+- generic [active] [ref=f25e1]:
+  - banner [ref=f25e2]:
+    - generic [ref=f25e3]:
+      - link "HOSUGATOR." [ref=f25e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f25e5]:
+        - link "Blog" [ref=f25e6] [cursor=pointer]:
+          - /url: /blog/
+        - button "Switch to English" [ref=f25e7]:
+          - img [ref=f25e8]
+          - generic [ref=f25e11]: English
+  - main [ref=f25e12]:
+    - generic [ref=f25e13]:
+      - generic [ref=f25e14]:
+        - generic [ref=f25e15]:
+          - generic [ref=f25e16]: About Me
+          - generic [ref=f25e17]: ( 2026 )
+          - generic [ref=f25e18]: Seungwan Hong
+        - generic [ref=f25e19]:
+          - img "Seungwan Hong" [ref=f25e21]
+          - generic [ref=f25e22]:
+            - generic [ref=f25e23]: Seungwan Hong
+            - generic [ref=f25e24]: AI Engineer
+        - heading "현장 감각과 시스템 설계." [level=3] [ref=f25e25]:
+          - text: 현장 감각과
+          - text: 시스템 설계.
+        - generic [ref=f25e26]:
+          - generic [ref=f25e27]:
+            - generic [ref=f25e28]: 99.99%
+            - generic [ref=f25e29]: AUROC · Edge AI LMR
+          - generic [ref=f25e30]:
+            - generic [ref=f25e31]: 80%
+            - generic [ref=f25e32]: TCO 절감 · Hosugator
+        - generic [ref=f25e33]:
+          - paragraph [ref=f25e34]: 모든 문제를 '왜'에서 정의합니다. 글로벌 EPC PM으로 3국 이해관계자의 추상적 요구를 기술 명세로 번역하던 현장 감각이, 이제 제조 현장의 Edge AI 시스템과 LLM 에이전트를 설계하는 밑거름이 됩니다. '반복되는 병목은 반드시 자동화한다'는 원칙 아래, 의도적 감속 학습과 Docs-as-Code로 기술을 자산화합니다.
+          - paragraph [ref=f25e35]: 기획·데이터·ML·인프라·백엔드·UI/UX·운영까지 전 계층을 하나의 설계 철학으로 연결하는 풀스택 AI 개발자입니다. 그래서 지금 프로젝트의 병목이 어디이고 어디에 자원을 투입해야 풀리는지 판단할 수 있습니다. 실제 제조 공정에 AI를 배포한 경험으로 비즈니스 임팩트를 증명합니다.
+      - generic [ref=f25e36]:
+        - generic [ref=f25e37]:
+          - heading "Experience" [level=2] [ref=f25e38]
+          - heading "Professional Journey." [level=3] [ref=f25e39]
+        - generic [ref=f25e40]:
+          - generic [ref=f25e41]:
+            - generic [ref=f25e42]: 2026 - Present
+            - heading "DTK" [level=4] [ref=f25e43]
+            - paragraph [ref=f25e44]: AI Developer
+            - paragraph [ref=f25e45]: "제조 도메인 Vision AI를 단독 설계·구현. AlignAI: 규칙 기반 OpenCV를 U-Net Segmentation으로 대체(탐지율 100% · PASS율 91% · CPU 추론 ~330ms), ProductConfig 레지스트리로 단일 레포 3개 제품 지원, GitHub SSOT 기반 ML CI/CD를 k3s 엣지 클러스터에 단독 구축. Edge AI LMR: Field→Cloud 4계층 · 3-Stage AI 체인으로 AUROC 99.99%. Agentic ERP 자동화로 수일 수작업을 정합성 100% 무인화. Corning Varioptic(프랑스) 계약 협상 창구 병행."
+            - generic [ref=f25e46]:
+              - generic [ref=f25e47]: Vision AI
+              - generic [ref=f25e48]: Edge AI
+              - generic [ref=f25e49]: MLOps
+              - generic [ref=f25e50]: k3s
+              - generic [ref=f25e51]: PyTorch
+              - generic [ref=f25e52]: Agentic AI
+          - generic [ref=f25e53]:
+            - generic [ref=f25e54]: 2024 - 2025
+            - heading "Intel AI for Future Workforce" [level=4] [ref=f25e55]
+            - paragraph [ref=f25e56]: AI 풀라이프사이클 실전 과정
+            - paragraph [ref=f25e57]: 1,000시간+ 엔드투엔드 AI 개발 실전 이수. Dotodo(LangChain RAG·LLM as a Judge), Sodam Diary(VLM 3-Stage 파이프라인·해커톤 본선), Pictag(Re-ID SaaS·OpenVINO INT8), Dorosee(UGV·해커톤 대상), KDLC(시계열 3-Model 앙상블) 등 다수 팀 프로젝트.
+            - generic [ref=f25e58]:
+              - generic [ref=f25e59]: LangChain
+              - generic [ref=f25e60]: RAG
+              - generic [ref=f25e61]: OpenVINO
+              - generic [ref=f25e62]: FastAPI
+              - generic [ref=f25e63]: PyTorch
+              - generic [ref=f25e64]: AWS
+          - generic [ref=f25e65]:
+            - generic [ref=f25e66]: 2024 - 2025
+            - heading "Zeeco Asia" [level=4] [ref=f25e67]
+            - paragraph [ref=f25e68]: Project Manager
+            - paragraph [ref=f25e69]: 글로벌 연소 설비 기업 수십억 규모 EPC 프로젝트를 시운전 단계까지 총괄. 3국(미·인·한) 이해관계자 기술 조율 허브 역할. 추상적 현장 요구를 기술 명세로 번역하고 Q/C/D·선제적 리스크 관리로 목표 마진율 +4% 초과 달성.
+            - generic [ref=f25e70]:
+              - generic [ref=f25e71]: Strategic Communication
+              - generic [ref=f25e72]: Problem Solving
+              - generic [ref=f25e73]: PM
+              - generic [ref=f25e74]: Global Projects
+      - generic [ref=f25e75]:
+        - generic [ref=f25e76]:
+          - heading "Engineering Principles" [level=2] [ref=f25e77]
+          - heading "3가지 엔지니어링 원칙." [level=3] [ref=f25e78]
+        - generic [ref=f25e79]:
+          - generic [ref=f25e80]:
+            - generic [ref=f25e81]: 01 — 비즈니스 감각
+            - paragraph [ref=f25e82]: “비즈니스 문제를 에이전틱 문제로 재정의하는 것이 에이전트 설계의 절반이다.”
+            - paragraph [ref=f25e83]: EPC PM 시절 3국 이해관계자의 추상적 요구를 기술 명세로 번역한 경험이 AI 설계에 직결됩니다. 기술적으로 나은 결정이 관계·운영 비용 관점에서 항상 최선은 아니며, 기술 선택이 곧 운영 비용임을 현장에서 증명했습니다.
+            - generic [ref=f25e84]: EPC PM → Edge AI LMR
+          - generic [ref=f25e85]:
+            - generic [ref=f25e86]: 02 — 시스템 설계
+            - paragraph [ref=f25e87]: “데이터의 골든 키를 먼저 정의하면 시스템의 나머지는 따라온다.”
+            - paragraph [ref=f25e88]: 다축 센서 데이터를 타임스탬프만으로 연결할 수 없는 문제에서 Cycle_ID를 Golden Key로 설정, 전 계층 단일 키 조인과 이상 구간 즉시 재현·처방 루프를 확보했습니다. 인프라 설계 전 데이터 모델 정의가 선행되어야 합니다.
+            - generic [ref=f25e89]: Edge AI LMR
+          - generic [ref=f25e90]:
+            - generic [ref=f25e91]: 03 — 에이전트 설계
+            - paragraph [ref=f25e92]: “루프를 누가 제어하는가가 LLM 호출과 에이전트의 분기점이다.”
+            - paragraph [ref=f25e93]: tool_calls 분기(코드 제어)와 ReAct 루프(모델이 while True 종료를 매 턴 결정)를 순서대로 직접 구현하며 구조적 차이를 코드 레벨로 체득했습니다. 제어권이 모델로 넘어갈수록 표현력과 디버깅 난이도가 함께 오릅니다.
+            - generic [ref=f25e94]: AlignAI LLM Agent
+      - generic [ref=f25e95]:
+        - generic [ref=f25e134]:
+          - heading "Featured Projects" [level=2] [ref=f25e135]
+          - heading "Technical Implementations." [level=3] [ref=f25e136]
+        - generic [ref=f25e137]: Selected Work
+        - generic [ref=f25e339]:
+          - generic [ref=f25e340]:
+            - link "01 Industrial-AI AlignAI" [ref=f25e498] [cursor=pointer]:
+              - /url: /portfolio.pdf
+              - generic [ref=f25e499]:
+                - generic [ref=f25e500]: "01"
+                - generic [ref=f25e501]: Industrial-AI
+              - generic [ref=f25e502]:
+                - generic [ref=f25e503]: AlignAI
+                - img [ref=f25e504]
+            - generic [ref=f25e350]:
+              - generic [ref=f25e351]:
+                - generic [ref=f25e352]: "#Industrial-AI"
+                - generic [ref=f25e507]: "#LLM-Agent"
+                - generic [ref=f25e508]: "#MLOps"
+                - generic [ref=f25e509]: "#k3s"
+                - generic [ref=f25e510]: "#React"
+              - 'heading "AlignAI: 비전 정렬 + MLOps + 현장 LLM 에이전트" [level=4] [ref=f25e511]'
+              - paragraph [ref=f25e356]: 규칙 기반 OpenCV를 U-Net Segmentation으로 대체해 탐지율 100%·PASS율 91% 달성. GitOps ML CI/CD(GHCR→Argo CD 자동 배포)를 Docker·k3s 엣지 클러스터에 단독 구축하고, React+TS HMI(UI/UX)와 현장 이상을 설명하는 LLM 에이전트(function calling·ReAct)까지 통합한 엔드투엔드 산업 AI 시스템.
+              - link "Case Study" [ref=f25e358] [cursor=pointer]:
+                - /url: /portfolio.pdf
+                - img [ref=f25e359]
+                - text: Case Study
+          - generic [ref=f25e362]:
+            - button "02 Industrial-AI Edge AI LMR" [ref=f25e512]:
+              - generic [ref=f25e364]:
+                - generic [ref=f25e365]: "02"
+                - generic [ref=f25e366]: Industrial-AI
+              - generic [ref=f25e367]:
+                - generic [ref=f25e368]: Edge AI LMR
+                - img [ref=f25e369]
+            - generic [ref=f25e372]:
+              - generic [ref=f25e373]:
+                - generic [ref=f25e513]: "#Industrial-AI"
+                - generic [ref=f25e514]: "#Edge"
+                - generic [ref=f25e515]: "#PyTorch"
+              - 'heading "Edge AI LMR: 렌즈 열성형 공정 지능화" [level=4] [ref=f25e516]'
+              - paragraph [ref=f25e378]: 이상탐지 AUROC 99.99% 달성. Field→Cloud 4계층 아키텍처 위에 1D-CNN→LSTM→DQN 3-Stage AI 체인 구축, Cycle_ID Golden Key로 전 계층 단일 키 조인·이상 구간 즉시 재현 루프 확보. Docker 엣지 배포+k3s 전환, React+TS 실시간 HMI 운영.
+              - link "Case Study" [ref=f25e380] [cursor=pointer]:
+                - /url: /portfolio.pdf#page=2
+                - img [ref=f25e381]
+                - text: Case Study
+          - generic [ref=f25e384]:
+            - button "03 LangChain Dotodo" [ref=f25e517]:
+              - generic [ref=f25e386]:
+                - generic [ref=f25e387]: "03"
+                - generic [ref=f25e388]: LangChain
+              - generic [ref=f25e389]:
+                - generic [ref=f25e390]: Dotodo
+                - img [ref=f25e391]
+            - generic [ref=f25e394]:
+              - generic [ref=f25e395]:
+                - generic [ref=f25e518]: "#LangChain"
+                - generic [ref=f25e519]: "#RAG"
+                - generic [ref=f25e398]: "#FastAPI"
+              - 'heading "Dotodo: 음성 입력 기반 AI 개인화 할 일 추천 서비스" [level=4] [ref=f25e520]'
+              - paragraph [ref=f25e400]: LLM 응답 지연 60%↓·API 비용 60%↓. LangChain·ChromaDB RAG + MSA(Backend/Model 분리)로 모델 무중단 업그레이드. Mecab-ko 형태소 + 768D 벡터 Top-K=3 검색, LLM as a Judge 자율 품질 검증 루프.
+              - link "Case Study" [ref=f25e402] [cursor=pointer]:
+                - /url: /projects/dotodo_ko.pdf
+                - img [ref=f25e403]
+                - text: Case Study
+          - generic [ref=f25e521]:
+            - button "04 NLP Cureat" [ref=f25e522]:
+              - generic [ref=f25e523]:
+                - generic [ref=f25e524]: "04"
+                - generic [ref=f25e525]: NLP
+              - generic [ref=f25e526]:
+                - generic [ref=f25e527]: Cureat
+                - img [ref=f25e528]
+            - generic [ref=f25e531]:
+              - generic [ref=f25e532]:
+                - generic [ref=f25e533]: "#NLP"
+                - generic [ref=f25e534]: "#VectorDB"
+                - generic [ref=f25e535]: "#FastAPI"
+              - 'heading "Cureat: AI 미식 추천 시스템" [level=4] [ref=f25e536]'
+              - paragraph [ref=f25e537]: 광고성 콘텐츠 20%+ 제거한 AI 미식 큐레이션. 파편화된 비정형 데이터 수집 + Ko-BERT 필터링, Okt 형태소 분석으로 사용자 의도 파악, 2-Stage 하이브리드 검색(Vector DB 코사인 유사도)으로 개인화 추천. FastAPI 비동기 파이프라인.
+              - generic [ref=f25e538]:
+                - link "Case Study" [ref=f25e539] [cursor=pointer]:
+                  - /url: /projects/cureat_ko.pdf
+                  - img [ref=f25e540]
+                  - text: Case Study
+                - button "LIVE DEMO" [ref=f25e543]:
+                  - text: LIVE DEMO
+                  - img [ref=f25e544]
+        - generic [ref=f25e409]: More Projects
+        - generic [ref=f25e410]:
+          - generic [ref=f25e411]:
+            - button "05 ERP Backup 수일 수작업 → 정합성 100% 완전 무인 자동화" [ref=f25e546]:
+              - generic [ref=f25e547]: "05"
+              - generic [ref=f25e548]: ERP Backup
+              - generic [ref=f25e549]: 수일 수작업 → 정합성 100% 완전 무인 자동화
+            - link "Case Study" [ref=f25e550] [cursor=pointer]:
+              - /url: /portfolio.pdf#page=5
+              - img [ref=f25e551]
+              - text: Case Study
+          - generic [ref=f25e420]:
+            - button "06 Sodamdiary 운영비 30%↓·응답 30초→20초" [ref=f25e554]:
+              - generic [ref=f25e422]: "06"
+              - generic [ref=f25e423]: Sodamdiary
+              - generic [ref=f25e424]: 운영비 30%↓·응답 30초→20초
+            - link "Case Study" [ref=f25e555] [cursor=pointer]:
+              - /url: /projects/sodamdiary_ko.pdf
+              - img [ref=f25e556]
+              - text: Case Study
+          - generic [ref=f25e429]:
+            - button "07 Pictag Re-ID 정확도·학습 효율 50%↑" [ref=f25e559]:
+              - generic [ref=f25e431]: "07"
+              - generic [ref=f25e432]: Pictag
+              - generic [ref=f25e433]: Re-ID 정확도·학습 효율 50%↑
+            - link "Case Study" [ref=f25e560] [cursor=pointer]:
+              - /url: /projects/pictag_ko.pdf
+              - img [ref=f25e561]
+              - text: Case Study
+          - generic [ref=f25e438]:
+            - button "08 Hosugator TCO 80%↓ 서버리스 포트폴리오 인프라" [ref=f25e564]:
+              - generic [ref=f25e440]: "08"
+              - generic [ref=f25e441]: Hosugator
+              - generic [ref=f25e442]: TCO 80%↓ 서버리스 포트폴리오 인프라
+            - link "Case Study" [ref=f25e565] [cursor=pointer]:
+              - /url: /projects/hosugator_ko.pdf
+              - img [ref=f25e566]
+              - text: Case Study
+          - generic [ref=f25e447]:
+            - button "09 Dorosee 2025 UWC 해커톤 대상 수상작" [ref=f25e569]:
+              - generic [ref=f25e449]: "09"
+              - generic [ref=f25e450]: Dorosee
+              - generic [ref=f25e451]: 2025 UWC 해커톤 대상 수상작
+            - link "Case Study" [ref=f25e570] [cursor=pointer]:
+              - /url: /projects/dorosee_ko.pdf
+              - img [ref=f25e571]
+              - text: Case Study
+          - generic [ref=f25e456]:
+            - button "10 KDLC 피처 공학이 모델 선택을 이긴다 — 45개+ 피처로 실증" [ref=f25e574]:
+              - generic [ref=f25e458]: "10"
+              - generic [ref=f25e459]: KDLC
+              - generic [ref=f25e460]: 피처 공학이 모델 선택을 이긴다 — 45개+ 피처로 실증
+            - link "Case Study" [ref=f25e575] [cursor=pointer]:
+              - /url: /portfolio.pdf#page=12
+              - img [ref=f25e576]
+              - text: Case Study
+          - generic [ref=f25e480]:
+            - link "11 go2fit User·Exercise·Community 3축 PostgreSQL 스키마 단독 설계" [ref=f25e579] [cursor=pointer]:
+              - /url: /portfolio.pdf
+              - generic [ref=f25e580]: "11"
+              - generic [ref=f25e581]: go2fit
+              - generic [ref=f25e582]: User·Exercise·Community 3축 PostgreSQL 스키마 단독 설계
+            - link "Case Study" [ref=f25e583] [cursor=pointer]:
+              - /url: /portfolio.pdf
+              - img [ref=f25e584]
+              - text: Case Study
+      - generic [ref=f25e97]:
+        - heading "Interested in working together?" [level=2] [ref=f25e98]
+        - paragraph [ref=f25e99]: 비즈니스 가치와 기술적 구현 사이의 가교 역할을 할 수 있는 기회를 찾고 있습니다. 함께 혁신을 만들어갈 팀을 기다립니다.
+        - generic [ref=f25e100]:
+          - link "Get In Touch" [ref=f25e101] [cursor=pointer]:
+            - /url: mailto:hosugator@google.com
+            - text: Get In Touch
+            - img [ref=f25e102]
+          - generic [ref=f25e105]:
+            - link [ref=f25e106] [cursor=pointer]:
+              - /url: https://github.com/hosugator
+              - img [ref=f25e107]
+            - link [ref=f25e110] [cursor=pointer]:
+              - /url: https://linkedin.com/in/seungwanhong
+              - img [ref=f25e111]
+      - generic [ref=f25e116]:
+        - generic [ref=f25e117]:
+          - generic [ref=f25e118]: H.
+          - paragraph [ref=f25e119]: hosugator.com
+        - paragraph [ref=f25e120]: © 2026 Hosu. Designed for the AI-first era.
+        - generic [ref=f25e121]:
+          - link "Privacy" [ref=f25e122] [cursor=pointer]:
+            - /url: "#"
+          - link "Resume" [ref=f25e123] [cursor=pointer]:
+            - /url: "#"
+  - button "Open Next.js Dev Tools" [ref=f25e129] [cursor=pointer]:
+    - img [ref=f25e130]
+  - alert [ref=f25e133]

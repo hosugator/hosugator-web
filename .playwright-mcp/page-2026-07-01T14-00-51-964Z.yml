@@ -1,0 +1,196 @@
+- generic [active] [ref=f28e1]:
+  - banner [ref=f28e2]:
+    - generic [ref=f28e3]:
+      - link "HOSUGATOR." [ref=f28e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f28e5]:
+        - link "Blog" [ref=f28e6] [cursor=pointer]:
+          - /url: /blog/
+        - button "Switch to English" [ref=f28e7]:
+          - img [ref=f28e8]
+          - generic [ref=f28e11]: English
+  - main [ref=f28e12]:
+    - generic [ref=f28e15]:
+      - generic [ref=f28e16]:
+        - generic [ref=f28e17]:
+          - heading "Knowledge Graph" [level=2] [ref=f28e18]
+          - heading "Technical Expertise." [level=3] [ref=f28e19]
+        - generic [ref=f28e20]:
+          - button "Graph" [ref=f28e21]:
+            - img [ref=f28e22]
+            - generic [ref=f28e27]: Graph
+          - button "Blog" [ref=f28e28]:
+            - img [ref=f28e29]
+            - generic [ref=f28e30]: Blog
+      - generic [ref=f28e124]:
+        - generic [ref=f28e125]:
+          - img [ref=f28e126]
+          - textbox "전체 지식 베이스 검색..." [ref=f28e129]
+        - generic [ref=f28e130]:
+          - generic [ref=f28e196]:
+            - button "전체 카테고리로 돌아가기" [ref=f28e197]:
+              - img [ref=f28e198]
+              - text: 전체 카테고리로 돌아가기
+            - generic [ref=f28e200]: "Engineering: 9"
+          - generic [ref=f28e201]:
+            - article [ref=f28e202] [cursor=pointer]:
+              - generic [ref=f28e203]:
+                - generic [ref=f28e204]:
+                  - generic [ref=f28e205]:
+                    - generic [ref=f28e206]: engineering
+                    - generic [ref=f28e208]:
+                      - img [ref=f28e209]
+                      - generic [ref=f28e212]: 2 min read
+                    - generic [ref=f28e214]: Wed May 13 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "adr-frontmatter-layering" [level=4] [ref=f28e215]
+                  - generic [ref=f28e216]:
+                    - generic [ref=f28e217]: "#pkm"
+                    - generic [ref=f28e218]: "#zettelkasten"
+                    - generic [ref=f28e219]: "#frontmatter"
+                    - generic [ref=f28e220]: "#adr"
+                - img [ref=f28e222]
+            - article [ref=f28e224] [cursor=pointer]:
+              - generic [ref=f28e225]:
+                - generic [ref=f28e226]:
+                  - generic [ref=f28e227]:
+                    - generic [ref=f28e228]: engineering
+                    - generic [ref=f28e230]:
+                      - img [ref=f28e231]
+                      - generic [ref=f28e234]: 1 min read
+                    - generic [ref=f28e236]: Thu May 14 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "adr-line-detection-best-model-criterion" [level=4] [ref=f28e237]
+                  - generic [ref=f28e238]:
+                    - generic [ref=f28e239]: "#training"
+                    - generic [ref=f28e240]: "#model-selection"
+                    - generic [ref=f28e241]: "#detection-rate"
+                    - generic [ref=f28e242]: "#iou"
+                - img [ref=f28e244]
+            - article [ref=f28e246] [cursor=pointer]:
+              - generic [ref=f28e247]:
+                - generic [ref=f28e248]:
+                  - generic [ref=f28e249]:
+                    - generic [ref=f28e250]: engineering
+                    - generic [ref=f28e252]:
+                      - img [ref=f28e253]
+                      - generic [ref=f28e256]: 4 min read
+                    - generic [ref=f28e258]: Sun May 17 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "Insight - Resume as Code Tooling" [level=4] [ref=f28e259]
+                  - generic [ref=f28e260]:
+                    - generic [ref=f28e261]: "#resume"
+                    - generic [ref=f28e262]: "#tooling"
+                    - generic [ref=f28e263]: "#slidev"
+                    - generic [ref=f28e264]: "#typst"
+                    - generic [ref=f28e265]: "#workflow"
+                    - generic [ref=f28e266]: "#comparison"
+                    - generic [ref=f28e267]: "#engineering-practice"
+                - img [ref=f28e269]
+            - article [ref=f28e271] [cursor=pointer]:
+              - generic [ref=f28e272]:
+                - generic [ref=f28e273]:
+                  - generic [ref=f28e274]:
+                    - generic [ref=f28e275]: engineering
+                    - generic [ref=f28e277]:
+                      - img [ref=f28e278]
+                      - generic [ref=f28e281]: 2 min read
+                    - generic [ref=f28e283]: Mon May 11 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "adr-lmr-edge-배포전략-docker-vs-k3s" [level=4] [ref=f28e284]
+                  - generic [ref=f28e285]:
+                    - generic [ref=f28e286]: "#edge-ai"
+                    - generic [ref=f28e287]: "#docker"
+                    - generic [ref=f28e288]: "#k3s"
+                    - generic [ref=f28e289]: "#kubernetes"
+                    - generic [ref=f28e290]: "#deployment"
+                    - generic [ref=f28e291]: "#adr"
+                - img [ref=f28e293]
+            - article [ref=f28e295] [cursor=pointer]:
+              - generic [ref=f28e296]:
+                - generic [ref=f28e297]:
+                  - generic [ref=f28e298]:
+                    - generic [ref=f28e299]: engineering
+                    - generic [ref=f28e301]:
+                      - img [ref=f28e302]
+                      - generic [ref=f28e305]: 2 min read
+                    - generic [ref=f28e307]: Fri May 15 2026 09:00:00 GMT+0900 (한국 표준시)
+                  - heading "adr-business-doc-architecture" [level=4] [ref=f28e308]
+                  - generic [ref=f28e309]:
+                    - generic [ref=f28e310]: "#documentation"
+                    - generic [ref=f28e311]: "#information-architecture"
+                    - generic [ref=f28e312]: "#business"
+                - img [ref=f28e314]
+          - button "전체 9개 글 모두 보기" [ref=f28e316]:
+            - text: 전체 9개 글 모두 보기
+            - img [ref=f28e317]
+  - generic [ref=f28e320]:
+    - generic [ref=f28e321]:
+      - generic [ref=f28e322]: engineering
+      - button [ref=f28e323]:
+        - img [ref=f28e324]
+    - generic [ref=f28e328]:
+      - heading "adr-frontmatter-layering" [level=4] [ref=f28e329]
+      - article [ref=f28e330]:
+        - heading "Context" [level=2] [ref=f28e331]
+        - paragraph [ref=f28e332]:
+          - text: "[[pkm-역할-재정의]]에서 \"MOC와 태그가 유일한 탐색 구조\"로 결정했으나, frontmatter의"
+          - code [ref=f28e333]: subject
+          - text: 필드 역할이 모호했다. 초기 설계는
+          - code [ref=f28e334]: "subject: \"[[MOC - AI]]\""
+          - text: 형태로 Dataview가 해당 필드를 쿼리해 MOC를 자동 구성하는 top-down 방식이었다. 이는 사실상 폴더 시스템과 동일한 구조이며 Zettelkasten의 bottom-up 원칙과 충돌한다는 것이 명확해졌다. 동시에 subject 필드를 완전히 제거하면 "제목은 모르지만 주제는 아는" 상황에서의 탐색 수단을 잃는다. Obsidian + Dataview 조합에서 frontmatter 기반 필터링은 실용적 가치가 있다.
+        - heading "Decision" [level=2] [ref=f28e335]
+        - paragraph [ref=f28e336]:
+          - strong [ref=f28e337]: frontmatter와 본문 링크를 두 개의 독립 레이어로 분리한다.
+        - table [ref=f28e338]:
+          - rowgroup [ref=f28e339]:
+            - row "레이어 도구 인지 모드 역할" [ref=f28e340]:
+              - columnheader "레이어" [ref=f28e341]
+              - columnheader "도구" [ref=f28e342]
+              - columnheader "인지 모드" [ref=f28e343]
+              - columnheader "역할" [ref=f28e344]
+          - rowgroup [ref=f28e345]:
+            - row "Obsidian 탐색 레이어 subject, project, tags 검색/필터 \"AI 관련 노트 뭐가 있지?\"" [ref=f28e346]:
+              - cell "Obsidian 탐색 레이어" [ref=f28e347]
+              - cell "subject, project, tags" [ref=f28e348]
+              - cell "검색/필터" [ref=f28e349]
+              - cell "\"AI 관련 노트 뭐가 있지?\"" [ref=f28e350]
+            - row "Zettelkasten 지식 그래프 본문 백링크, 그래프 뷰 사고/발견 \"이 개념이 무엇과 연결되는가?\"" [ref=f28e351]:
+              - cell "Zettelkasten 지식 그래프" [ref=f28e352]
+              - cell "본문 백링크, 그래프 뷰" [ref=f28e353]
+              - cell "사고/발견" [ref=f28e354]
+              - cell "\"이 개념이 무엇과 연결되는가?\"" [ref=f28e355]
+        - paragraph [ref=f28e356]:
+          - strong [ref=f28e357]: "구체적 결정:"
+        - list [ref=f28e358]:
+          - listitem [ref=f28e359]:
+            - code [ref=f28e360]: subject
+            - text: = 도메인 필터 레이블. MOC 소속 선언이 아니다. Dataview 쿼리용 메타데이터.
+          - listitem [ref=f28e361]:
+            - code [ref=f28e362]: project
+            - text: = 출처 추적(provenance). "이 노트가 어느 맥락에서 생겼는가". 유지.
+          - listitem [ref=f28e363]:
+            - code [ref=f28e364]: tags
+            - text: = 다차원 분류. subject 단일값의 한계를 보완.
+          - listitem [ref=f28e365]:
+            - strong [ref=f28e366]: 본문 링크가 실제 Zettelkasten 구조의 1차 수단
+            - text: 이다. frontmatter는 탐색 편의 레이어.
+          - listitem [ref=f28e367]:
+            - text: 그래프 뷰는 per-note 습관이 아니라
+            - strong [ref=f28e368]: 주기적 vault review
+            - text: 시 활용.
+          - listitem [ref=f28e369]: 노트 작성 시 핵심 습관 = 관련 노트 1-2개 본문에 백링크 추가.
+        - heading "Consequences" [level=2] [ref=f28e370]
+        - list [ref=f28e371]:
+          - listitem [ref=f28e372]: frontmatter의 역할이 축소되지만 제거하지 않는다. 두 레이어는 충돌하지 않고 다른 목적을 수행한다.
+          - listitem [ref=f28e373]:
+            - text: MOC는 Dataview top-down 구성 대신
+            - strong [ref=f28e374]: 본문 링크가 모이는 곳에 자연 발생
+            - text: 하는 방식으로 전환.
+          - listitem [ref=f28e375]: Obsidian 그래프 뷰의 연결망이 실질적인 지식 지형도가 됨 → 백링크 밀도가 PKM 품질 지표.
+          - listitem [ref=f28e376]:
+            - code [ref=f28e377]: Attention 개념 정리.md
+            - text: 처럼 기존 방대한 노트를 원자화하고 MOC로 전환하는 작업이 이 결정의 실천 사례.
+        - heading "Succeeding" [level=2] [ref=f28e378]
+        - list [ref=f28e379]:
+          - listitem [ref=f28e380]: "[[pkm-역할-재정의]] — PKM 역할 재정의 (상위 ADR)"
+          - listitem [ref=f28e381]: "[[My Zettelkasten Principles; Hybrid Approach]] — Zettelkasten 운영 원칙"
+  - button "Open Next.js Dev Tools" [ref=f28e108] [cursor=pointer]:
+    - img [ref=f28e109]
+  - alert [ref=f28e123]

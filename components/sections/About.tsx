@@ -5,46 +5,54 @@ import Image from 'next/image';
 
 export default function About() {
   const { t } = useTranslation();
-  
+
   return (
     <section id="about" className="min-h-screen flex flex-col justify-center py-24">
-      {/* Layout에서 ml을 잡았으므로 추가 마진 없이 바로 시작 */}
-      <h2 className="text-[14px] font-bold tracking-[0.5em] uppercase text-[#13ecda] mb-8">
-        {t.about.topLabel}
-      </h2>
+      {/* 상단 마스트헤드 */}
+      <div className="flex items-center justify-between border-b border-neutral-900 pb-4 mb-12 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400">
+        <span className="text-neutral-900">{t.about.topLabel}</span>
+        <span className="hidden sm:inline">( 2026 )</span>
+        <span className="text-neutral-900">Seungwan Hong</span>
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-        {/* 왼쪽: 텍스트 및 강조 영역 */}
-        <div className="lg:col-span-7 space-y-8">
-          <h3 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 leading-tight">
-            {t.about.title.main} <br />
-            <span className="text-[#13ecda]">{t.about.title.highlight}</span>
-          </h3>
-          
-          <div className="space-y-6 text-xl font-extralight leading-relaxed text-slate-400">
-            {t.about.content.map((item, i) => (
-              <p key={i}>
-                {item.text}
-              </p>
-            ))}
-          </div>
+      {/* 아이덴티티 행: 작은 원형 아바타 + 이름/직무 */}
+      <div className="flex items-center gap-4 mb-10">
+        <div className="relative w-16 h-16 rounded-full overflow-hidden bg-neutral-100 shrink-0 ring-1 ring-neutral-200">
+          <Image
+            src="/images/my-profile.jpg"
+            alt="Seungwan Hong"
+            fill
+            className="object-cover grayscale"
+            priority
+          />
         </div>
+        <div>
+          <div className="text-base font-bold text-neutral-900 leading-tight">Seungwan Hong</div>
+          <div className="text-sm text-neutral-500">AI Engineer</div>
+        </div>
+      </div>
 
-        {/* 오른쪽: 이미지 카드 */}
-        <div className="lg:col-span-4">
-          <div className="relative aspect-[4/5] bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group">
-            <div className="absolute inset-0 flex items-center justify-center text-slate-300 text-xs font-mono uppercase tracking-widest">
-              <Image 
-                src="/images/my-profile.jpg" 
-                alt="Seung Wan Profile"
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                priority // Hero 섹션과 가까우므로 우선순위 로딩
-              />            
-            </div>
-            <div className="absolute inset-4 border border-[#13ecda]/20 rounded-xl pointer-events-none group-hover:inset-2 transition-all duration-500" />
+      {/* 디스플레이 타이틀 */}
+      <h3 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.95] text-neutral-900 mb-10">
+        {t.about.title.main}<br />
+        <span>{t.about.title.highlight}</span>
+      </h3>
+
+      {/* 정량 지표 */}
+      <div className="flex flex-wrap gap-x-16 gap-y-6 border-y border-neutral-900 py-6 mb-10">
+        {t.about.stats.map((stat) => (
+          <div key={stat.label}>
+            <div className="text-4xl md:text-5xl font-black tracking-tight text-neutral-900 leading-none">{stat.value}</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 mt-3">{stat.label}</div>
           </div>
-        </div>
+        ))}
+      </div>
+
+      {/* 서술 (단일 컬럼, 내용 집중) */}
+      <div className="space-y-5 text-[15px] md:text-base font-light leading-relaxed text-neutral-600">
+        {t.about.content.map((item, i) => (
+          <p key={i}>{item.text}</p>
+        ))}
       </div>
     </section>
   );

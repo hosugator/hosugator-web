@@ -12,7 +12,17 @@ interface Node {
   date?: string;
   tags?: string[];
   type?: string;
+  project?: string;
+  category?: string;
 }
+
+// 위키링크("[[X]]") · 배열 → 순수 문자열
+const stripWiki = (v: unknown): string | undefined => {
+  if (v == null) return undefined;
+  const s = Array.isArray(v) ? String(v[0] ?? '') : String(v);
+  const cleaned = s.replace(/\[\[|\]\]/g, '').trim();
+  return cleaned || undefined;
+};
 
 interface Link {
   source: string;
@@ -46,6 +56,8 @@ export function getGraphData() {
         const { data, content } = matter(fs.readFileSync(fullPath, 'utf8'));
         const date = data.date || data.created || data.updated || undefined;
         const tags = Array.isArray(data.tags) ? data.tags : (data.tags ? [data.tags] : []);
+        // category = frontmatter subject 우선, 없으면 폴더 최상위 fallback
+        const category = stripWiki(data.subject) || (id.includes('/') ? id.split('/')[0] : undefined) || 'general';
         nodes.push({
           id,
           label: data.title || item.replace('.md', ''),
@@ -55,6 +67,8 @@ export function getGraphData() {
           date: date ? String(date) : undefined,
           tags,
           type: data.type || undefined,
+          project: stripWiki(data.project),
+          category,
         });
         links.push({ source: parentId, target: id });
       }

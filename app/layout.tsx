@@ -1,32 +1,42 @@
 // app/layout.tsx
 "use client";
 import "./globals.css";
-import { Inter } from "next/font/google";
-import Sidebar from "@/components/layout/Sidebar";
-import MobileNav from "@/components/layout/MobileNav";
+import { Space_Grotesk, Noto_Sans_KR } from "next/font/google";
+import TopNav from "@/components/layout/TopNav";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
-const inter = Inter({ subsets: ["latin"] });
+// 모노 에디토리얼 그로테스크 — 라틴(Space Grotesk) + 국문(Noto Sans KR) 자체 호스팅
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+const notoSansKr = Noto_Sans_KR({
+  weight: ["300", "400", "500", "700", "900"],
+  variable: "--font-noto-sans-kr",
+  display: "swap",
+  preload: false,
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className="overflow-x-hidden">
+    <html lang="ko" className={`${spaceGrotesk.variable} ${notoSansKr.variable} overflow-x-hidden`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </head>
-      <body className={`${inter.className} bg-white text-slate-900 antialiased overflow-x-hidden touch-pan-y`}>
+      <body className={`bg-white text-neutral-900 antialiased overflow-x-hidden touch-pan-y`}>
         <LanguageProvider>
-          <MobileNav />
-          <div className="flex flex-col md:flex-row min-h-screen w-full overflow-x-hidden">
-            <Sidebar />
-            
-            <main className="flex-1 md:ml-40 min-w-0 bg-white pt-16 md:pt-0">
-              {/* 승완님의 scale 설정을 유지하면서 내부 콘텐츠만 축소 */}
-              <div className="w-full md:w-full scale-[0.8] md:scale-100 origin-top w-[125%] md:w-full px-4 md:px-12 py-6 md:py-12 overflow-x-hidden">
-                {children}
-              </div>
-            </main>
-          </div>
+          <TopNav />
+          <main className="relative min-h-screen w-full overflow-x-hidden pt-28 md:pt-32">
+            {/* 은은한 그라디언트 글로우 (daypunk 무드) */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(60%_55%_at_50%_0%,rgba(53,97,142,0.10),transparent_70%)]"
+            />
+            {/* 폭은 각 페이지가 제어 (홈=중앙 컬럼 / 블로그=풀너비) */}
+            {children}
+          </main>
           {/* Portal용 루트: 반드시 여기에 있어야 scale의 영향을 받지 않습니다 */}
           <div id="modal-root" />
         </LanguageProvider>
