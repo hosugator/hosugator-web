@@ -3,14 +3,14 @@
 import { projectsDataEn } from '@/data/projectsData.en'; // 영어 데이터 추가
 import { useLanguage } from '@/contexts/LanguageContext'; // 추가
 import { useState, useEffect } from 'react';
-import { FileText, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { FileText, ArrowRight, ArrowUpRight, BookOpen } from 'lucide-react';
 import { projectsData } from '@/data/projectsData';
 import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
 import { useSearchParams, useRouter } from 'next/navigation'; // Next.js 파라미터 훅 추가
 
 // 대표작(Selected Work) — 프로젝트명(콜론 앞) 기준, 배열 순서대로 노출
-const FEATURED = ['AlignAI', 'Edge AI LMR', 'Dotodo', 'Cureat'];
+const FEATURED = ['AlignAI', 'Dotodo', 'Cureat'];
 const shortNameOf = (title: string) => title.split(':')[0].trim();
 
 export default function Projects() {
@@ -130,6 +130,9 @@ export default function Projects() {
                 <div className="flex items-center gap-5 mt-auto pt-5 text-xs">
                   <a href={project.pdfLink} target="_blank" rel="noopener noreferrer" className="font-bold flex items-center gap-1.5 text-neutral-400 hover:text-accent transition-colors">
                     <FileText size={14} /> Case Study
+                  </a>
+                  <a href={`/blog?project=${encodeURIComponent(shortNameOf(project.title))}`} className="font-bold flex items-center gap-1.5 text-neutral-400 hover:text-accent transition-colors">
+                    <BookOpen size={14} /> {locale === 'en' ? 'Related Notes' : '관련 노트'}
                   </a>
                   {isCureat && (
                     <button
