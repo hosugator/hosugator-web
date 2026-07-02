@@ -141,8 +141,10 @@ export default function Knowledges({ initialData }: { initialData: any }) {
           <ArrowLeft size={18} /> {locale === 'en' ? 'Back' : '돌아가기'}
         </button>
 
-        {/* 사이드바: 화면 왼쪽에 고정 */}
-        <aside className="hidden md:flex flex-col fixed left-0 top-0 bottom-0 w-60 z-10 border-r border-neutral-200/70 bg-[#f4f2ec] pt-32 pb-10 px-6 overflow-y-auto scrollbar-hide">
+        {/* 사이드바+본문: flex 상대 배치로 서로 밀어내 겹침 방지 (절대 고정 X) */}
+        <div className="md:flex md:items-start min-h-full">
+        {/* 사이드바: sticky로 스크롤 시 상단 고정, 폭은 flow에서 차지 */}
+        <aside className="hidden md:flex flex-col md:sticky md:top-0 md:h-screen w-60 shrink-0 z-10 border-r border-neutral-200/70 bg-[#f4f2ec] pt-32 pb-10 px-6 overflow-y-auto scrollbar-hide">
           <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-neutral-400 mb-4">
             <span className="w-2 h-2 rounded-full" style={{ background: colorOf[noteCat] || '#94a3b8' }} />
             {formatCategoryName(noteCat)}
@@ -163,8 +165,8 @@ export default function Knowledges({ initialData }: { initialData: any }) {
           </div>
         </aside>
 
-        {/* 본문: 화면(뷰포트) 전체 기준 중앙 정렬, 메인보다 넓게 */}
-        <article className="max-w-5xl mx-auto px-6 pt-32 md:pt-36 pb-32 text-neutral-800">
+        {/* 본문: 남은 공간을 채우고 그 안에서 중앙 정렬 (사이드바와 겹치지 않음) */}
+        <article className="flex-1 min-w-0 max-w-4xl mx-auto px-6 pt-32 md:pt-36 pb-32 text-neutral-800">
             <div className="text-xs font-bold tracking-[0.25em] uppercase text-accent mb-4">
               {selectedNode.parentId?.split('/').pop() || 'Note'}
             </div>
@@ -203,6 +205,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
               </ReactMarkdown>
             </div>
         </article>
+        </div>
       </div>,
       modalRoot
     );
