@@ -72,35 +72,36 @@ export default function About() {
                 type="button"
                 onClick={() => setOpenInsight(open ? null : i)}
                 aria-expanded={open}
-                className="w-full text-left py-5"
+                className="w-full text-left py-3.5 group"
               >
-                <div className="flex items-start gap-4">
-                  <span className="shrink-0 mt-1 text-xs font-mono font-bold text-neutral-300">
+                <div className="flex items-baseline gap-3">
+                  <span className="shrink-0 text-[11px] font-mono font-bold text-neutral-300">
                     {item.number}
                   </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-base md:text-lg font-semibold text-neutral-900 leading-snug">
-                      &ldquo;{item.principle}&rdquo;
-                    </p>
-                    <span className="inline-block mt-2 text-[11px] font-bold text-neutral-400 tracking-wide">
-                      {item.project}
-                    </span>
-                    <div
-                      className={`grid transition-all duration-300 ${open ? "grid-rows-[1fr] mt-3" : "grid-rows-[0fr]"}`}
-                    >
-                      <div className="overflow-hidden">
-                        <p className="text-sm md:text-[15px] font-light leading-relaxed text-neutral-500">
-                          {item.desc}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  <p className="min-w-0 flex-1 text-[15px] md:text-base font-semibold text-neutral-900 leading-snug">
+                    &ldquo;{item.principle}&rdquo;
+                  </p>
                   <span
-                    className={`shrink-0 mt-1 text-neutral-300 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+                    className={`shrink-0 text-neutral-300 group-hover:text-neutral-500 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
                     aria-hidden
                   >
-                    <Plus size={16} />
+                    <Plus size={15} />
                   </span>
+                </div>
+                {/* 펼침: 맥락 + 프로젝트 태그 */}
+                <div
+                  className={`grid transition-all duration-300 ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="pl-7 pt-3">
+                      <p className="text-sm md:text-[15px] font-light leading-relaxed text-neutral-500">
+                        {item.desc}
+                      </p>
+                      <span className="inline-block mt-3 text-[11px] font-bold text-neutral-400 tracking-wide">
+                        {item.project}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </button>
             );
