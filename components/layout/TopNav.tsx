@@ -2,11 +2,20 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Github, Linkedin, FileDown } from "lucide-react";
 import LanguageToggle from "@/components/ui/LanguageToggle";
 
 export default function TopNav() {
   const pathname = usePathname();
+  // 노트 포커스 리딩 모드에선 플로팅 바를 숨긴다 (Knowledges에서 hg:note 디스패치)
+  const [noteOpen, setNoteOpen] = useState(false);
+  useEffect(() => {
+    const h = (e: Event) =>
+      setNoteOpen(!!(e as CustomEvent).detail?.open);
+    window.addEventListener("hg:note", h);
+    return () => window.removeEventListener("hg:note", h);
+  }, []);
   // 같은 페이지면 최상단으로 스크롤, 다른 페이지면 Link가 이동(도착 시 top)
   const toTopIfSame = (isCurrent: boolean) => (e: React.MouseEvent) => {
     if (isCurrent) {
@@ -14,6 +23,8 @@ export default function TopNav() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
+
+  if (noteOpen) return null;
 
   return (
     <header className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] w-[calc(100%-1.5rem)] max-w-3xl print:hidden">
