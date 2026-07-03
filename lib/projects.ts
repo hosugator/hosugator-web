@@ -180,6 +180,157 @@ export const PROJECT_MERMAID: Record<string, string[]> = {
   ],
 };
 
+// 영문 다이어그램 — PROJECT_MERMAID와 동일 구조, 라벨만 영문. EN 로케일에서 사용.
+export const PROJECT_MERMAID_EN: Record<string, string[]> = {
+  'edge-ai-lmr': [
+    `flowchart TB
+  PLC["PLC Equipment · 10ms sensors"]
+  subgraph EDGE["Edge · k3s (GPU)"]
+    ENGINE["data-engine"]
+    subgraph CHAIN["3-Stage AI Chain"]
+      M1["M1 · 1D-CNN AE"] --> M2["M2 · LSTM+XGBoost"] --> M3["M3 · DQN prescription"]
+    end
+    HMI["React+TS HMI"]
+    ENGINE -->|"gRPC · WARM"| CHAIN
+    CHAIN --> HMI
+  end
+  PLC -->|"MQTT Binary · HOT"| ENGINE
+  ENGINE -->|"Parquet · COLD"| LAKE[("Data Lake")]
+  M3 -->|"Set-point feedback"| PLC
+  LAKE -.->|retrain| CHAIN`,
+  ],
+  'alignai': [
+    `flowchart TB
+  subgraph INFER["Inference · k3s Edge"]
+    IMG["Process image"] --> UNET["U-Net · EfficientNet-B0"] --> CTR["Centerline → actuator"]
+  end
+  subgraph MLOPS["GitOps ML CI/CD"]
+    GH["GitHub SSOT"] --> CI["ci.yml · build"] --> GHCR["GHCR"] --> ARGO["Argo CD"]
+    GH -.->|"workflow_dispatch"| TRAIN["train.yml · GPU Job"]
+    TRAIN --> ONNX["ONNX"] --> GHCR
+  end
+  ARGO -->|"rolling deploy"| INFER`,
+  ],
+  'erp-backup': [
+    `flowchart TB
+  ERP["K-System Ace · legacy ERP"]
+  subgraph BOT["Playwright automation engine"]
+    POM["POM pattern"] --> ASYNC["Promise.all concurrency"] --> POPUP["Dynamic popup handling"]
+  end
+  ERP <-->|"unofficial UI automation"| BOT
+  ENV[".env credentials"] -.-> BOT
+  BOT --> CSV["CSV full audit log"]
+  CSV -.->|"checkpoint reprocessing"| BOT`,
+  ],
+  'dotodo': [
+    `flowchart TB
+  App["App · STT voice input"]
+  App -->|REST| BE["Backend · AWS EC2"]
+  BE --> DB[("PostgreSQL")]
+  BE -->|"inference request"| MECAB
+  subgraph MS["Model Server · AWS EC2 · RAG"]
+    MECAB["Mecab-ko morphology"] --> EMB["768D embedding"] --> CHROMA[("ChromaDB · Top-K=3")]
+    CHROMA --> LLM["LLM recommend"] --> JUDGE["LLM-as-Judge"]
+    JUDGE -.->|"regenerate low score"| LLM
+  end`,
+  ],
+  'sodamdiary': [
+    `flowchart TB
+  App["App · photo / STT"] -->|REST| API["FastAPI · Docker (AWS EC2)"]
+  subgraph PIPE["VLM 3-Stage · OpenVINO 4-bit"]
+    BLIP["BLIP · caption"] --> LLM["LLM · narration"]
+    CLIP["CLIP · emotion Top-3"] --> LLM
+  end
+  API -->|"asyncio.gather"| PIPE
+  LLM --> TTS["TTS voice"] --> App`,
+  ],
+  'pictag': [
+    `flowchart TB
+  CAM["Store CCTV · RTSP"]
+  subgraph EDGE["Edge (no GPU) · OpenVINO INT8 · 4-Thread"]
+    CAP["Capture"] --> DET["Detection · YOLO"] --> EMB["Embedding · Attention"] --> REID["Re-ID"]
+  end
+  CAM --> CAP
+  REID --> WS["Django + WebSocket"] --> DASH["Heatmap dashboard"]`,
+  ],
+  'hosugator': [
+    `flowchart TB
+  User["Visitor"] --> R53["Route 53 + ACM"] --> CFN
+  subgraph AWS["AWS · Serverless"]
+    CFN["CloudFront CDN"] --> S3["S3 · static hosting"]
+  end
+  GH["GitHub"] -->|push| GA["GitHub Actions"]
+  GA -.->|"OIDC short-lived token"| AWS
+  GA -->|"next build → out/"| S3`,
+  ],
+  'cureat': [
+    `flowchart TB
+  subgraph COLLECT["Collect · asyncio.gather"]
+    REST["REST API"]
+    CRAWL["Web crawling"]
+    RSS["RSS"]
+  end
+  COLLECT --> FILTER["Ko-BERT ad filter"] --> VDB[("Vector DB · ChromaDB")]
+  App["React Native app"] -->|search| API["FastAPI"]
+  API --> S1["Stage1 · cosine similarity"] --> S2["Stage2 · location Re-rank"]
+  VDB --> S1
+  S2 --> App`,
+  ],
+  'dorosee': [
+    `flowchart TB
+  subgraph TRIG["Triple trigger · 2/3 + 10s sustained"]
+    VIS["YOLOv8 vision"]
+    MOT["MediaPipe motion"]
+    VOX["STT wakeword"]
+  end
+  TRIG --> FUSE["Weighted fusion decision"]
+  FUSE --> LLM["LLM dialogue"] --> TTS["TTS"]
+  FUSE --> AED["AED auto-report"]
+  FUSE --> UGV["UGV control · Unity 3D HAL"]`,
+  ],
+  'kdlc': [
+    `flowchart LR
+  DATA["Distribution data"] --> FE["45+ feature engineering"]
+  FE --> CV["TimeSeriesSplit"]
+  CV --> SAR["SARIMA"]
+  CV --> LSTM["LSTM"]
+  CV --> LGBM["LightGBM"]
+  SAR --> ENS["Weighted ensemble · inverse RMSE"]
+  LSTM --> ENS
+  LGBM --> ENS
+  ENS --> PRED["Demand forecast"]`,
+  ],
+  'go2fit': [
+    `flowchart TB
+  App["Flutter App · Android"]
+  App -->|"go2fits.com"| CF["Cloudflare · DNS"]
+  CF -->|"REST · JWT"| API
+  App -.->|OAuth| KAKAO["Kakao Login"]
+  App -.-> ADMOB["AdMob"]
+  App -->|release| STORE["Google Play Store"]
+  subgraph ORACLE["Oracle Cloud · k3s"]
+    API["FastAPI Server"]
+    subgraph MLP["ML pipeline"]
+      POSE["MediaPipe Pose · 33 landmarks"] --> RULES["Rule Analyzers · Squat/Bench/Deadlift"]
+    end
+    DB[("PostgreSQL")]
+    API --> MLP
+    API --> DB
+  end
+  subgraph DEVOPS["Dev & Ops"]
+    JIRA["Jira · Confluence"]
+    GITLAB["GitLab CI/CD"]
+  end
+  GITLAB -->|deploy| ORACLE`,
+  ],
+};
+
+// 로케일에 맞는 다이어그램 반환 (EN 없으면 KO로 폴백)
+export function getMermaid(slug: string, locale: 'ko' | 'en'): string[] | undefined {
+  if (locale === 'en' && PROJECT_MERMAID_EN[slug]) return PROJECT_MERMAID_EN[slug];
+  return PROJECT_MERMAID[slug];
+}
+
 export const PROJECT_FLOWS: Record<string, Flow[]> = {
   'edge-ai-lmr': [
     { label: '4-Tier Architecture', stages: ['Field', 'Control', 'Edge', 'Cloud'] },

@@ -8,7 +8,7 @@ import {
   getProject,
   shortNameOf,
   PROJECT_FLOWS,
-  PROJECT_MERMAID,
+  getMermaid,
   flowToMermaid,
 } from "@/lib/projects";
 import { projectDetails } from "@/data/projectDetails";
@@ -64,6 +64,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
 
   const name = shortNameOf(project.title);
   const flows = PROJECT_FLOWS[slug] || [];
+  const mermaids = getMermaid(slug, locale);
   // 리치 상세 — 로케일별 콘텐츠 (국문/영문)
   const detail = (locale === "en" ? projectDetailsEn : projectDetails)[slug];
   const isCureat = name.toLowerCase() === "cureat";
@@ -141,14 +142,14 @@ export default function ProjectDetail({ slug }: { slug: string }) {
       </section>
 
       {/* 아키텍처 다이어그램 (Mermaid) */}
-      {(PROJECT_MERMAID[slug] || flows.length > 0) && (
+      {(mermaids || flows.length > 0) && (
         <section className="mb-12">
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-400 mb-5">
             {t.arch}
           </div>
           <div className="space-y-6">
-            {PROJECT_MERMAID[slug]
-              ? PROJECT_MERMAID[slug].map((m, i) => (
+            {mermaids
+              ? mermaids.map((m, i) => (
                   <Mermaid key={i} chart={m} />
                 ))
               : flows.map((f, i) => (
