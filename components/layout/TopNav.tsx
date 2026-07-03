@@ -2,7 +2,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Github, Linkedin } from "lucide-react";
+import { Github, Linkedin, FileDown } from "lucide-react";
 import LanguageToggle from "@/components/ui/LanguageToggle";
 
 export default function TopNav() {
@@ -43,6 +43,18 @@ export default function TopNav() {
           </a>
 
           <span className="w-px h-4 bg-neutral-200" />
+
+          {/* Resume — 클릭 시 PDF 새 탭으로 바로 열림 (보조 CTA, 아웃라인) */}
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download resume PDF"
+            className="inline-flex items-center gap-1 rounded-full border border-neutral-200 px-3 py-1 text-xs font-bold text-neutral-500 hover:text-accent hover:border-accent transition-colors"
+          >
+            <FileDown size={13} />
+            <span className="hidden sm:inline">Resume</span>
+          </a>
 
           {/* Blog — 강조 액센트 필 + 글로우로 유입 유도 */}
           <Link

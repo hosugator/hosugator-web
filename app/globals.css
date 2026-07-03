@@ -55,9 +55,15 @@ summary {
 /* 인쇄(PDF 저장) 최적화 — 이력서 페이지 */
 @media print {
   @page {
-    margin: 15mm;
+    size: A4;
+    margin: 13mm 18mm;
   }
   body {
     background: #ffffff;
+  }
+  /* 액센트 등 색상 잉크 유지 */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
