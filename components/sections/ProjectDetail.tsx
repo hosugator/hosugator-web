@@ -49,7 +49,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
   const relatedHref = `/blog?project=${encodeURIComponent(name)}`;
 
   return (
-    <div className="max-w-3xl mx-auto px-6 pt-24 md:pt-28 pb-32 text-neutral-900">
+    <div className="max-w-5xl mx-auto px-6 pt-24 md:pt-28 pb-32 text-neutral-900">
       <Link href="/#projects" className="inline-flex items-center gap-2 text-sm font-bold text-neutral-500 hover:text-neutral-900 transition-colors mb-12">
         <ArrowLeft size={18} /> {t.back}
       </Link>

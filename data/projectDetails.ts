@@ -143,15 +143,15 @@ export const projectDetails: Record<string, ProjectDetailContent> = {
     stack: ['SARIMA', 'LSTM', 'LightGBM', 'TimeSeriesSplit', 'pandas', 'scikit-learn', 'PyTorch'],
   },
   'go2fit': {
-    context: '운동 기록과 커뮤니티 소셜을 결합한 iOS 피트니스 앱으로, FastAPI 백엔드부터 AI 자세 분석 파이프라인, 클라우드 인프라, Flutter 앱까지 풀스택으로 구축했습니다. 체육관의 불안정한 네트워크 환경, 카카오 기반 인증 보안, GPU 없는 저비용 클라우드에서의 영상 AI 분석이라는 실제 운영 제약을 동시에 해결해야 했습니다.',
+    context: '운동 기록과 커뮤니티 소셜을 결합한 Android 우선 피트니스 앱으로, FastAPI 백엔드부터 AI 자세 분석 파이프라인, 클라우드 인프라, Flutter 앱까지 풀스택으로 구축했습니다. 체육관의 불안정한 네트워크 환경, 카카오 기반 인증 보안, GPU 없는 저비용 클라우드에서의 영상 AI 분석이라는 실제 운영 제약을 동시에 해결해야 했습니다.',
     decision: 'Kakao OAuth 기반 JWT 이중 토큰(Rotation) 인증, MediaPipe 33점 랜드마크 규칙 기반 자세 분석, 오프라인 싱크큐(Idempotency + Bulk)를 축으로 설계했습니다. 클라우드는 공급자 비용 비교 후 Oracle x86 Paid($27/월)를 선택하고, Docker 멀티스테이지 + GitLab CI/CD + k3s로 배포했습니다. 클라이언트는 Flutter Feature-based Clean Architecture로 구성했습니다.',
     implementation: [
       { title: '데이터 모델 & Kakao OAuth JWT', body: 'users→session→exercise→set→rep_analysis 계층의 운동 기록 5개 테이블, 인증 3개, 커뮤니티 3개 등 10개 테이블을 설계했습니다. 카카오 서버 검증 후 Access(15분)/Refresh(30일) JWT를 발급하고, raw 토큰은 클라이언트에만·DB에는 SHA-256 해시만 저장하며 Refresh 재사용 감지 시 해당 유저의 모든 토큰을 즉시 블랙리스트 등록합니다. Hypothesis property-based testing으로 토큰 위조·만료·재사용 경계값을 자동 검증합니다.' },
       { title: 'MediaPipe AI 자세 분석 파이프라인', body: '영상 업로드 시 202를 즉시 반환하고 비동기로 처리합니다. OpenCV 프레임 추출 → MediaPipe Pose 33 landmarks → ExerciseAnalyzer(도메인 계층, DB·HTTP 의존성 없음) → Rep 단위 score 0~100·feedback[] → DB 저장. BenchPress·Squat·Deadlift 3종목을 규칙 기반으로 독립 모듈화해 SUPPORTED_EXERCISES dict에 1줄 등록으로 신규 종목을 추가합니다.' },
       { title: '오프라인 싱크큐 + Bulk API', body: '체육관 불안정 네트워크에 대응해 X-Idempotency-Key 미들웨어로 중복 요청 시 재실행 없이 저장된 응답을 반환(Cache HIT)합니다. Bulk API는 최대 100개를 All-or-Nothing 원자성으로 처리해 하나만 실패해도 전체 롤백하며, SQLAlchemy bulk_insert_mappings로 DB 부하를 최소화합니다.' },
-      { title: 'Oracle 클라우드 & Flutter PosePainter', body: 'Oracle x86 Paid $27/월(AWS $61·Azure $70~80 대비)을 선택하고 OCIR 5GB 무료·춘천 리전을 활용, Docker 멀티스테이지와 GitLab CI/CD(k3s ctr import → rollout restart → alembic upgrade → git tag 자동 채번)로 배포했습니다. Flutter는 서버가 반환한 랜드마크(Float32List 33점)를 CustomPainter(PosePainter)로 VideoPlayer 위에 렌더링하고, Paint 객체 캐싱·visibility 필터로 GC thrashing을 방지하며 JWT는 flutter_secure_storage(iOS Keychain)에 저장합니다.' },
+      { title: 'Oracle 클라우드 & Flutter PosePainter', body: 'Oracle x86 Paid $27/월(AWS $61·Azure $70~80 대비)을 선택하고 OCIR 5GB 무료·춘천 리전을 활용, Cloudflare에서 확보한 go2fits.com 도메인·DNS로 서비스합니다. Docker 멀티스테이지와 GitLab CI/CD(k3s ctr import → rollout restart → alembic upgrade → git tag 자동 채번)로 배포했습니다. Flutter는 서버가 반환한 랜드마크(Float32List 33점)를 CustomPainter(PosePainter)로 VideoPlayer 위에 렌더링하고, Paint 객체 캐싱·visibility 필터로 GC thrashing을 방지하며 JWT는 flutter_secure_storage(Android Keystore)에 저장합니다.' },
     ],
-    results: 'FastAPI + SQLAlchemy + PostgreSQL 백엔드와 Flutter iOS 앱을 App Store에 출시했습니다(백엔드 2025.11~, 앱 2026~). go2fits.com HTTPS로 서비스하며 Oracle x86 $27/월 인프라로 AWS·Azure 대비 절반 이하 비용을 달성했습니다. Kakao OAuth JWT Rotation 보안, MediaPipe 3종목 자세 분석, 오프라인 싱크큐를 실제 운영 환경에서 검증했습니다.',
-    stack: ['FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Alembic', 'Pydantic v2', 'Kakao OAuth', 'JWT', 'Hypothesis', 'MediaPipe', 'OpenCV', 'Docker multi-stage', 'k3s', 'Oracle Cloud', 'GitLab CI/CD', 'Flutter', 'Provider', 'CustomPainter', 'flutter_secure_storage'],
+    results: 'FastAPI + SQLAlchemy + PostgreSQL 백엔드와 Flutter 앱(Android 우선)을 Google Play Store에 출시했습니다(백엔드 2025.11~, 앱 2026~). Cloudflare에서 확보한 go2fits.com 도메인·DNS로 HTTPS 서비스하며 Oracle x86 $27/월 인프라로 AWS·Azure 대비 절반 이하 비용을 달성했습니다. Kakao OAuth JWT Rotation 보안, MediaPipe(33 landmarks) 규칙 기반 3종목 자세 분석, 오프라인 싱크큐를 실제 운영 환경에서 검증했습니다.',
+    stack: ['FastAPI', 'SQLAlchemy', 'PostgreSQL', 'Alembic', 'Pydantic v2', 'Kakao OAuth', 'JWT', 'Hypothesis', 'MediaPipe', 'OpenCV', 'Cloudflare', 'Docker multi-stage', 'k3s', 'Oracle Cloud', 'GitLab CI/CD', 'Flutter', 'Android', 'CustomPainter', 'flutter_secure_storage'],
   },
 };
