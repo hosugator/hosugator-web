@@ -1,7 +1,7 @@
 // data/insightsData.en.ts
 export const insightsDataEn = {
   topLabel: "Engineering Principles",
-  title: "3 Engineering\nPrinciples.",
+  title: "Engineering\nPrinciples.",
   items: [
     {
       number: "01",
@@ -12,17 +12,59 @@ export const insightsDataEn = {
     },
     {
       number: "02",
+      title: "Automation",
+      principle: "Any bottleneck that repeats 3+ times must be automated.",
+      desc: "In week one, under a no-API constraint, I turned manual backup of tens of thousands of approval documents into 100%-consistent unattended automation via a Playwright agentic pipeline. But in git-worktree multi-branch parallel work, the human limit on holding context is the real bottleneck — define the scope of automation first to avoid yak shaving.",
+      project: "ERP Backup",
+    },
+    {
+      number: "03",
       title: "Systems Design",
       principle: "Define the data's Golden Key first — the rest of the system follows.",
       desc: "When multi-axis sensor data couldn't be joined by timestamp alone, I set Cycle_ID as the Golden Key — enabling single-key joins across every layer and an immediate anomaly reproduction loop. The data model must be defined before the infrastructure.",
       project: "Edge AI LMR",
     },
     {
-      number: "03",
+      number: "04",
+      title: "Evaluation Design",
+      principle: "Whether a model is good is decided by how you design its evaluation.",
+      desc: "With a <1% anomaly rate on Edge AI LMR, 99% accuracy was meaningless — so I redefined AUROC as the core metric. On Dotodo, an LLM-as-a-Judge loop validated quality without humans and cut API cost 60%. No deployment without evaluation.",
+      project: "Edge AI LMR · Dotodo",
+    },
+    {
+      number: "05",
+      title: "Trade-offs",
+      principle: "The sweet spot between accuracy and latency is decided only by field data.",
+      desc: "On AlignAI I chose CPU ONNX Runtime over TensorRT after measuring field inference frequency and hardware. Confirming ~330ms was ample against the process cycle, I kept the structure simple. The latest tech isn't always the field optimum.",
+      project: "AlignAI",
+    },
+    {
+      number: "06",
+      title: "ML Pipeline Design",
+      principle: "Checkpoints must separate the resume, best and deploy roles.",
+      desc: "In multi-class training, the intuitive \"latest = copy of best\" caused resume to regress when best was an early epoch. Splitting into latest.pth / best_vN.pth / best_vN.onnx structurally removed the role mixing. Mix two roles in one file and they will collide.",
+      project: "AlignAI",
+    },
+    {
+      number: "07",
       title: "Agent Design",
       principle: "Who controls the loop is the dividing line between an LLM call and an agent.",
       desc: "I implemented tool_calls branching (code-controlled) and a ReAct loop (the model decides each turn whether to end while True) in sequence, internalizing the structural difference at the code level. As control shifts to the model, expressiveness and debugging difficulty rise together.",
       project: "AlignAI LLM Agent",
+    },
+    {
+      number: "08",
+      title: "Business Sense",
+      principle: "A technically better decision isn't always better once relationship and business cost are counted.",
+      desc: "As an EPC PM I chose a spec three countries could agree on over the technical optimum, and delivered. On AOI I shared the deployment advantage of an image-level approach over SAM's precision, on the grounds of multi-site re-labeling bottlenecks. A technology choice is an operating cost.",
+      project: "EPC PM · AOI",
+    },
+    {
+      number: "09",
+      title: "Knowledge Management",
+      principle: "Store the context and decisions AI can't replace in a PKM.",
+      desc: "To fix context loss when CLI AI sessions end, I built a workflow that vector-indexes notes with Obsidian Smart Connections (local embeddings) and links session context into a Zettelkasten — embedding RAG architecture into the learning tool itself.",
+      project: "PKM · Zettelkasten",
     },
   ],
 };

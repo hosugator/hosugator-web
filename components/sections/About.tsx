@@ -13,7 +13,7 @@ export default function About() {
     <section id="about" className="min-h-screen flex flex-col justify-center py-24">
       {/* 상단 마스트헤드 */}
       <div className="flex items-center justify-between border-b border-neutral-900 pb-4 mb-12 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400">
-        <span className="text-neutral-900">EGO</span>
+        <span className="text-neutral-900">IDENTITY</span>
         <span className="hidden sm:inline">( 2026 )</span>
         <span className="text-neutral-900">Seungwan Hong</span>
       </div>
