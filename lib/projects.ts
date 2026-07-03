@@ -25,6 +25,32 @@ export interface Flow {
   stages: string[];
 }
 
+// Flow(선형 단계)를 Mermaid flowchart 문자열로 변환
+export function flowToMermaid(flow: Flow): string {
+  const esc = (s: string) => s.replace(/"/g, "'");
+  const lines: string[] = ['flowchart LR'];
+  for (let i = 0; i < flow.stages.length - 1; i++) {
+    lines.push(`  n${i}["${esc(flow.stages[i])}"] --> n${i + 1}["${esc(flow.stages[i + 1])}"]`);
+  }
+  return lines.join('\n');
+}
+
+// 리치 커스텀 Mermaid (있으면 flow 변환 대신 사용). 슬러그당 다이어그램 배열.
+export const PROJECT_MERMAID: Record<string, string[]> = {
+  'edge-ai-lmr': [
+    `flowchart LR
+  F["Field · PLC 10ms"] --> C["Control"] --> E["Edge"] --> Cl["Cloud"]`,
+    `flowchart LR
+  M1["M1 · 1D-CNN AE"] -->|Anomaly Score| M2["M2 · LSTM + XGBoost"] -->|Quality| M3["M3 · DQN 처방제어"]`,
+  ],
+  'alignai': [
+    `flowchart LR
+  I["공정 이미지"] --> P["전처리"] --> EN["Encoder · EfficientNet-B0"] --> DE["Decoder · Dice Loss"] --> M["Seg Mask"] --> A["중심선 → 액추에이터"]`,
+    `flowchart LR
+  G["GitHub push"] --> CI["ci.yml · build"] --> R["GHCR"] --> AR["Argo CD"] --> K["k3s"]`,
+  ],
+};
+
 export const PROJECT_FLOWS: Record<string, Flow[]> = {
   'edge-ai-lmr': [
     { label: '4-Tier Architecture', stages: ['Field', 'Control', 'Edge', 'Cloud'] },

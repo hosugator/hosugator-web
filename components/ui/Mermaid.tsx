@@ -1,33 +1,53 @@
-"use client";
-import { useEffect, useRef, useState } from 'react';
+'use client';
 
-// mermaid는 무거우므로 동적 import (mermaid 노트를 볼 때만 로드)
-let mermaidPromise: Promise<typeof import('mermaid')> | null = null;
+import { useEffect, useId, useState } from 'react';
 
-export default function Mermaid({ code }: { code: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [error, setError] = useState(false);
+// 사이트 모노+블루 톤으로 테마링된 Mermaid 렌더러 (클라이언트 전용)
+// chart(프로젝트 상세) 또는 code(노트 마크다운 코드블록) 어느 쪽으로도 정의를 받는다.
+export default function Mermaid({ chart, code }: { chart?: string; code?: string }) {
+  const definition = chart ?? code ?? '';
+  const [svg, setSvg] = useState('');
+  const rawId = useId();
+  const id = 'm' + rawId.replace(/[^a-zA-Z0-9]/g, '');
 
   useEffect(() => {
-    let cancelled = false;
+    let active = true;
     (async () => {
+      const mermaid = (await import('mermaid')).default;
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          fontFamily: 'var(--font-space-grotesk), var(--font-noto-sans-kr), sans-serif',
+          fontSize: '13px',
+          primaryColor: '#fafafa',
+          primaryBorderColor: '#e5e5e5',
+          primaryTextColor: '#171717',
+          lineColor: '#35618E',
+          clusterBkg: '#ffffff',
+          clusterBorder: '#e5e5e5',
+        },
+        flowchart: { curve: 'basis', padding: 14, useMaxWidth: true },
+      });
       try {
-        const mermaid = (await (mermaidPromise ||= import('mermaid'))).default;
-        mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
-        const id = 'mmd-' + Math.random().toString(36).slice(2, 9);
-        const { svg } = await mermaid.render(id, code);
-        if (!cancelled && ref.current) ref.current.innerHTML = svg;
-      } catch {
-        if (!cancelled) setError(true);
+        const { svg } = await mermaid.render(id, definition);
+        if (active) setSvg(svg);
+      } catch (err) {
+        console.error('Mermaid render failed:', err);
+        if (active) setSvg('');
       }
     })();
-    return () => { cancelled = true; };
-  }, [code]);
+    return () => {
+      active = false;
+    };
+  }, [definition, id]);
 
-  if (error) {
-    return (
-      <pre className="bg-neutral-900/5 rounded-lg p-4 overflow-x-auto text-[13px] my-5 font-mono">{code}</pre>
-    );
-  }
-  return <div ref={ref} className="my-6 flex justify-center overflow-x-auto [&_svg]:max-w-full [&_svg]:h-auto" />;
+  if (!svg) return <div className="h-20" aria-hidden />;
+
+  return (
+    <div
+      className="mermaid-diagram overflow-x-auto rounded-xl border border-neutral-100 bg-neutral-50/40 p-5"
+      dangerouslySetInnerHTML={{ __html: svg }}
+    />
+  );
 }

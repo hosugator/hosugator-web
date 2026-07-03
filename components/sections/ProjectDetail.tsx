@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight, PlayCircle, FileText } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getProject, shortNameOf, PROJECT_FLOWS } from '@/lib/projects';
+import { getProject, shortNameOf, PROJECT_FLOWS, PROJECT_MERMAID, flowToMermaid } from '@/lib/projects';
 import { projectDetails } from '@/data/projectDetails';
-import FlowDiagram from '@/components/ui/FlowDiagram';
+import Mermaid from '@/components/ui/Mermaid';
 import CureatDemoModal from '@/components/demo/CureatDemoModal';
 import ProjectVideoModal from '@/components/demo/ProjectVideoModal';
 
@@ -123,12 +123,19 @@ export default function ProjectDetail({ slug }: { slug: string }) {
         </section>
       )}
 
-      {/* 아키텍처 다이어그램 */}
-      {flows.length > 0 && (
+      {/* 아키텍처 다이어그램 (Mermaid) */}
+      {(PROJECT_MERMAID[slug] || flows.length > 0) && (
         <section className="mb-12">
           <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-400 mb-5">{t.arch}</div>
-          <div className="space-y-8">
-            {flows.map((f, i) => <FlowDiagram key={i} flow={f} />)}
+          <div className="space-y-6">
+            {PROJECT_MERMAID[slug]
+              ? PROJECT_MERMAID[slug].map((m, i) => <Mermaid key={i} chart={m} />)
+              : flows.map((f, i) => (
+                  <div key={i}>
+                    <div className="text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-400 mb-2">{f.label}</div>
+                    <Mermaid chart={flowToMermaid(f)} />
+                  </div>
+                ))}
           </div>
         </section>
       )}
