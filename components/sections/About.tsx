@@ -1,16 +1,19 @@
 // components/sections/About.tsx — EGO (정체성 + 일하는 방식/인사이트)
 "use client";
-import { useState } from 'react';
-import { Plus } from 'lucide-react';
-import { useTranslation } from '@/hooks/useTranslation';
-import Image from 'next/image';
+import { useState } from "react";
+import { Plus } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
+import Image from "next/image";
 
 export default function About() {
   const { t } = useTranslation();
   const [openInsight, setOpenInsight] = useState<number | null>(null);
 
   return (
-    <section id="about" className="min-h-screen flex flex-col justify-center py-24">
+    <section
+      id="about"
+      className="min-h-screen flex flex-col justify-center py-24"
+    >
       {/* 상단 마스트헤드 */}
       <div className="flex items-center justify-between border-b border-neutral-900 pb-4 mb-12 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400">
         <span className="text-neutral-900">IDENTITY</span>
@@ -30,26 +33,29 @@ export default function About() {
           />
         </div>
         <div>
-          <div className="text-base font-bold text-neutral-900 leading-tight">Seungwan Hong</div>
+          <div className="text-base font-bold text-neutral-900 leading-tight">
+            Seungwan Hong
+          </div>
           <div className="text-sm text-neutral-500">AI Engineer</div>
         </div>
       </div>
 
       {/* 디스플레이 타이틀 */}
       <h3 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.95] text-neutral-900 mb-10">
-        {t.about.title.main}<br />
+        {t.about.title.main}
+        <br />
         <span>{t.about.title.highlight}</span>
       </h3>
 
       {/* 정량 지표 */}
-      <div className="flex flex-wrap gap-x-16 gap-y-6 border-y border-neutral-900 py-6 mb-10">
-        {t.about.stats.map((stat) => (
-          <div key={stat.label}>
-            <div className="text-4xl md:text-5xl font-black tracking-tight text-neutral-900 leading-none">{stat.value}</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 mt-3">{stat.label}</div>
-          </div>
-        ))}
-      </div>
+      {/* <div className="flex flex-wrap gap-x-16 gap-y-6 border-y border-neutral-900 py-6 mb-10"> */}
+      {/*   {t.about.stats.map((stat) => ( */}
+      {/*     <div key={stat.label}> */}
+      {/*       <div className="text-4xl md:text-5xl font-black tracking-tight text-neutral-900 leading-none">{stat.value}</div> */}
+      {/*       <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 mt-3">{stat.label}</div> */}
+      {/*     </div> */}
+      {/*   ))} */}
+      {/* </div> */}
 
       {/* 서술 (단일 컬럼, 내용 집중) */}
       <div className="space-y-5 text-[15px] md:text-base font-light leading-relaxed text-neutral-600">
