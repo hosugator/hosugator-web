@@ -11,23 +11,29 @@ export const aboutDataEn = {
     {
       text: (
         <>
-          I define every problem starting from <span className="text-slate-900 font-medium">'why.'</span>{' '}
-          My global EPC PM background — translating ambiguous demands from three-country stakeholders into technical specs —{' '}
-          now grounds how I design Edge AI systems and LLM agents on the manufacturing floor.{' '}
-          Under the principle of{' '}
-          <span className="text-slate-900 font-medium">'automate every recurring bottleneck,'</span>{' '}
-          I turn engineering work into reusable assets through deliberate learning and Docs-as-Code.
+          I define every problem from <span className="text-slate-900 font-medium">'why.'</span>{' '}
+          The instinct I built as a global EPC PM — translating three-country stakeholders' ambiguous demands into technical specs, grounded in 'why' —{' '}
+          now underpins <span className="text-slate-900 font-medium">AI engineering that understands a product end to end</span>.
         </>
       )
     },
     {
       text: (
         <>
-          I'm a{' '}
+          That curiosity made me a{' '}
           <span className="text-slate-900 font-medium">full-stack AI engineer who connects every layer</span>{' '}
-          — planning, data, ML, infrastructure, backend, UI/UX, and operations — under a single design philosophy.{' '}
-          That lets me pinpoint where a project's bottleneck lies and where resources will actually resolve it.{' '}
-          I prove business impact through AI deployed on real production lines.
+          — planning, data, ML, infrastructure, backend, DB, UI/UX, and operations — under one design philosophy.{' '}
+          So I can tell where a project's bottleneck actually is, and where resources will resolve it.
+        </>
+      )
+    },
+    {
+      text: (
+        <>
+          In a manufacturing domain today, I've shipped cross-team automation, vision-alignment and anomaly-detection models,{' '}
+          a solo-built GitOps pipeline, and a prototype agent that has an LLM explain vision results in the operators' own language.{' '}
+          Under the principle of <span className="text-slate-900 font-medium">'automate every recurring bottleneck,'</span>{' '}
+          I focus on making technology a genuinely useful tool on the floor — never technology for its own sake.
         </>
       )
     }

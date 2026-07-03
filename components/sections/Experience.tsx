@@ -30,6 +30,16 @@ export default function Experience() {
             <p className="text-[15px] md:text-base font-light leading-relaxed text-neutral-600">
               {exp.description}
             </p>
+            {'highlights' in exp && Array.isArray((exp as { highlights?: string[] }).highlights) && (
+              <ul className="mt-4 space-y-2">
+                {(exp as { highlights: string[] }).highlights.map((h, i) => (
+                  <li key={i} className="flex gap-2.5 text-[15px] md:text-base font-light leading-relaxed text-neutral-600">
+                    <span className="mt-[9px] w-1 h-1 rounded-full bg-accent shrink-0" aria-hidden />
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="flex flex-wrap gap-1.5 mt-5">
               {exp.tags.map(tag => (
                 <span key={tag} className="text-[9px] font-black px-2 py-0.5 bg-neutral-50 text-neutral-400 rounded border border-neutral-100 tracking-wider uppercase">
