@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Download } from 'lucide-react';
+import { ArrowLeft, Printer } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { resumeData } from '@/data/resumeData';
 import { resumeDataEn } from '@/data/resumeData.en';
@@ -10,7 +10,7 @@ import Footer from '@/components/layout/Footer';
 const T = {
   ko: {
     back: '홈으로',
-    pdf: 'PDF 이력서',
+    pdf: 'PDF로 저장',
     summary: '소개',
     experience: '경력',
     projects: '프로젝트',
@@ -19,7 +19,7 @@ const T = {
   },
   en: {
     back: 'Home',
-    pdf: 'PDF Resume',
+    pdf: 'Save as PDF',
     summary: 'Summary',
     experience: 'Experience',
     projects: 'Projects',
@@ -49,22 +49,21 @@ export default function ResumeView() {
 
   return (
     <div className="relative w-full md:max-w-4xl md:mx-auto px-5 md:px-8 pb-20">
-      {/* 상단 바 */}
-      <div className="flex items-center justify-between pt-4 pb-10">
+      {/* 상단 바 (인쇄 시 숨김) */}
+      <div className="flex items-center justify-between pt-4 pb-10 print:hidden">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-accent transition-colors"
         >
           <ArrowLeft size={14} /> {t.back}
         </Link>
-        <a
-          href="/portfolio.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => window.print()}
           className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 px-3.5 py-1.5 text-xs font-bold text-neutral-500 hover:text-accent hover:border-accent transition-colors"
         >
-          <Download size={13} /> {t.pdf}
-        </a>
+          <Printer size={13} /> {t.pdf}
+        </button>
       </div>
 
       {/* 헤더 */}
@@ -159,7 +158,9 @@ export default function ResumeView() {
         </ul>
       </section>
 
-      <Footer />
+      <div className="print:hidden">
+        <Footer />
+      </div>
     </div>
   );
 }

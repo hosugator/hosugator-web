@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`bg-white text-neutral-900 antialiased overflow-x-hidden touch-pan-y`}>
         <LanguageProvider>
           <TopNav />
-          <main className="relative min-h-screen w-full overflow-x-hidden pt-28 md:pt-32">
+          <main className="relative min-h-screen w-full overflow-x-hidden pt-28 md:pt-32 print:pt-0">
             {/* 은은한 그라디언트 글로우 (daypunk 무드) */}
             <div
               aria-hidden

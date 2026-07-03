@@ -16,7 +16,7 @@ export default function TopNav() {
   };
 
   return (
-    <header className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] w-[calc(100%-1.5rem)] max-w-3xl">
+    <header className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] w-[calc(100%-1.5rem)] max-w-3xl print:hidden">
       <div className="flex items-center justify-between gap-4 rounded-full border border-neutral-200 bg-white/80 backdrop-blur-md px-5 py-2.5 shadow-sm shadow-neutral-200/50">
         <Link href="/" onClick={toTopIfSame(pathname === "/")} className="text-lg font-black tracking-tighter shrink-0">
           HOSUGATOR<span className="text-accent">.</span>

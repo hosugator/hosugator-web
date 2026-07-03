@@ -51,3 +51,13 @@ summary {
     scrollbar-width: none;
   }
 }
+
+/* 인쇄(PDF 저장) 최적화 — 이력서 페이지 */
+@media print {
+  @page {
+    margin: 15mm;
+  }
+  body {
+    background: #ffffff;
+  }
+}
