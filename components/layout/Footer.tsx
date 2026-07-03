@@ -15,12 +15,6 @@ export default function Footer() {
         
         <div className="flex gap-8">
           <Link
-            href="/portfolio"
-            className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900"
-          >
-            Portfolio
-          </Link>
-          <Link
             href="/resume"
             className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900"
           >
