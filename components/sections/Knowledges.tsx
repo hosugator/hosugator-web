@@ -71,6 +71,7 @@ export default function Knowledges({ initialData }: { initialData: any }) {
   const [visible, setVisible] = useState(INITIAL_VISIBLE);
   const [projectFilter, setProjectFilter] = useState<string | null>(null);
   const [view, setView] = useState<"log" | "map">("map");
+  const [wikiMissing, setWikiMissing] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -199,7 +200,42 @@ export default function Knowledges({ initialData }: { initialData: any }) {
     setProjectFilter(null);
   };
 
-  // 노트 문서 뷰 (필기체) — 좌측 관련노트 사이드바 + 페이지 폭 통일
+  // 위키링크([[...]]) 해석 — 공개 노트면 열고, 없으면(비공개/미존재) 팝업
+  const normWiki = (s: string) =>
+    s
+      .toLowerCase()
+      .replace(/\.md$/, "")
+      .replace(/[\s_\-]+/g, " ")
+      .trim();
+  const resolveWiki = (target: string) => {
+    const base = normWiki(target.split("#")[0].split("/").pop() || target);
+    return (
+      posts.find(
+        (p) =>
+          normWiki(String(p.id).split("/").pop() || "") === base ||
+          normWiki(p.title) === base,
+      ) || null
+    );
+  };
+  const openWiki = (target: string) => {
+    const hit = resolveWiki(target);
+    if (hit) {
+      setWikiMissing(null);
+      setSelectedNode(hit.node);
+    } else {
+      setWikiMissing(target);
+    }
+  };
+  // 본문 [[Target]] / [[Target|Alias]] → wiki: 링크로 변환 (a 렌더러에서 처리)
+  const linkifyWiki = (md: string) =>
+    md.replace(/\[\[([^\]]+)\]\]/g, (_m, inner) => {
+      const [tgt, alias] = String(inner).split("|");
+      const label = (alias || tgt).trim();
+      // '#wiki:' 프래그먼트 스킴 — react-markdown 기본 URL sanitizer를 통과
+      return `[${label}](#wiki:${encodeURIComponent(tgt.trim())})`;
+    });
+
+  // 노트 문서 뷰 (필기체) — 화면 중앙 정렬 · 백링크 클릭 이동
   const renderNote = () => {
     if (!selectedNode || !mounted) return null;
     const modalRoot = document.getElementById("modal-root");
@@ -213,9 +249,6 @@ export default function Knowledges({ initialData }: { initialData: any }) {
     const prev = idx > 0 ? sameCat[idx - 1] : null;
     const next =
       idx >= 0 && idx < sameCat.length - 1 ? sameCat[idx + 1] : null;
-    const related = sameCat
-      .filter((p) => p.id !== selectedNode.id)
-      .slice(0, 8);
 
     const arrowBtn =
       "hidden md:grid place-items-center fixed top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full text-neutral-300 hover:text-neutral-800 hover:bg-neutral-900/5 transition-colors";
@@ -347,16 +380,34 @@ export default function Knowledges({ initialData }: { initialData: any }) {
                   ul: ({ ...props }) => (
                     <ul className="list-disc ml-6 mb-5 space-y-2" {...props} />
                   ),
-                  a: ({ ...props }) => (
-                    <a
-                      className="text-accent underline underline-offset-2"
-                      {...props}
-                    />
-                  ),
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  a: ({ href, children, ...props }: any) => {
+                    if (typeof href === "string" && href.startsWith("#wiki:")) {
+                      const target = decodeURIComponent(href.slice(6));
+                      return (
+                        <button
+                          type="button"
+                          onClick={() => openWiki(target)}
+                          className="text-accent font-medium underline decoration-dotted underline-offset-2 hover:decoration-solid"
+                        >
+                          {children}
+                        </button>
+                      );
+                    }
+                    return (
+                      <a
+                        href={href}
+                        className="text-accent underline underline-offset-2"
+                        {...props}
+                      >
+                        {children}
+                      </a>
+                    );
+                  },
                   p: ({ ...props }) => <p className="mb-5" {...props} />,
                 }}
               >
-                {selectedNode.content}
+                {linkifyWiki(selectedNode.content)}
               </ReactMarkdown>
             </div>
 
@@ -394,28 +445,39 @@ export default function Knowledges({ initialData }: { initialData: any }) {
                   <span />
                 )}
               </div>
-
-              {related.length > 0 && (
-                <div>
-                  <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 mb-3">
-                    {locale === "en" ? "Related notes" : "관련 노트"} ·{" "}
-                    {formatCategoryName(noteCat)}
-                  </div>
-                  <div className="flex flex-wrap gap-x-5 gap-y-1.5">
-                    {related.map((r) => (
-                      <button
-                        key={r.id}
-                        onClick={() => setSelectedNode(r.node)}
-                        className="text-left text-[13px] text-neutral-500 hover:text-accent transition-colors"
-                      >
-                        {r.title}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
             </nav>
           </article>
+
+          {/* 비공개/미존재 노트 클릭 시 안내 팝업 */}
+          {wikiMissing && (
+            <div
+              className="fixed inset-0 z-[110] grid place-items-center bg-neutral-900/40 p-6"
+              onClick={() => setWikiMissing(null)}
+            >
+              <div
+                className="w-full max-w-sm rounded-2xl border border-neutral-200 bg-white p-6 shadow-xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="text-[11px] font-bold uppercase tracking-widest text-neutral-400 mb-2">
+                  {locale === "en" ? "Private note" : "비공개 노트"}
+                </div>
+                <p className="text-sm leading-relaxed text-neutral-700 mb-1">
+                  {locale === "en"
+                    ? "This note isn’t published yet."
+                    : "아직 공개되지 않은 노트입니다."}
+                </p>
+                <p className="mb-5 break-all font-mono text-[13px] text-neutral-400">
+                  {wikiMissing}
+                </p>
+                <button
+                  onClick={() => setWikiMissing(null)}
+                  className="w-full rounded-full bg-neutral-900 py-2.5 text-sm font-bold text-white transition-colors hover:bg-neutral-800"
+                >
+                  {locale === "en" ? "Close" : "닫기"}
+                </button>
+              </div>
+            </div>
+          )}
       </div>,
       modalRoot,
     );

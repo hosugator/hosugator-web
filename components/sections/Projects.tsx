@@ -49,7 +49,7 @@ export default function Projects() {
     <section id="projects" className="border-t border-neutral-100 py-24 text-neutral-900">
       <div className="mb-14">
         <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
-          {currentData.topLabel}
+          OUTPUT
         </h2>
         <h3 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.95] text-neutral-900 whitespace-pre-line">
           {currentData.title}

@@ -1,16 +1,19 @@
-// components/sections/About.tsx
+// components/sections/About.tsx — EGO (정체성 + 일하는 방식/인사이트)
 "use client";
+import { useState } from 'react';
+import { Plus } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import Image from 'next/image';
 
 export default function About() {
   const { t } = useTranslation();
+  const [openInsight, setOpenInsight] = useState<number | null>(null);
 
   return (
     <section id="about" className="min-h-screen flex flex-col justify-center py-24">
       {/* 상단 마스트헤드 */}
       <div className="flex items-center justify-between border-b border-neutral-900 pb-4 mb-12 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400">
-        <span className="text-neutral-900">{t.about.topLabel}</span>
+        <span className="text-neutral-900">EGO</span>
         <span className="hidden sm:inline">( 2026 )</span>
         <span className="text-neutral-900">Seungwan Hong</span>
       </div>
@@ -53,6 +56,56 @@ export default function About() {
         {t.about.content.map((item, i) => (
           <p key={i}>{item.text}</p>
         ))}
+      </div>
+
+      {/* 일하는 방식 (인사이트) — 목록화 + 맥락 펼침 */}
+      <div className="mt-16 pt-10 border-t border-neutral-200">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400 mb-6">
+          {t.insights.topLabel}
+        </div>
+        <div className="border-y border-neutral-200 divide-y divide-neutral-200">
+          {t.insights.items.map((item, i) => {
+            const open = openInsight === i;
+            return (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setOpenInsight(open ? null : i)}
+                aria-expanded={open}
+                className="w-full text-left py-5"
+              >
+                <div className="flex items-start gap-4">
+                  <span className="shrink-0 mt-1 text-xs font-mono font-bold text-neutral-300">
+                    {item.number}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-base md:text-lg font-semibold text-neutral-900 leading-snug">
+                      &ldquo;{item.principle}&rdquo;
+                    </p>
+                    <span className="inline-block mt-2 text-[11px] font-bold text-neutral-400 tracking-wide">
+                      {item.project}
+                    </span>
+                    <div
+                      className={`grid transition-all duration-300 ${open ? "grid-rows-[1fr] mt-3" : "grid-rows-[0fr]"}`}
+                    >
+                      <div className="overflow-hidden">
+                        <p className="text-sm md:text-[15px] font-light leading-relaxed text-neutral-500">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    className={`shrink-0 mt-1 text-neutral-300 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
+                    aria-hidden
+                  >
+                    <Plus size={16} />
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
