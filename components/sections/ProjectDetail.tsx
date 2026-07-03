@@ -12,6 +12,7 @@ import {
   flowToMermaid,
 } from "@/lib/projects";
 import { projectDetails } from "@/data/projectDetails";
+import { projectDetailsEn } from "@/data/projectDetails.en";
 import Mermaid from "@/components/ui/Mermaid";
 import CureatDemoModal from "@/components/demo/CureatDemoModal";
 
@@ -63,8 +64,8 @@ export default function ProjectDetail({ slug }: { slug: string }) {
 
   const name = shortNameOf(project.title);
   const flows = PROJECT_FLOWS[slug] || [];
-  // 리치 상세는 현재 국문만 — EN 콘텐츠 추가 전까지 EN에선 개요+다이어그램으로 표시
-  const detail = locale === "en" ? undefined : projectDetails[slug];
+  // 리치 상세 — 로케일별 콘텐츠 (국문/영문)
+  const detail = (locale === "en" ? projectDetailsEn : projectDetails)[slug];
   const isCureat = name.toLowerCase() === "cureat";
   const hasVideo = !!project.video;
   const relatedHref = `/blog?project=${encodeURIComponent(name)}`;
