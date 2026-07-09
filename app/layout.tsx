@@ -4,6 +4,7 @@
 // 가진 LanguageProvider·TopNav에서 유지된다.
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { Space_Grotesk, Noto_Sans_KR } from "next/font/google";
 import TopNav from "@/components/layout/TopNav";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -64,6 +65,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko" className={`${spaceGrotesk.variable} ${notoSansKr.variable} overflow-x-hidden`}>
       <body className={`bg-white text-neutral-900 antialiased overflow-x-hidden touch-pan-y`}>
+        {/* GoatCounter — 쿠키 없는 경량 방문자 분석 (hosugator.goatcounter.com) */}
+        <Script
+          data-goatcounter="https://hosugator.goatcounter.com/count"
+          src="//gc.zgo.at/count.js"
+          strategy="afterInteractive"
+        />
         <LanguageProvider>
           <TopNav />
           <main className="relative min-h-screen w-full overflow-x-hidden pt-28 md:pt-32 print:pt-0">
