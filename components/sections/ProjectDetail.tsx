@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, PlayCircle, FileText } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
@@ -15,12 +16,18 @@ import { projectDetails } from "@/data/projectDetails";
 import { projectDetailsEn } from "@/data/projectDetails.en";
 import Mermaid from "@/components/ui/Mermaid";
 import CureatDemoModal from "@/components/demo/CureatDemoModal";
+import AlignAiDemoModal from "@/components/demo/AlignAiDemoModal";
 
 export default function ProjectDetail({ slug }: { slug: string }) {
   const { locale } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
-  const [cureatOpen, setCureatOpen] = useState(false);
+  const [demoOpen, setDemoOpen] = useState(false);
+  const searchParams = useSearchParams();
+  // 목록의 "Live demo" 버튼(?demo=1)으로 진입 시 자동 오픈
+  useEffect(() => {
+    if (searchParams.get("demo")) setDemoOpen(true);
+  }, [searchParams]);
 
   // 인라인 데모 재생: 클릭 전엔 muted 루프 프리뷰, 클릭 시 사운드+컨트롤로 처음부터 재생
   const startVideo = () => {
@@ -68,6 +75,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
   // 리치 상세 — 로케일별 콘텐츠 (국문/영문)
   const detail = (locale === "en" ? projectDetailsEn : projectDetails)[slug];
   const isCureat = name.toLowerCase() === "cureat";
+  const isAlign = slug === "alignai";
   const hasVideo = !!project.video;
   const relatedHref = `/blog?project=${encodeURIComponent(name)}`;
 
@@ -122,9 +130,9 @@ export default function ProjectDetail({ slug }: { slug: string }) {
           )}
         </div>
       )}
-      {isCureat && (
+      {(isCureat || isAlign) && (
         <button
-          onClick={() => setCureatOpen(true)}
+          onClick={() => setDemoOpen(true)}
           className="inline-flex items-center gap-2 mb-10 rounded-full bg-accent text-white px-5 py-2.5 text-sm font-bold hover:bg-accent/90 transition-colors"
         >
           LIVE DEMO <ArrowRight size={16} />
@@ -260,10 +268,12 @@ export default function ProjectDetail({ slug }: { slug: string }) {
         )}
       </div>
 
-      <CureatDemoModal
-        isOpen={cureatOpen}
-        onClose={() => setCureatOpen(false)}
-      />
+      {isCureat && (
+        <CureatDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
+      )}
+      {isAlign && (
+        <AlignAiDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
+      )}
     </div>
   );
 }

@@ -18,6 +18,8 @@ const YEAR: Record<string, string> = {
   'Dorosee': '2025', 'KDLC': '2025',
 };
 
+const DEMO_SLUGS = new Set(["cureat", "alignai"]);
+
 export default function Projects() {
   const { locale } = useLanguage();
   const [mounted, setMounted] = useState(false);
@@ -62,24 +64,36 @@ export default function Projects() {
           const name = shortNameOf(project.title);
           const year = YEAR[name] || '';
           const isCurrent = CURRENT.includes(name);
+          const slug = slugify(project.title);
+          const hasDemo = DEMO_SLUGS.has(slug);
           return (
-            <a
+            <div
               key={project.title}
-              href={`/projects/${slugify(project.title)}`}
               className="group flex items-center gap-4 sm:gap-6 py-4 border-b border-neutral-200"
             >
-              <span className="font-mono text-xs text-neutral-300 w-10 shrink-0">{year}</span>
-              <span className="flex items-center gap-2 shrink-0">
-                {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-accent" title="In progress" aria-hidden />}
-                <span className="font-black text-neutral-900 group-hover:text-accent transition-colors">{name}</span>
-              </span>
-              <span className="flex-1 min-w-0 text-sm font-light text-neutral-400 truncate hidden sm:block">{project.desc}</span>
-              <ArrowRight
-                size={16}
-                className="ml-auto shrink-0 text-neutral-300 group-hover:text-accent group-hover:translate-x-1 transition-all"
-                aria-hidden
-              />
-            </a>
+              <a href={`/projects/${slug}`} className="flex items-center gap-4 sm:gap-6 flex-1 min-w-0">
+                <span className="font-mono text-xs text-neutral-300 w-10 shrink-0">{year}</span>
+                <span className="flex items-center gap-2 shrink-0">
+                  {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-accent" title="In progress" aria-hidden />}
+                  <span className="font-black text-neutral-900 group-hover:text-accent transition-colors">{name}</span>
+                </span>
+                <span className="flex-1 min-w-0 text-sm font-light text-neutral-400 truncate hidden sm:block">{project.desc}</span>
+              </a>
+              {hasDemo ? (
+                <a
+                  href={`/projects/${slug}?demo=1`}
+                  className="shrink-0 inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white hover:bg-accent/90 transition-colors"
+                >
+                  Live demo <ArrowRight size={12} />
+                </a>
+              ) : (
+                <ArrowRight
+                  size={16}
+                  className="ml-auto shrink-0 text-neutral-300 group-hover:text-accent group-hover:translate-x-1 transition-all"
+                  aria-hidden
+                />
+              )}
+            </div>
           );
         })}
       </div>
