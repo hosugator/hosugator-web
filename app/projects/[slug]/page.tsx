@@ -1,5 +1,6 @@
 // app/projects/[slug]/page.tsx — 프로젝트별 상세 (정적 프리렌더)
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import { projectsData } from '@/data/projectsData';
 import { slugify, shortNameOf } from '@/lib/projects';
 import ProjectDetail from '@/components/sections/ProjectDetail';
@@ -23,5 +24,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  return <ProjectDetail slug={slug} />;
+  return (
+    <Suspense fallback={<div className="py-20 text-center">Loading...</div>}>
+      <ProjectDetail slug={slug} />
+    </Suspense>
+  );
 }
