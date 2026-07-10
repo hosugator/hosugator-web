@@ -29,7 +29,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
     if (searchParams.get("demo")) setDemoOpen(true);
   }, [searchParams]);
 
-  // 인라인 데모 재생: 클릭 전엔 muted 루프 프리뷰, 클릭 시 사운드+컨트롤로 처음부터 재생
+  // 인라인 데모 재생: 클릭 전엔 정지 포스터, 클릭 시 사운드+컨트롤로 처음부터 재생
   const startVideo = () => {
     const v = videoRef.current;
     if (!v) return;
@@ -77,6 +77,9 @@ export default function ProjectDetail({ slug }: { slug: string }) {
   const isCureat = name.toLowerCase() === "cureat";
   const isAlign = slug === "alignai";
   const hasVideo = !!project.video;
+  // 데모 영상마다 원본 비율이 제각각(세로/정사각/4:3 등)이라, object-fit 계산 없이
+  // 실제 영상과 동일한 프레임을 정지 이미지로 미리 보여준다 (재생 전 크롭 방지).
+  const videoPoster = project.video.replace(/\.(mp4|mov)$/i, "_poster.jpg");
   const relatedHref = `/blog?project=${encodeURIComponent(name)}`;
 
   return (
@@ -109,13 +112,10 @@ export default function ProjectDetail({ slug }: { slug: string }) {
           <video
             ref={videoRef}
             src={project.video}
+            poster={videoPoster}
             muted
-            loop
-            autoPlay
             playsInline
-            className={`absolute inset-0 w-full h-full transition-opacity ${
-              playing ? "object-contain opacity-100" : "object-cover opacity-70 group-hover:opacity-90"
-            }`}
+            className="absolute inset-0 w-full h-full object-contain"
           />
           {!playing && (
             <button
