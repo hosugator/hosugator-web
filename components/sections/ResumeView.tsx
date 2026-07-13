@@ -1,31 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import {
-  ArrowLeft,
-  Printer,
-  Github,
-  Linkedin,
-  Mail,
-  Globe,
-  ArrowRight,
-} from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import ResumeTemplate, { type ResumeData } from "./ResumeTemplate";
 
-// Resume — 1~2p A4. 경력·기술·프로젝트·학력의 구조화 요약 + '일하는 방식(인사이트)'.
+// 공개용(hosugator.com) 이력서 — 퍼널 CTA 포함, 1~2p A4.
 // 프로젝트별 아키텍처·구현 상세·엔지니어링 노트 전문은 웹으로 유도한다.
 // /resume.pdf 생성 소스. (재생성: npm run dev 후 `npm run resume:pdf`)
-const CONTACT = {
-  email: "hosugator@gmail.com",
-  github: "github.com/hosugator",
-  githubUrl: "https://github.com/hosugator",
-  linkedin: "linkedin.com/in/seungwanhong",
-  linkedinUrl: "https://linkedin.com/in/seungwanhong",
-  web: "hosugator.com",
-  webUrl: "https://hosugator.com",
-};
-
-const RESUME = {
+// 회사 맞춤 제출용을 만들 때는 이 파일을 복제하지 말고 ResumeTemplate을 재사용할 것 — 참고: ResumeTemplate.tsx 상단 주석.
+const RESUME: Record<"ko" | "en", ResumeData> = {
   ko: {
     back: "홈으로",
     pdf: "PDF로 저장",
@@ -48,6 +30,23 @@ const RESUME = {
         ],
       },
       {
+        company: "go2fit",
+        role: "개인 프로젝트 · Backend & DB",
+        period: "2025.10 ~ 현재",
+        items: [
+          "피트니스 소셜 앱 백엔드: User·Exercise·Community 3축 PostgreSQL 스키마 설계, 5계층 FK 체인·JWT 4중 보안, MediaPipe 포즈 추정 운동 분석기 구현.",
+          "Google Play 비공개 테스트 트랙에 안드로이드 테스터 12명을 모집해 테스트 진행 중.",
+        ],
+      },
+      {
+        company: "Intel AI for Future Workforce",
+        role: "AI Full-Stack 교육생 (한국표준협회 KDT)",
+        period: "2025.04 ~ 2025.10",
+        items: [
+          "1,000시간+ AI 풀사이클 실전 과정. YOLOv8+LLM 응급대응 플랫폼(Dorosee, 2025 UWC 해커톤 대상), LangChain RAG 추천 서비스(Dotodo), VLM 시각보조 서비스(Sodam Diary) 등 6개+ End-to-End AI 서비스 PoC 수행.",
+        ],
+      },
+      {
         company: "Zeeco Asia",
         role: "Project Manager",
         period: "2024.02 ~ 2025.04",
@@ -56,26 +55,13 @@ const RESUME = {
         ],
       },
     ],
-    skillsLabel: "핵심 기술",
-    skills: [
-      {
-        g: "AI/ML",
-        v: "PyTorch · Computer Vision(U-Net·YOLO) · LLM/RAG · Anomaly Detection · OpenVINO/ONNX",
-      },
-      { g: "Backend", v: "Python · FastAPI · PostgreSQL · Docker" },
-      {
-        g: "Infra/MLOps",
-        v: "k3s · GitHub Actions · Argo CD(GitOps) · AWS · IAM OIDC",
-      },
-    ],
     projLabel: "대표 프로젝트",
     projects: [
       "Dotodo — 음성 RAG 추천 에이전트. LLM-as-a-Judge 자율 평가로 API 비용 60% 절감.",
-      "go2fit — 피트니스 앱 백엔드·DB 설계(5계층 FK 체인·JWT 4중 보안), 배포 진행 중.",
+      "Sodam Diary — VLM 기반 시각장애인 사진 해설. 운영비 30%↓·응답 30초→20초, 2025 한국장애인해커톤 본선.",
       "Pic-Tag — GPU 없는 엣지 CCTV AI. OpenVINO INT8·4-Thread 실시간 추론.",
       "Dorosee — 멀티모달 응급 탐지 UGV (2025 UWC 해커톤 대상).",
     ],
-    projMore: "전체 11개 프로젝트의 아키텍처·구현 상세는 웹에서 →",
     principlesLabel: "일하는 방식",
     principles: [
       "3회 이상 반복되는 병목은 반드시 자동화한다.",
@@ -85,7 +71,6 @@ const RESUME = {
     ],
     eduLabel: "학력 · 자격",
     education: [
-      "Intel AI for Future Workforce — 1,000시간+ AI 풀라이프사이클 실전 과정 이수",
       "경희대학교 환경공학 학사 · 정보처리기사(필기) · 대기환경기사 · OPIc IH",
     ],
     footer: "프로젝트별 아키텍처·구현 상세와 엔지니어링 노트 전문",
@@ -112,6 +97,23 @@ const RESUME = {
         ],
       },
       {
+        company: "go2fit",
+        role: "Personal project · Backend & DB",
+        period: "Oct 2025 – Present",
+        items: [
+          "Fitness social app backend: designed a User/Exercise/Community PostgreSQL schema (5-tier FK chain, 4-layer JWT security) and MediaPipe pose-estimation workout analyzers.",
+          "Running a closed beta on Google Play with 12 Android testers recruited.",
+        ],
+      },
+      {
+        company: "Intel AI for Future Workforce",
+        role: "AI Full-Stack Trainee (Korea Standards Association KDT)",
+        period: "Apr 2025 – Oct 2025",
+        items: [
+          "1,000+ hrs hands-on full-lifecycle AI program. Shipped 6+ end-to-end AI service PoCs: a YOLOv8+LLM emergency-response platform (Dorosee, 2025 UWC hackathon grand prize), a LangChain RAG recommendation service (Dotodo), and a VLM visual-assist service (Sodam Diary).",
+        ],
+      },
+      {
         company: "Zeeco Asia",
         role: "Project Manager",
         period: "Feb 2024 – Apr 2025",
@@ -120,26 +122,13 @@ const RESUME = {
         ],
       },
     ],
-    skillsLabel: "Core skills",
-    skills: [
-      {
-        g: "AI/ML",
-        v: "PyTorch · Computer Vision (U-Net, YOLO) · LLM/RAG · Anomaly Detection · OpenVINO/ONNX",
-      },
-      { g: "Backend", v: "Python · FastAPI · PostgreSQL · Docker" },
-      {
-        g: "Infra/MLOps",
-        v: "k3s · GitHub Actions · Argo CD (GitOps) · AWS · IAM OIDC",
-      },
-    ],
     projLabel: "Selected projects",
     projects: [
       "Dotodo — voice RAG recommendation agent; LLM-as-a-Judge cut API cost 60%.",
-      "go2fit — fitness app backend & DB (5-tier FK chain, 4-layer JWT security); shipping.",
+      "Sodam Diary — VLM-based photo narration for the visually impaired; cost -30%, latency 30s→20s, 2025 Korea Disability Hackathon finalist.",
       "Pic-Tag — GPU-less edge CCTV AI; OpenVINO INT8, 4-thread real-time inference.",
       "Dorosee — multimodal emergency-detection UGV (2025 UWC hackathon grand prize).",
     ],
-    projMore: "Architecture & implementation for all 11 projects on the web →",
     principlesLabel: "How I work",
     principles: [
       "Any bottleneck that repeats 3+ times must be automated.",
@@ -149,214 +138,16 @@ const RESUME = {
     ],
     eduLabel: "Education · Certifications",
     education: [
-      "Intel AI for Future Workforce — 1,000+ hrs, hands-on full-lifecycle AI program",
       "B.S. Environmental Engineering, Kyung Hee University · Engineer certifications · OPIc IH",
     ],
     footer:
       "Full per-project architecture, implementation, and engineering notes",
   },
-} as const;
-
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="text-[10px] font-semibold uppercase tracking-[0.3em] text-neutral-400 mb-2">
-      {children}
-    </h2>
-  );
-}
+};
 
 export default function ResumeView() {
   const { locale } = useLanguage();
   const r = locale === "en" ? RESUME.en : RESUME.ko;
 
-  return (
-    <div className="relative w-full md:max-w-2xl md:mx-auto px-5 md:px-8 pb-20 print:pb-0 text-neutral-900">
-      {/* 상단 바 (인쇄/PDF 시 숨김) */}
-      <div className="flex items-center justify-between pt-4 pb-10 print:hidden">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-neutral-400 hover:text-accent transition-colors"
-        >
-          <ArrowLeft size={14} /> {r.back}
-        </Link>
-        <button
-          type="button"
-          onClick={() => window.print()}
-          className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 px-3.5 py-1.5 text-xs font-bold text-neutral-500 hover:text-accent hover:border-accent transition-colors"
-        >
-          <Printer size={13} /> {r.pdf}
-        </button>
-      </div>
-
-      {/* 헤더 */}
-      <header className="mb-4">
-        <h1 className="text-3xl md:text-4xl font-black tracking-tighter leading-[0.95]">
-          {r.name}
-        </h1>
-        <p className="mt-2 text-[13px] md:text-sm font-medium text-accent">
-          {r.headline}
-        </p>
-        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11.5px] text-neutral-500">
-          <a
-            href={`mailto:${CONTACT.email}`}
-            className="inline-flex items-center gap-1.5 hover:text-accent transition-colors"
-          >
-            <Mail size={12} /> {CONTACT.email}
-          </a>
-          <a
-            href={CONTACT.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 hover:text-accent transition-colors"
-          >
-            <Github size={12} /> {CONTACT.github}
-          </a>
-          <a
-            href={CONTACT.linkedinUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 hover:text-accent transition-colors"
-          >
-            <Linkedin size={12} /> {CONTACT.linkedin}
-          </a>
-          <a
-            href={CONTACT.webUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 font-bold text-neutral-700 hover:text-accent transition-colors"
-          >
-            <Globe size={12} /> {CONTACT.web}
-          </a>
-        </div>
-      </header>
-
-      <div className="h-px bg-neutral-200 mb-4" />
-
-      {/* 소개 */}
-      <section className="mb-4">
-        <SectionLabel>{r.summaryLabel}</SectionLabel>
-        <p className="text-[12.5px] leading-snug font-light text-neutral-600">
-          {r.summary}
-        </p>
-      </section>
-
-      {/* 경력 */}
-      <section className="mb-4">
-        <SectionLabel>{r.expLabel}</SectionLabel>
-        <div className="space-y-4">
-          {r.experience.map((exp) => (
-            <div key={exp.company} className="break-inside-avoid">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 mb-2">
-                <div className="flex items-baseline gap-2.5">
-                  <span className="text-[15px] font-black tracking-tight">
-                    {exp.company}
-                  </span>
-                  <span className="text-[12px] font-medium text-neutral-500">
-                    {exp.role}
-                  </span>
-                </div>
-                <span className="font-mono text-[10.5px] text-neutral-400">
-                  {exp.period}
-                </span>
-              </div>
-              <ul className="space-y-1">
-                {exp.items.map((it, i) => (
-                  <li
-                    key={i}
-                    className="flex gap-2 text-[11.5px] leading-snug font-light text-neutral-600"
-                  >
-                    <span className="mt-[7px] shrink-0 w-1 h-1 rounded-full bg-accent/70" />
-                    <span>{it}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 핵심 기술 */}
-      <section className="mb-4 break-inside-avoid">
-        <SectionLabel>{r.skillsLabel}</SectionLabel>
-        <div className="space-y-1.5">
-          {r.skills.map((s) => (
-            <div key={s.g} className="flex gap-3 text-[11.5px]">
-              <span className="shrink-0 w-[74px] font-black text-neutral-900">
-                {s.g}
-              </span>
-              <span className="font-light text-neutral-600">{s.v}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 대표 프로젝트 */}
-      <section className="mb-4 break-inside-avoid">
-        <SectionLabel>{r.projLabel}</SectionLabel>
-        <ul className="space-y-1">
-          {r.projects.map((p, i) => (
-            <li
-              key={i}
-              className="flex gap-2 text-[11.5px] leading-snug font-light text-neutral-600"
-            >
-              <span className="mt-[7px] shrink-0 w-1 h-1 rounded-full bg-neutral-300" />
-              <span>{p}</span>
-            </li>
-          ))}
-        </ul>
-        <a
-          href={CONTACT.webUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 mt-2.5 text-[11px] font-bold text-accent hover:gap-1.5 transition-all"
-        >
-          {r.projMore}
-        </a>
-      </section>
-
-      {/* 일하는 방식 (인사이트 축약) */}
-      <section className="mb-4 break-inside-avoid">
-        <SectionLabel>{r.principlesLabel}</SectionLabel>
-        <ul className="space-y-1">
-          {r.principles.map((q, i) => (
-            <li
-              key={i}
-              className="flex gap-2 text-[12px] leading-snug font-bold text-neutral-800"
-            >
-              <span className="shrink-0 text-accent">“</span>
-              <span>{q}”</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* 학력 · 자격 */}
-      <section className="mb-4 break-inside-avoid">
-        <SectionLabel>{r.eduLabel}</SectionLabel>
-        <ul className="space-y-1">
-          {r.education.map((e, i) => (
-            <li
-              key={i}
-              className="text-[11.5px] leading-snug font-light text-neutral-600"
-            >
-              {e}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* 하단 웹 유도 */}
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 pt-4 border-t border-neutral-200 text-[11.5px] break-inside-avoid">
-        <span className="font-light text-neutral-500">{r.footer}</span>
-        <a
-          href={CONTACT.webUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 font-black text-accent hover:gap-1.5 transition-all"
-        >
-          <Globe size={12} /> {CONTACT.web} <ArrowRight size={13} />
-        </a>
-      </div>
-    </div>
-  );
+  return <ResumeTemplate data={r} />;
 }

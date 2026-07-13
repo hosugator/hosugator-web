@@ -74,10 +74,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LanguageProvider>
           <TopNav />
           <main className="relative min-h-screen w-full overflow-x-hidden pt-28 md:pt-32 print:pt-0">
-            {/* 은은한 그라디언트 글로우 (daypunk 무드) */}
+            {/* 은은한 그라디언트 글로우 (daypunk 무드) — 인쇄/PDF에는 배경 얼룩으로 찍히므로 숨김 */}
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(60%_55%_at_50%_0%,rgba(53,97,142,0.10),transparent_70%)]"
+              className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(60%_55%_at_50%_0%,rgba(53,97,142,0.10),transparent_70%)] print:hidden"
             />
             {/* 폭은 각 페이지가 제어 (홈=중앙 컬럼 / 블로그=풀너비) */}
             {children}
