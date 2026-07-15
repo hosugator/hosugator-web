@@ -81,7 +81,7 @@ export const projectsDataEn = {
             desc: "2025 UWC Hackathon Grand Prize winner. A context-aware multimodal UGV (Unmanned Ground Vehicle) platform combining YOLOv8 fine-tuning with an LLM voice interface. A Unity 3D simulation environment overcame hardware constraints and completed integrated AI model testing.",
             pdfLink: "/projects/dorosee_en.pdf",
             demoLink: "#",
-            video: "/projects/dorosee_demo.mp4",
+            video: "/projects/dorosee_demo_anonymize.mp4",
             image: "/projects/dorosee_thumb.png"
         },
         {
