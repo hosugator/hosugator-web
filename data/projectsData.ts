@@ -10,7 +10,9 @@ export const projectsData = {
       pdfLink: "/portfolio.pdf#page=2",
       demoLink: "#",
       video: "",
-      image: "/projects/edge_ai_lmr_thumb.png",
+      // 실물 HMI 대시보드가 있어 향후 실제 스크린샷으로 교체 가능 — 그 전까진 모노그램 폴백.
+      // (포트폴리오 PDF 표지 크롭은 이 프로젝트를 대표하지 않아 제거함)
+      image: "",
     },
     {
       title: "AlignAI: 비전 정렬 + MLOps + 현장 LLM 에이전트",
@@ -19,7 +21,8 @@ export const projectsData = {
       pdfLink: "/portfolio.pdf",
       demoLink: "#",
       video: "",
-      image: "",
+      // 라이브 데모의 실제 검사 이미지를 썸네일로 재사용 — 새 에셋 없이 실물로 채움.
+      image: "/projects/alignai-samples/sample-1.jpg",
     },
     {
       title: "ERP Backup: 레거시 ERP 데이터 마이그레이션 자동화",
@@ -28,7 +31,8 @@ export const projectsData = {
       pdfLink: "/portfolio.pdf#page=5",
       demoLink: "#",
       video: "",
-      image: "/projects/erp_backup_thumb.png",
+      // 터미널 스크립트라 태생적으로 UI가 없음 — 모노그램이 임시가 아니라 맞는 답.
+      image: "",
     },
     {
       title: "Dotodo: 음성 입력 기반 AI 개인화 할 일 추천 서비스",
@@ -91,7 +95,8 @@ export const projectsData = {
       pdfLink: "/portfolio.pdf#page=12",
       demoLink: "#",
       video: "",
-      image: "/projects/kdlc_thumb.png",
+      // 노트북 기반 시계열 모델 비교라 태생적으로 UI가 없음 — 모노그램이 맞는 답.
+      image: "",
     },
     {
       title: "go2fit: 피트니스 소셜 앱 백엔드 & DB 설계",

@@ -12,6 +12,10 @@ export const slugify = (title: string) =>
 
 export const projectSlugs = (): string[] => projectsData.items.map((p) => slugify(p.title));
 
+// 데모 영상 경로 → 정지 포스터 경로. 원본 비율이 제각각(세로/정사각/4:3)이라
+// object-fit 계산 없이 실제 프레임을 정지 이미지로 미리 보여주기 위한 규약.
+export const posterOf = (video: string) => video.replace(/\.(mp4|mov)$/i, '_poster.jpg');
+
 export type ProjectItem = typeof projectsData.items[number];
 
 export function getProject(slug: string, locale: 'ko' | 'en'): ProjectItem | null {

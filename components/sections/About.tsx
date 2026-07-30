@@ -1,13 +1,12 @@
-// components/sections/About.tsx — EGO (정체성 + 일하는 방식/인사이트)
+// components/sections/About.tsx — HERO (정체성 + 플래그십 데모 진입점)
 "use client";
-import { useState } from "react";
-import { Plus } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 import Image from "next/image";
 
 export default function About() {
-  const { t } = useTranslation();
-  const [openInsight, setOpenInsight] = useState<number | null>(null);
+  const { t, locale } = useTranslation();
 
   return (
     <section
@@ -47,71 +46,43 @@ export default function About() {
         <span>{t.about.title.highlight}</span>
       </h3>
 
-      {/* 정량 지표 */}
-      {/* <div className="flex flex-wrap gap-x-16 gap-y-6 border-y border-neutral-900 py-6 mb-10"> */}
-      {/*   {t.about.stats.map((stat) => ( */}
-      {/*     <div key={stat.label}> */}
-      {/*       <div className="text-4xl md:text-5xl font-black tracking-tight text-neutral-900 leading-none">{stat.value}</div> */}
-      {/*       <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 mt-3">{stat.label}</div> */}
-      {/*     </div> */}
-      {/*   ))} */}
-      {/* </div> */}
-
-      {/* 서술 (단일 컬럼, 내용 집중) */}
+      {/* 서술 (단일 컬럼, 3-5줄 — 앵커부터) */}
       <div className="space-y-5 text-[15px] md:text-base font-light leading-relaxed text-neutral-600">
         {t.about.content.map((item, i) => (
           <p key={i}>{item.text}</p>
         ))}
       </div>
 
-      {/* 일하는 방식 (인사이트) — 목록화 + 맥락 펼침 */}
-      <div className="mt-16 pt-10 border-t border-neutral-200">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400 mb-6">
-          {t.insights.topLabel}
+      {/* 라이브 데모 진입점 — 숫자·서술보다 "실제로 작동하는 걸 만져보는" 경험이 가장
+          설득력 있는 증거라서, 클릭 한 번으로(스크롤 없이) 접근 가능해야 한다. 새 인프라 없이
+          기존 데모 모달들을 ?demo=1 딥링크로 재사용 — 이미 검증된 경로라 추가 리스크가 없다.
+          AlignAI를 앞·강조(accent 채움)로 둬 헤드라인의 Vision AI 앵커와 일치시키고,
+          Cureat은 보조(아웃라인)로 둬서 앵커를 흐리지 않으면서 폭(NLP/RAG)도 보여준다. */}
+      <div className="mt-10">
+        <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-400">
+          {locale === "en" ? "Live Demos" : "라이브 데모"}
         </div>
-        <div className="border-y border-neutral-200 divide-y divide-neutral-200">
-          {t.insights.items.map((item, i) => {
-            const open = openInsight === i;
-            return (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setOpenInsight(open ? null : i)}
-                aria-expanded={open}
-                className="w-full text-left py-3.5 group"
-              >
-                <div className="flex items-baseline gap-3">
-                  <span className="shrink-0 text-[11px] font-mono font-bold text-neutral-300">
-                    {item.number}
-                  </span>
-                  <p className="min-w-0 flex-1 text-[15px] md:text-base font-semibold text-neutral-900 leading-snug">
-                    &ldquo;{item.principle}&rdquo;
-                  </p>
-                  <span
-                    className={`shrink-0 text-neutral-300 group-hover:text-neutral-500 transition-transform duration-300 ${open ? "rotate-45" : ""}`}
-                    aria-hidden
-                  >
-                    <Plus size={15} />
-                  </span>
-                </div>
-                {/* 펼침: 맥락 + 프로젝트 태그 */}
-                <div
-                  className={`grid transition-all duration-300 ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="pl-7 pt-3">
-                      <p className="text-sm md:text-[15px] font-light leading-relaxed text-neutral-500">
-                        {item.desc}
-                      </p>
-                      <span className="inline-block mt-3 text-[11px] font-bold text-neutral-400 tracking-wide">
-                        {item.project}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </button>
-            );
-          })}
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/projects/alignai?demo=1"
+            className="group inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-accent/90"
+          >
+            AlignAI
+            <ArrowRight
+              size={16}
+              className="transition-transform group-hover:translate-x-1"
+            />
+          </Link>
+          <Link
+            href="/projects/cureat?demo=1"
+            className="group inline-flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-accent hover:text-accent"
+          >
+            Cureat
+            <ArrowRight
+              size={16}
+              className="transition-transform group-hover:translate-x-1"
+            />
+          </Link>
         </div>
       </div>
     </section>

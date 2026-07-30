@@ -10,7 +10,7 @@ export const projectsDataEn = {
             pdfLink: "/portfolio.pdf#page=2",
             demoLink: "#",
             video: "",
-            image: "/projects/edge_ai_lmr_thumb.png"
+            image: ""
         },
         {
             title: "AlignAI: Vision Alignment + MLOps + On-site LLM Agent",
@@ -19,7 +19,7 @@ export const projectsDataEn = {
             pdfLink: "/portfolio.pdf",
             demoLink: "#",
             video: "",
-            image: ""
+            image: "/projects/alignai-samples/sample-1.jpg"
         },
         {
             title: "ERP Backup: Legacy ERP Data Migration Automation",
@@ -28,7 +28,7 @@ export const projectsDataEn = {
             pdfLink: "/portfolio.pdf#page=5",
             demoLink: "#",
             video: "",
-            image: "/projects/erp_backup_thumb.png"
+            image: ""
         },
         {
             title: "Dotodo: AI-Powered Personalized Task Recommendation with Voice Input",
@@ -91,7 +91,7 @@ export const projectsDataEn = {
             pdfLink: "/portfolio.pdf#page=12",
             demoLink: "#",
             video: "",
-            image: "/projects/kdlc_thumb.png"
+            image: ""
         },
         {
             title: "go2fit: Fitness Social App Backend & DB Design",

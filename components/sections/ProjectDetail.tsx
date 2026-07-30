@@ -11,6 +11,7 @@ import {
   PROJECT_FLOWS,
   getMermaid,
   flowToMermaid,
+  posterOf,
 } from "@/lib/projects";
 import { projectDetails } from "@/data/projectDetails";
 import { projectDetailsEn } from "@/data/projectDetails.en";
@@ -77,9 +78,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
   const isCureat = name.toLowerCase() === "cureat";
   const isAlign = slug === "alignai";
   const hasVideo = !!project.video;
-  // 데모 영상마다 원본 비율이 제각각(세로/정사각/4:3 등)이라, object-fit 계산 없이
-  // 실제 영상과 동일한 프레임을 정지 이미지로 미리 보여준다 (재생 전 크롭 방지).
-  const videoPoster = project.video.replace(/\.(mp4|mov)$/i, "_poster.jpg");
+  const videoPoster = posterOf(project.video);
   const relatedHref = `/blog?project=${encodeURIComponent(name)}`;
 
   return (
