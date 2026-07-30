@@ -3,6 +3,7 @@
 import About from '@/components/sections/About';
 import Experience from '@/components/sections/Experience';
 import Projects from '@/components/sections/Projects';
+import Insights from '@/components/sections/Insights';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
 import ScrollFocus from '@/components/ui/ScrollFocus';
@@ -16,6 +17,7 @@ export default function Home() {
       <Suspense fallback={<div className="py-20 text-center">Loading Projects...</div>}>
         <ScrollFocus><Projects /></ScrollFocus>
       </Suspense>
+      <ScrollFocus><Insights /></ScrollFocus>
       <ScrollFocus><Contact /></ScrollFocus>
       <Footer />
     </div>

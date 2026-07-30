@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { shortNameOf, slugify } from '@/lib/projects';
+import { useSectionView } from '@/hooks/useSectionView';
 
 // 진행 중(현재) 프로젝트 — 최상단 고정 노출 (배열 순서대로)
 const CURRENT = ['Edge AI LMR', 'AlignAI', 'go2fit', 'Hosugator'];
@@ -26,6 +27,7 @@ export default function Projects() {
   useEffect(() => { setMounted(true); }, []);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const sectionRef = useSectionView('projects');
 
   // 기존 딥링크(?demo=cureat) 보존 → 해당 프로젝트 상세로 이동
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function Projects() {
   });
 
   return (
-    <section id="projects" className="border-t border-neutral-100 py-24 text-neutral-900">
+    <section id="projects" ref={sectionRef} className="border-t border-neutral-100 py-24 text-neutral-900">
       <div className="mb-14">
         <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
           OUTPUT
@@ -82,6 +84,7 @@ export default function Projects() {
               {hasDemo ? (
                 <a
                   href={`/projects/${slug}?demo=1`}
+                  data-goatcounter-click={`projects-list-demo/${slug}`}
                   className="shrink-0 inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white hover:bg-accent/90 transition-colors"
                 >
                   Live demo <ArrowRight size={12} />
