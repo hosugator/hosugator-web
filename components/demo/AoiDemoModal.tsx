@@ -3,46 +3,44 @@
 /**
  * AoiDemoModal — V1-AOI(PatchCore) 렌즈 표면 이물 탐지 데모. 세 번째 데모.
  *
- * WHY 앞의 두 데모와 구조가 다른가:
- *   cureat·align-ai는 api.hosugator.com에 요청을 보내는 "라이브 추론" 데모다.
- *   이 데모는 **사전 계산(pre-computed)** 이다 — 학습 시 이미 뽑아둔 anomaly map / contour
- *   PNG를 정적 에셋으로 서빙하고, 프론트는 그중 무엇을 보여줄지만 고른다.
+ * WHY 업로드가 없는가 (이 데모의 핵심 설계):
+ *   PatchCore의 memory bank는 이 렌즈 정상 267장의 패치 임베딩으로 만들어졌다. 추론은
+ *   "입력 패치가 가장 가까운 정상 패치와 얼마나 먼가"를 재는 것이므로, 무관한 이미지를
+ *   넣으면 모든 패치가 정상 분포에서 멀어 전체가 붉게 나오는 무의미한 출력이 된다.
+ *   일반화하는 분류기가 아니다. → 입력은 고정 샘플 6장으로 한정한다.
  *
- *   그래서 없는 것: fetch / isLoading / error / 업로드.
- *   대신 있는 것: 샘플 선택 + 뷰 전환(히트맵 ↔ 컨투어).
+ *   대신 **추론은 요청마다 실제로 돈다.** api.hosugator.com/api/aoi/infer/{id}가
+ *   arm64 노드에서 onnxruntime을 돌려 heatmap·contour·score를 만들어 돌려준다.
+ *   사전 계산된 PNG를 서빙하는 것과 구별되는 지점이고, 응답의 latency_ms를 UI에 그대로
+ *   노출해 "진짜 모델이 진짜로 돈다"는 것을 숨기지 않고 드러낸다.
  *
- *   이유는 추론 예산이다. PatchCore는 WideResNet50 백본 + coreset memory bank가 상주해야 해서
- *   align-ai(EfficientNet-B0)보다 무겁다. Oracle Always Free 2 OCPU ARM 노드를 이미
- *   align-ai(2Gi) + cureat이 나눠 쓰고 있으므로, 라이브 추론은 ONNX 경량화(ml/aoi/export.py)를
- *   거친 뒤 2단계로 미룬다. 정적 데모만으로도 "무엇을 하는 모델인가"는 100% 전달된다.
+ * WHY 정적 에셋 폴백을 두는가:
+ *   추론이 1.8초 걸리고 단일 replica라, 파드 재시작·콜드스타트 시점에 요청이 실패할 수 있다.
+ *   포트폴리오에서 데모가 에러 화면을 보이는 것이 가장 나쁘므로, 실패 시 커밋된 정적
+ *   결과(public/projects/aoi-samples)로 조용히 대체하고 배지로만 상태를 알린다.
  *
  * 셸(DemoModal)은 그대로 재사용 — 데모 간 UX 통일. body/footer만 이 파일에서 정의한다.
  */
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Loader2, RotateCcw } from "lucide-react";
 import DemoModal from "./DemoModal";
 
 // ── 샘플 세트 ────────────────────────────────────────────────────────────
-// WHY 6장인가: align-ai 데모와 동일한 개수 → 그리드 레이아웃(grid-cols-6)을 그대로 재사용.
+// 서버(app.py)의 SAMPLES 딕셔너리와 id·verdict가 일치해야 한다.
 //
 // WHY 이 6장인가: circle-crop 데이터셋(236×236)에서만 골랐다. 원본 전체 프레임(1120×1120)
-//   모델의 anomaly map은 라벨 스티커·배경까지 전부 붉게 반응해 국소화가 안 된다
-//   (eval_report.md의 Pixel AUROC 0.0000이 같은 사실을 가리킨다). 반면 circle-crop 세트는
-//   배경이 균일한 파란 필드로 나오고 이물만 좁게 붉어져 데모로 읽힌다.
+//   모델의 anomaly map은 라벨 스티커·배경까지 전부 붉게 반응해 국소화가 안 된다.
+//   반면 circle-crop 세트는 배경이 균일한 파란 필드로 나오고 이물만 좁게 붉어진다.
 //
-// WHY 파일명을 ng-01 / ok-01로 바꿨나: 원본 파일명이
-//   `Pc1_Tray162_Scan1_Tap12_Index17_Code3_1` 형태로 트레이·스캔·탭 인덱스와 불량 코드까지
-//   담고 있었다. 공개 사이트 에셋 경로에 고객사 생산 메타데이터를 노출하지 않기 위해
-//   중립 슬러그로 재명명했다. (circle 세트는 `dustcircle_OK_101` 형태로 덜 민감하지만 동일 적용)
-//
-// NOTE 원본의 `_OK_`는 라벨이 아니라 원본 파일명의 일부다. 실제 정답은 소스 폴더로 갈린다:
-//   abnormal/(=2_dust_circle, 이물 243장) → NG,  normal_test/(=1_test_circle, 68장) → OK
+// NOTE verdict는 데이터셋 소스 폴더 기준 정답이다(모델 출력이 아니다).
+//   abnormal/(2_dust_circle, 이물 243장) → NG,  normal_test/(1_test_circle, 68장) → OK
 type Verdict = "NG" | "OK";
 
 interface Sample {
-  id: string; // 에셋 파일 prefix — `${id}-input|heatmap|contour.webp`
-  verdict: Verdict; // 데이터셋 소스 폴더 기준 정답(ground truth)
+  id: string;
+  verdict: Verdict;
 }
 
 const SAMPLES: Sample[] = [
@@ -54,12 +52,24 @@ const SAMPLES: Sample[] = [
   { id: "ok-02", verdict: "OK" },
 ];
 
+const API_BASE = "https://api.hosugator.com/api/aoi";
+
+// 폴백용 정적 결과. 썸네일(입력 이미지)에도 이걸 쓴다 — 6장을 API로 받을 이유가 없다.
 const ASSET_BASE = "/projects/aoi-samples";
 
-// 오버레이 뷰 종류.
-//   heatmap = anomaly score를 색으로 (모델이 "어디를 이상하게 보는가")
-//   contour = 임계값 넘은 영역의 외곽선을 원본 위에 (실제 공정에서 쓰는 판정 출력)
 type ViewMode = "heatmap" | "contour";
+
+// GET /infer/{id} 응답 형태 (서버 app.py 참고)
+interface InferResult {
+  id: string;
+  verdict: Verdict;
+  score: number; // 이미지 레벨 이상 점수 (0~1, threshold 기준 정규화됨)
+  label: boolean; // true = 이물 검출
+  latency_ms: number; // 실제 추론 시간
+  input_png: string; // base64 PNG
+  heatmap_png: string;
+  contour_png: string;
+}
 
 export default function AoiDemoModal({
   isOpen,
@@ -82,8 +92,17 @@ export default function AoiDemoModal({
       verdictNG: "이물 검출",
       verdictOK: "정상",
       groundTruth: "데이터셋 정답",
-      precomputed:
-        "사전 계산된 추론 결과입니다. 학습에 정상 샘플만 사용하는 비지도 방식이라, 불량 이미지를 한 장도 학습하지 않고 이물 위치를 찾습니다.",
+      loading: "추론 중입니다",
+      loadingHint: "WideResNet50 백본 · arm64 2 vCPU에서 약 1.8초 소요됩니다",
+      retry: "다시 시도",
+      fallback: "정적 결과 표시 중 (서버 응답 없음)",
+      score: "이상 점수",
+      latency: "추론 시간",
+      why:
+        "업로드를 받지 않습니다. PatchCore는 정상 이미지의 패치 임베딩으로 memory bank를 만들고 " +
+        "추론 시 가장 가까운 정상 패치와의 거리를 이상 점수로 쓰므로, 이 렌즈 공정과 무관한 " +
+        "이미지를 넣으면 전체가 이상으로 반응해 의미가 없습니다. 대신 고정 샘플에 대해 " +
+        "요청마다 실제로 추론이 실행됩니다.",
     },
     en: {
       title: "AOI Contamination Detection Demo",
@@ -99,43 +118,72 @@ export default function AoiDemoModal({
       verdictNG: "Contamination found",
       verdictOK: "Normal",
       groundTruth: "Dataset ground truth",
-      precomputed:
-        "These are pre-computed inference results. Training uses normal samples only — the model localizes contamination without having seen a single defective image.",
+      loading: "Running inference",
+      loadingHint:
+        "WideResNet50 backbone · about 1.8s on an arm64 2 vCPU node",
+      retry: "Try again",
+      fallback: "Showing static result (server unreachable)",
+      score: "Anomaly score",
+      latency: "Inference time",
+      why:
+        "No uploads. PatchCore builds a memory bank from patch embeddings of normal images and " +
+        "scores anomalies by distance to the nearest normal patch — so an image unrelated to this " +
+        "lens process would light up entirely and mean nothing. Instead, inference actually runs " +
+        "on each request against the fixed samples.",
     },
   }[locale];
 
-  // 첫 진입에 이미 결과가 보이도록 NG 샘플 하나를 기본 선택.
-  // WHY: 이 데모는 업로드가 없으므로 빈 idle 상태를 보여줄 이유가 없다.
-  //      모달을 열자마자 "이물이 붉게 잡힌 그림"이 보이는 게 전달력이 가장 높다.
   const [selected, setSelected] = useState<Sample>(SAMPLES[0]);
-
-  // WHY 뷰를 상태로 두나: 236px 이미지 3장을 가로로 늘어놓으면 전부 눌려서 아무것도 안 보인다.
-  //   → 원본은 왼쪽에 고정하고 오른쪽 한 칸만 토글한다.
-  // WHY 샘플 변경 시 뷰를 리셋하지 않나: 같은 뷰로 여러 샘플을 훑는 게 비교에 유리하다
-  //   (히트맵만 연달아 보면 NG/OK 차이가 바로 드러난다).
   const [view, setView] = useState<ViewMode>("heatmap");
+  const [result, setResult] = useState<InferResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  // 폴백 모드 — API 실패 시 정적 에셋으로 대체했음을 표시한다(에러 화면을 띄우지 않는다).
+  const [fellBack, setFellBack] = useState(false);
 
-  // WHY 파생 값을 state로 안 두나: 경로는 (선택 샘플, 뷰 모드)로 100% 결정된다.
-  //   별도 state로 들면 setSelected와 setView 사이 동기화 버그가 생긴다
-  //   (샘플만 바꾸고 경로 갱신을 잊으면 이전 샘플 이미지가 남는다).
-  //   "state는 최소, 나머지는 유도" — 렌더마다 계산하는 게 정답.
-  const inputSrc = `${ASSET_BASE}/${selected.id}-input.webp`;
-  const overlaySrc = `${ASSET_BASE}/${selected.id}-${view}.webp`;
+  const runInference = useCallback(async (sample: Sample) => {
+    setIsLoading(true);
+    setFellBack(false);
+    setResult(null);
+    try {
+      const res = await fetch(`${API_BASE}/infer/${sample.id}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setResult((await res.json()) as InferResult);
+    } catch {
+      // 조용히 정적 결과로 대체. 사용자에게 스택트레이스를 보여줄 이유가 없다.
+      setFellBack(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // 모달이 열릴 때, 그리고 샘플이 바뀔 때마다 추론한다.
+  // WHY 캐시하지 않나: 같은 샘플을 다시 눌러도 다시 도는 게 "실제로 추론한다"는 주장에 맞다.
+  //   결과를 캐싱하면 두 번째부터는 사전 계산과 구별되지 않는다.
+  useEffect(() => {
+    if (!isOpen) return;
+    runInference(selected);
+  }, [isOpen, selected, runInference]);
 
   const isNG = selected.verdict === "NG";
 
-  // 두 <img>가 같은 클래스를 써야 비교 축이 흔들리지 않는다.
-  // (236×236 정사각인데 한쪽만 스타일이 다르면 "같은 이미지의 다른 표현"으로 안 읽힌다)
   const imgClass =
     "block w-full rounded-md border border-neutral-200 bg-neutral-900";
+
+  // 표시할 이미지 소스 — API 결과가 있으면 base64, 없으면 정적 에셋.
+  // WHY 파생 계산인가: (result, selected, view)로 100% 결정된다. state로 들면 동기화 버그가 생긴다.
+  const png = (b64: string) => `data:image/png;base64,${b64}`;
+  const inputSrc = result
+    ? png(result.input_png)
+    : `${ASSET_BASE}/${selected.id}-input.webp`;
+  const overlaySrc = result
+    ? png(view === "heatmap" ? result.heatmap_png : result.contour_png)
+    : `${ASSET_BASE}/${selected.id}-${view}.webp`;
 
   const VIEWS: { mode: ViewMode; label: string }[] = [
     { mode: "heatmap", label: t.heatmap },
     { mode: "contour", label: t.contour },
   ];
 
-  // footer — 샘플 갤러리. align-ai는 업로드 폼이 footer였지만 여기는 업로드가 없으므로
-  // 샘플 선택을 footer로 내렸다(셸의 "입력 영역" 슬롯 의미를 그대로 유지).
   const footer = (
     <div>
       <p className="font-mono text-[10px] uppercase tracking-widest text-neutral-400 mb-3">
@@ -147,8 +195,9 @@ export default function AoiDemoModal({
             key={s.id}
             type="button"
             onClick={() => setSelected(s)}
+            disabled={isLoading}
             aria-pressed={selected.id === s.id}
-            className={`relative rounded-md overflow-hidden border-2 transition-colors ${
+            className={`relative rounded-md overflow-hidden border-2 transition-colors disabled:opacity-40 ${
               selected.id === s.id
                 ? "border-accent"
                 : "border-neutral-200 hover:border-neutral-400"
@@ -177,11 +226,8 @@ export default function AoiDemoModal({
       subtitle={t.subtitle}
       footer={footer}
     >
-      {/* 판정 배지 — 데이터셋 ground truth 라벨.
-          WHY 모델의 anomaly score를 안 쓰나: circle 모델의 검증 리포트가 레포에 남아있지 않아
-          인용할 수 있는 실제 수치가 없다. 없는 숫자를 만들어 넣는 대신 정답 라벨만 표기하고,
-          라벨의 출처를 옆에 명시해 "모델 출력"으로 오해되지 않게 했다. */}
-      <div className="flex items-center gap-2.5 mb-5">
+      {/* 상단 메타 행 — 정답 배지 + 모델 출력(점수·지연) */}
+      <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2">
         <span
           className={`font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded border ${
             isNG
@@ -194,6 +240,26 @@ export default function AoiDemoModal({
         <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-400">
           {t.groundTruth}
         </span>
+
+        {/* 모델이 실제로 돌았을 때만 노출 — 폴백 상태에서 가짜 수치를 보이지 않는다. */}
+        {result && (
+          <span className="font-mono text-[10px] uppercase tracking-widest text-neutral-500">
+            {t.score} {result.score} · {t.latency} {Math.round(result.latency_ms)}ms
+          </span>
+        )}
+        {fellBack && (
+          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-neutral-400">
+            {t.fallback}
+            <button
+              type="button"
+              onClick={() => runInference(selected)}
+              className="inline-flex items-center gap-1 text-neutral-500 hover:text-accent transition-colors"
+            >
+              <RotateCcw size={11} />
+              {t.retry}
+            </button>
+          </span>
+        )}
       </div>
 
       {/* 비교 뷰 — 왼쪽 원본 고정 / 오른쪽 오버레이 토글 */}
@@ -207,18 +273,23 @@ export default function AoiDemoModal({
         </figure>
 
         <figure>
-          {/* key를 붙여 뷰 전환 시 <img>를 교체 — 이전 이미지가 남아있다가
-              새 이미지로 튀는 깜빡임을 방지한다. */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            key={overlaySrc}
-            src={overlaySrc}
-            alt={view === "heatmap" ? t.heatmap : t.contour}
-            className={imgClass}
-          />
+          <div className="relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              key={overlaySrc.slice(0, 64)}
+              src={overlaySrc}
+              alt={view === "heatmap" ? t.heatmap : t.contour}
+              className={`${imgClass} ${isLoading ? "opacity-30" : ""}`}
+            />
+            {/* 로딩을 이미지 위에 겹친다 — 레이아웃이 흔들리지 않고, 이전 결과가 흐리게
+                남아 "무엇이 갱신되는 중인지"가 보인다. */}
+            {isLoading && (
+              <div className="absolute inset-0 grid place-items-center">
+                <Loader2 className="animate-spin text-accent" size={28} />
+              </div>
+            )}
+          </div>
           <figcaption className="mt-2 flex gap-3">
-            {/* WHY 드롭다운이 아니라 토글 버튼인가: 선택지가 2개뿐이고 즉시 왕복 비교가 목적이다.
-                클릭 1회로 오갈 수 있게 항상 노출해 둔다. */}
             {VIEWS.map((v) => (
               <button
                 key={v.mode}
@@ -238,16 +309,13 @@ export default function AoiDemoModal({
         </figure>
       </div>
 
-      {/* 현재 뷰가 무엇을 보여주는지 한 줄 설명 — 히트맵과 컨투어의 의미가 다르다. */}
       <p className="mt-3 text-xs font-light leading-relaxed text-neutral-500">
-        {view === "heatmap" ? t.heatmapHint : t.contourHint}
+        {isLoading ? t.loadingHint : view === "heatmap" ? t.heatmapHint : t.contourHint}
       </p>
 
-      {/* 방식 설명 — 데모의 핵심 주장(비지도)을 문장으로 못박는다.
-          WHY 필요한가: 히트맵만 보면 "불량 이미지로 학습한 분류기"로 오해할 수 있다.
-               PatchCore가 정상 샘플만으로 memory bank를 만든다는 점이 이 모델 선택의 이유다. */}
+      {/* 업로드가 없는 이유 — 이 데모의 논지. 없으면 "왜 내 이미지를 못 넣지"로 읽힌다. */}
       <p className="mt-4 border-t border-neutral-200 pt-4 text-xs font-light leading-relaxed text-neutral-500">
-        {t.precomputed}
+        {t.why}
       </p>
     </DemoModal>
   );
