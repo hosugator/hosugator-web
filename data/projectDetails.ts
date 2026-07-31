@@ -22,14 +22,36 @@ export const projectDetails: Record<string, ProjectDetailContent> = {
     decision:
       '단순 이상탐지를 넘어 처방적 제어 루프(M1→M2→M3)까지 완성하는 것을 목표로 설정했습니다. Field/Control/Edge/Cloud 4계층을 독립 배포 단위로 분리하고, Cycle_ID를 Golden Key로 삼아 전 계층 시공간 데이터를 단일 키로 조인. 통신은 데이터 온도별 3티어(MQTT Binary HOT · gRPC Streaming WARM · Parquet COLD)로 분리해 처리량·지연·비용을 동시에 최적화했습니다.',
     implementation: [
-      { title: 'M1 — 이상탐지', body: '1D-CNN Autoencoder 재구성 오차 기반 Anomaly Score(Anomalib PatchCore)로 AUROC 99.99%. Score를 M2 입력 피처로 전달해 체인을 연결.' },
+      // 정정: 원래 이 항목이 "1D-CNN Autoencoder ... (Anomalib PatchCore)"로 두 모델을 한 문장에
+      // 섞어 서술했다. M1은 시계열 센서 이상탐지(1D-CNN AE)이고, PatchCore는 별개 워크스트림인
+      // 비전 AOI(V1-AOI, 아래 'v1-aoi' 항목)다. 둘을 분리했다.
+      { title: 'M1 — 이상탐지', body: '1D-CNN Autoencoder 재구성 오차 기반 Anomaly Score로 AUROC 99.99%. Score를 M2 입력 피처로 전달해 체인을 연결.' },
       { title: 'M2 — 품질예측', body: 'LSTM(시계열 장기 패턴)+XGBoost(비선형 피처) 앙상블. M1 Score를 공동 입력해 예측 정확도를 높이고 예측값을 M3 State로 전달.' },
       { title: 'M3 — 처방제어', body: 'Deep Q-Network으로 최적 온도·압력 Set-point를 Action으로 계산해 PLC에 피드백하는 폐루프 제어. 현재 시뮬레이션 검증 단계.' },
       { title: '데이터 통신 3-Tier', body: 'HOT: MQTT QoS0 Binary(10ms 무손실 버퍼) · WARM: gRPC 양방향 스트리밍(Protobuf) · COLD: Parquet 배치 오프로드로 드리프트 재학습.' },
     ],
     results:
       '이상탐지 AUROC 99.99% 달성. React18+TS HMI 대시보드(Process·Quality·Anomaly·Energy 4뷰)를 Zod 공유 스키마로 FE↔BE API 계약을 컴파일 타임에 강제해 타입 불일치를 제거했습니다. 다음 단계: M3 DQN 실 PLC 투입 전 Fail-safe·SIL 안전 검증, VLM 기반 자연어 이상 해설 레이어 추가.',
-    stack: ['MQTT', 'gRPC', 'Node.js', 'React18 + TS', 'Zod', 'Anomalib', 'PyTorch'],
+    stack: ['MQTT', 'gRPC', 'Node.js', 'React18 + TS', 'Zod', 'PyTorch'],
+  },
+
+  'v1-aoi': {
+    // 아래 문장들은 PJT-EDGE-AI-LMR 레포에서 확인된 사실만 담았다.
+    // TODO(you) 표시가 있는 곳은 내가 검증할 수 없는 부분 — 직접 채울 것.
+    context:
+      'Edge AI LMR(렌즈 열성형 Factory OS)의 비전 검사 워크스트림입니다. 공정 지능화(M1~M3)가 PLC 시계열을 다루는 반면, 이쪽은 이미지 기반 표면 검사를 다루며 ADR-020에서 단독 납품 패키지로 범위가 분리돼 있습니다. ' +
+      '렌즈 표면 이물(dust) 검사는 육안 검사에 의존해 검사자 피로도에 따라 판정이 흔들렸습니다. 지도학습으로 풀려면 불량 유형별로 라벨링된 이미지가 필요하지만, 실제 공정에서 불량은 드물게 발생하고 유형도 미리 다 알 수 없어 라벨 확보 자체가 병목이었습니다.',
+    decision:
+      '"불량을 학습해서 찾는다"를 포기하고 "정상이 아닌 것을 찾는다"로 문제를 재정의했습니다. PatchCore는 정상 이미지의 패치 임베딩만으로 memory bank를 만들고, 추론 시 가장 가까운 정상 패치와의 거리를 이상 점수로 씁니다. 불량 이미지가 학습에 한 장도 필요 없으므로 라벨링 병목이 사라지고, 미지의 불량 유형에도 반응합니다.',
+    implementation: [
+      { title: 'PatchCore 구성', body: 'WideResNet50 백본의 layer2·layer3 중간 특징을 사용하고 coreset sampling 10%로 memory bank를 압축. 얕은 층은 텍스처, 깊은 층은 구조를 담으므로 두 층을 함께 써야 미세 이물과 형태 이상을 모두 잡는다.' },
+      { title: '데이터 구성', body: '학습에 정상 267장만 투입. 테스트는 정상 68장 + 이물 243장으로 분리해, 학습에 쓰이지 않은 정상셋으로 오검출(false positive)을 따로 측정할 수 있게 구성.' },
+      { title: 'circle-crop 전처리', body: '전체 프레임(1120×1120)으로 학습한 모델은 라벨 스티커·배경 텍스처까지 이상으로 반응해 국소화가 무의미해졌다. 렌즈 원형 영역만 236×236으로 잘라내 배경 변인을 제거하자 이물만 좁게 반응하도록 개선됐다.' },
+      { title: 'ONNX 추론 경로', body: 'export.py로 체크포인트를 ONNX로 변환. 엣지 PC에 PyTorch 런타임을 설치하지 않고 onnxruntime만으로 추론 가능 — 납품 환경의 의존성과 이미지 크기를 줄이기 위한 선택.' },
+    ],
+    results:
+      '이물 판정 Image AUROC 0.9906 · F1 0.9879. CPU 단독 추론은 254.9ms/frame(P95 279.7ms)으로, 엣지 목표치인 100ms에는 아직 못 미칩니다 — 실시간 인라인 검사에 투입하려면 ONNX 양자화나 백본 경량화가 남은 과제입니다. 픽셀 단위 AUROC는 미측정 상태인데, Folder 데이터셋에 픽셀 마스크(mask_dir) 정답이 없어 국소화 정확도를 수치로 검증할 수 없기 때문입니다. 지금은 히트맵을 눈으로 확인하는 정성 평가에 의존하고 있어, 마스크 라벨 일부 확보가 다음 우선순위입니다. 가장 큰 교훈은 모델보다 입력 정의가 결과를 갈랐다는 점입니다 — 전체 프레임으로는 배경·라벨 스티커까지 이상으로 반응해 국소화가 무의미했지만, 렌즈 원형 영역만 잘라내자 같은 모델이 이물만 좁게 잡아냈습니다.',
+    stack: ['PatchCore', 'anomalib v2', 'PyTorch', 'WideResNet50', 'ONNX Runtime', 'OpenCV'],
   },
 
   'alignai': {

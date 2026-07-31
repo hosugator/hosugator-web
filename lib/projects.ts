@@ -54,6 +54,21 @@ export const PROJECT_MERMAID: Record<string, string[]> = {
   M3 -->|"Set-point 피드백"| PLC
   LAKE -.->|재학습| CHAIN`,
   ],
+  'v1-aoi': [
+    `flowchart TB
+  subgraph TRAIN["학습 · 정상 데이터만"]
+    NORM["정상 렌즈 267장"] --> CROP["circle-crop 236x236"]
+    CROP --> FEAT["WideResNet50 · layer2+layer3"]
+    FEAT --> CORE["Coreset 10% 압축"] --> BANK[("Memory Bank")]
+  end
+  subgraph INFER["추론 · 엣지 CPU"]
+    IN["검사 이미지"] --> FEAT2["패치 임베딩"]
+    FEAT2 --> NN["최근접 정상 패치 거리"]
+    NN --> MAP["Anomaly Map"] --> TH["임계값 → 컨투어"] --> JUDGE["OK / NG 판정"]
+  end
+  BANK -.->|"거리 기준"| NN
+  BANK --> ONNX["ONNX 변환 · onnxruntime"] -.-> INFER`,
+  ],
   'alignai': [
     `flowchart TB
   subgraph INFER["추론 · k3s Edge"]
@@ -199,6 +214,21 @@ export const PROJECT_MERMAID_EN: Record<string, string[]> = {
   M3 -->|"Set-point feedback"| PLC
   LAKE -.->|retrain| CHAIN`,
   ],
+  'v1-aoi': [
+    `flowchart TB
+  subgraph TRAIN["Training · normal data only"]
+    NORM["267 normal lenses"] --> CROP["circle-crop 236x236"]
+    CROP --> FEAT["WideResNet50 · layer2+layer3"]
+    FEAT --> CORE["Coreset 10% compression"] --> BANK[("Memory Bank")]
+  end
+  subgraph INFER["Inference · edge CPU"]
+    IN["Inspection image"] --> FEAT2["Patch embedding"]
+    FEAT2 --> NN["Distance to nearest normal patch"]
+    NN --> MAP["Anomaly Map"] --> TH["Threshold → contour"] --> JUDGE["OK / NG verdict"]
+  end
+  BANK -.->|"distance basis"| NN
+  BANK --> ONNX["ONNX export · onnxruntime"] -.-> INFER`,
+  ],
   'alignai': [
     `flowchart TB
   subgraph INFER["Inference · k3s Edge"]
@@ -335,6 +365,9 @@ export const PROJECT_FLOWS: Record<string, Flow[]> = {
   'edge-ai-lmr': [
     { label: '4-Tier Architecture', stages: ['Field', 'Control', 'Edge', 'Cloud'] },
     { label: '3-Stage AI Chain', stages: ['1D-CNN AE', 'LSTM + XGBoost', 'DQN'] },
+  ],
+  'v1-aoi': [
+    { label: 'Unsupervised AOI', stages: ['Normal-only Training', 'Memory Bank', 'Patch Distance', 'Anomaly Map'] },
   ],
   'alignai': [
     { label: 'Vision', stages: ['OpenCV (rule-based)', 'U-Net Segmentation'] },

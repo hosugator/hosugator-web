@@ -17,6 +17,7 @@ import { projectDetailsEn } from "@/data/projectDetails.en";
 import Mermaid from "@/components/ui/Mermaid";
 import CureatDemoModal from "@/components/demo/CureatDemoModal";
 import AlignAiDemoModal from "@/components/demo/AlignAiDemoModal";
+import AoiDemoModal from "@/components/demo/AoiDemoModal";
 
 export default function ProjectDetail({ slug }: { slug: string }) {
   const { locale } = useLanguage();
@@ -76,6 +77,8 @@ export default function ProjectDetail({ slug }: { slug: string }) {
   const detail = (locale === "en" ? projectDetailsEn : projectDetails)[slug];
   const isCureat = name.toLowerCase() === "cureat";
   const isAlign = slug === "alignai";
+  const isAoi = slug === "v1-aoi";
+  const hasDemo = isCureat || isAlign || isAoi;
   const hasVideo = !!project.video;
   // 데모 영상마다 원본 비율이 제각각(세로/정사각/4:3 등)이라, object-fit 계산 없이
   // 실제 영상과 동일한 프레임을 정지 이미지로 미리 보여준다 (재생 전 크롭 방지).
@@ -130,12 +133,14 @@ export default function ProjectDetail({ slug }: { slug: string }) {
           )}
         </div>
       )}
-      {(isCureat || isAlign) && (
+      {hasDemo && (
         <button
           onClick={() => setDemoOpen(true)}
           className="inline-flex items-center gap-2 mb-10 rounded-full bg-accent text-white px-5 py-2.5 text-sm font-bold hover:bg-accent/90 transition-colors"
         >
-          LIVE DEMO <ArrowRight size={16} />
+          {/* 라벨 통일 — Projects.tsx의 DEMO_SLUGS 주석 참고.
+              "라이브 추론이냐"는 모달 본문에서 밝히고, 버튼은 찾기 쉽게 한 문구로 둔다. */}
+          DEMO <ArrowRight size={16} />
         </button>
       )}
 
@@ -273,6 +278,9 @@ export default function ProjectDetail({ slug }: { slug: string }) {
       )}
       {isAlign && (
         <AlignAiDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
+      )}
+      {isAoi && (
+        <AoiDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
       )}
     </div>
   );

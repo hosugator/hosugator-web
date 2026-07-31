@@ -13,6 +13,17 @@ export const projectsDataEn = {
             image: "/projects/edge_ai_lmr_thumb.png"
         },
         {
+            // Slug derives from the part before ':' → "v1-aoi". Must match the KO entry,
+            // otherwise the EN locale loses the detail page and the demo button.
+            title: "V1-AOI: PatchCore-based Lens Surface Contamination Detection",
+            tags: ["#Industrial-AI", "#AnomalyDetection", "#PatchCore", "#ONNX"],
+            desc: "Image AUROC 0.9906 · F1 0.9879 on contamination verdicts — achieved without training on a single defective image. Training on 267 normal samples only, PatchCore (WideResNet50, 10% coreset) builds the memory bank, removing the labeling bottleneck; circle-crop preprocessing eliminated background false responses. ONNX export opens a PyTorch-free edge CPU inference path (254.9ms/frame).",
+            pdfLink: "#",
+            demoLink: "#",
+            video: "",
+            image: ""
+        },
+        {
             title: "AlignAI: Vision Alignment + MLOps + On-site LLM Agent",
             tags: ["#Industrial-AI", "#LLM-Agent", "#MLOps", "#k3s", "#React"],
             desc: "Replaced rule-based OpenCV with U-Net Segmentation (100% detection · 91% pass rate), then built GitOps ML CI/CD (GHCR→Argo CD) on a Docker·k3s edge cluster and integrated a React+TS HMI (UI/UX) with an LLM agent (function calling · ReAct) that explains field anomalies — an end-to-end industrial AI system.",

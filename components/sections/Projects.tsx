@@ -10,16 +10,33 @@ import { shortNameOf, slugify } from '@/lib/projects';
 import { useSectionView } from '@/hooks/useSectionView';
 
 // 진행 중(현재) 프로젝트 — 최상단 고정 노출 (배열 순서대로)
-const CURRENT = ['Edge AI LMR', 'AlignAI', 'go2fit', 'Hosugator'];
+// NOTE 이 배열은 "진행 중" 표시(accent 점)와 루트 정렬 순서를 겸한다.
+//   자식 프로젝트(PARENT에 등재된 것)는 루트 정렬에서 제외되므로,
+//   여기 등재해도 순서에는 영향이 없고 점만 붙는다.
+const CURRENT = ['Edge AI LMR', 'V1-AOI', 'AlignAI', 'go2fit', 'Hosugator'];
 // 프로젝트 연도 (정렬·표시용). 필요 시 여기만 수정.
 const YEAR: Record<string, string> = {
   'AlignAI': '2026', 'Edge AI LMR': '2026', 'ERP Backup': '2026', 'Hosugator': '2026',
-  'go2fit': '2026',
+  'go2fit': '2026', 'V1-AOI': '2026',
   'Dotodo': '2025', 'Sodamdiary': '2025', 'Pictag': '2025', 'Cureat': '2025',
   'Dorosee': '2025', 'KDLC': '2025',
 };
 
-const DEMO_SLUGS = new Set(["cureat", "alignai"]);
+// 프로젝트 계층 — 자식은 부모 바로 아래에 들여쓰기로 붙는다. { 자식: 부모 }
+//
+// WHY 별도 카드를 유지하면서 계층을 주나:
+//   V1-AOI는 Edge AI LMR과 같은 Factory OS의 비전 워크스트림이라 종속 관계가 사실이다.
+//   동시에 ADR-020이 "공정 모델(M1~M3)은 범위 밖, V1-AOI 단독 패키지 전제"로 납품 경계를
+//   잘라둔 독립 산출물이기도 하다.
+//   완전 병합하면 비지도 이상탐지라는 별개 역량이 구현 카드 한 줄로 뭉개지고,
+//   완전 분리하면 한 프로젝트를 둘로 쪼개 분량을 늘린 것처럼 읽힌다.
+//   계층 표현이 둘 다 해결한다 — 종속성을 드러내면서 살아있는 산출물로 남긴다.
+const PARENT: Record<string, string> = { 'V1-AOI': 'Edge AI LMR' };
+
+// 데모 모달을 가진 프로젝트 — 목록에서 바로 진입 가능한 버튼을 붙인다.
+// 라벨은 "Live demo"가 아니라 "Demo"다: v1-aoi는 사전 계산 결과를 보여주는 정적 데모라
+// "Live"가 사실과 다르다. 데모별로 라벨을 다르게 두면 버튼을 못 찾으므로 문구를 통일했다.
+const DEMO_SLUGS = new Set(["cureat", "alignai", "v1-aoi"]);
 
 export default function Projects() {
   const { locale } = useLanguage();
@@ -38,16 +55,31 @@ export default function Projects() {
 
   if (!mounted) return <section id="projects" className="py-24"></section>;
 
+  // 자식은 정렬 대상에서 빼둔다 — 부모 위치가 확정된 뒤 그 바로 아래로 삽입하기 때문.
+  // WHY: 자식을 같이 정렬하면 CURRENT/YEAR를 나중에 손볼 때 부모-자식 인접이 조용히 깨진다.
+  const isChild = (name: string) => name in PARENT;
+  const children = currentData.items.filter((p) => isChild(shortNameOf(p.title)));
+
   // 진행 중 프로젝트를 최상단에, 나머지는 시간순(최신 우선)
-  const items = [...currentData.items].sort((a, b) => {
-    const an = shortNameOf(a.title), bn = shortNameOf(b.title);
-    const ai = CURRENT.indexOf(an), bi = CURRENT.indexOf(bn);
-    if (ai !== -1 || bi !== -1) {
-      if (ai !== -1 && bi !== -1) return ai - bi;
-      return ai !== -1 ? -1 : 1;
-    }
-    return (YEAR[bn] || '').localeCompare(YEAR[an] || '');
-  });
+  const roots = currentData.items
+    .filter((p) => !isChild(shortNameOf(p.title)))
+    .sort((a, b) => {
+      const an = shortNameOf(a.title), bn = shortNameOf(b.title);
+      const ai = CURRENT.indexOf(an), bi = CURRENT.indexOf(bn);
+      if (ai !== -1 || bi !== -1) {
+        if (ai !== -1 && bi !== -1) return ai - bi;
+        return ai !== -1 ? -1 : 1;
+      }
+      return (YEAR[bn] || '').localeCompare(YEAR[an] || '');
+    });
+
+  // 루트 뒤에 자기 자식을 이어 붙여 평탄화. depth가 렌더의 들여쓰기 단서가 된다.
+  const items = roots.flatMap((root) => [
+    { project: root, depth: 0 },
+    ...children
+      .filter((c) => PARENT[shortNameOf(c.title)] === shortNameOf(root.title))
+      .map((c) => ({ project: c, depth: 1 })),
+  ]);
 
   return (
     <section id="projects" ref={sectionRef} className="border-t border-neutral-100 py-24 text-neutral-900">
@@ -62,12 +94,13 @@ export default function Projects() {
 
       {/* 시간순 리스트 — 행 클릭 시 프로젝트 상세로 이동 */}
       <div className="border-t border-neutral-200">
-        {items.map((project) => {
+        {items.map(({ project, depth }) => {
           const name = shortNameOf(project.title);
           const year = YEAR[name] || '';
           const isCurrent = CURRENT.includes(name);
           const slug = slugify(project.title);
           const hasDemo = DEMO_SLUGS.has(slug);
+          const parent = PARENT[name];
           return (
             <div
               key={project.title}
@@ -75,6 +108,16 @@ export default function Projects() {
             >
               <a href={`/projects/${slug}`} className="flex items-center gap-4 sm:gap-6 flex-1 min-w-0">
                 <span className="font-mono text-xs text-neutral-300 w-10 shrink-0">{year}</span>
+                {depth > 0 && (
+                  // 트리 커넥터 — 들여쓰기와 종속 관계를 동시에 표현한다.
+                  // 시각 단서(들여쓰기)는 스크린리더에 전달되지 않으므로 sr-only로 관계를 따로 읽어준다.
+                  <>
+                    <span className="font-mono text-sm text-neutral-300 shrink-0" aria-hidden>
+                      └
+                    </span>
+                    <span className="sr-only">{parent} 하위 프로젝트: </span>
+                  </>
+                )}
                 <span className="flex items-center gap-2 shrink-0">
                   {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-accent" title="In progress" aria-hidden />}
                   <span className="font-black text-neutral-900 group-hover:text-accent transition-colors">{name}</span>
@@ -87,7 +130,7 @@ export default function Projects() {
                   data-goatcounter-click={`projects-list-demo/${slug}`}
                   className="shrink-0 inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white hover:bg-accent/90 transition-colors"
                 >
-                  Live demo <ArrowRight size={12} />
+                  Demo <ArrowRight size={12} />
                 </a>
               ) : (
                 <ArrowRight

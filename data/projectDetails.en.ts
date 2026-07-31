@@ -11,14 +11,35 @@ export const projectDetailsEn: Record<string, ProjectDetailContent> = {
     decision:
       'The goal was set beyond simple anomaly detection: to complete a full prescriptive control loop (M1 to M2 to M3). The Field / Control / Edge / Cloud layers were separated into independent deployment units, and Cycle_ID was used as the Golden Key to join spatio-temporal data across every layer on a single key. Communication was split into three tiers by data temperature (MQTT Binary HOT, gRPC Streaming WARM, Parquet COLD) to optimize throughput, latency, and cost simultaneously.',
     implementation: [
-      { title: 'M1 — Anomaly Detection', body: 'An Anomaly Score based on 1D-CNN Autoencoder reconstruction error (Anomalib PatchCore) reached AUROC 99.99%. The score is passed as an input feature to M2, chaining the modules together.' },
+      // Correction: this used to conflate two separate models. M1 is time-series sensor
+      // anomaly detection (1D-CNN AE); PatchCore belongs to the vision AOI workstream
+      // (see the 'v1-aoi' entry below).
+      { title: 'M1 — Anomaly Detection', body: 'An Anomaly Score based on 1D-CNN Autoencoder reconstruction error reached AUROC 99.99%. The score is passed as an input feature to M2, chaining the modules together.' },
       { title: 'M2 — Quality Prediction', body: 'An ensemble of LSTM (long-range temporal patterns) and XGBoost (nonlinear features). The M1 score is fed in jointly to raise prediction accuracy, and the prediction is passed to M3 as its State.' },
       { title: 'M3 — Prescriptive Control', body: 'A Deep Q-Network computes optimal temperature and pressure set-points as Actions and feeds them back to the PLC — a closed-loop controller, currently in simulation-validation.' },
       { title: 'Data Communication 3-Tier', body: 'HOT: MQTT QoS0 Binary (lossless 10ms buffering). WARM: gRPC bidirectional streaming (Protobuf). COLD: Parquet batch offload for drift retraining.' },
     ],
     results:
       'Achieved anomaly-detection AUROC 99.99%. A React18 + TS HMI dashboard (Process, Quality, Anomaly, Energy — four views) uses a shared Zod schema to enforce the FE-BE API contract at compile time, eliminating type mismatches. Next steps: fail-safe and SIL safety validation before deploying the M3 DQN on a real PLC, plus a VLM-based natural-language anomaly-explanation layer.',
-    stack: ['MQTT', 'gRPC', 'Node.js', 'React18 + TS', 'Zod', 'Anomalib', 'PyTorch'],
+    stack: ['MQTT', 'gRPC', 'Node.js', 'React18 + TS', 'Zod', 'PyTorch'],
+  },
+
+  'v1-aoi': {
+    // Mirror of the KO entry. Keep both in sync when filling the TODOs.
+    context:
+      'This is the vision-inspection workstream of Edge AI LMR (the lens thermoforming Factory OS). Where the process side (M1–M3) works on PLC time series, this side handles image-based surface inspection, and ADR-020 scopes it as a standalone delivery package. ' +
+      'Lens surface contamination was inspected by eye, so verdicts drifted with inspector fatigue. Solving it with supervised learning would require images labeled per defect type — but defects are rare on a real line and the full set of types is not knowable in advance, making label acquisition itself the bottleneck.',
+    decision:
+      'We abandoned "learn the defects to find them" and reframed the problem as "find what is not normal." PatchCore builds a memory bank from patch embeddings of normal images only, then scores anomalies at inference by distance to the nearest normal patch. No defective image is needed for training, so the labeling bottleneck disappears and the model also reacts to unseen defect types.',
+    implementation: [
+      { title: 'PatchCore setup', body: 'Uses intermediate features from layer2 and layer3 of a WideResNet50 backbone, with the memory bank compressed by 10% coreset sampling. Shallow layers carry texture and deeper layers carry structure, so both are needed to catch fine contamination as well as shape defects.' },
+      { title: 'Data composition', body: 'Training used 267 normal images only. The test split separates 68 normal and 243 contaminated images, so false positives can be measured against a normal set never seen during training.' },
+      { title: 'circle-crop preprocessing', body: 'A model trained on the full 1120×1120 frame reacted to label stickers and background texture as anomalies, making localization meaningless. Cropping the circular lens region to 236×236 removed the background variable and confined the response to the contamination itself.' },
+      { title: 'ONNX inference path', body: 'export.py converts the checkpoint to ONNX so an edge PC can infer with onnxruntime alone, without a PyTorch runtime installed — chosen to reduce dependencies and image size in the delivered environment.' },
+    ],
+    results:
+      'Image AUROC 0.9906 and F1 0.9879 on contamination verdicts. CPU-only inference runs at 254.9ms/frame (P95 279.7ms), still short of the 100ms edge target — ONNX quantization or a lighter backbone remains the open task before real-time inline inspection. Pixel-level AUROC is unmeasured: the Folder dataset has no pixel mask ground truth (mask_dir), so localization accuracy cannot be verified numerically and currently rests on qualitative heatmap review. Acquiring a subset of mask labels is the next priority. The biggest lesson was that input definition mattered more than the model — on full frames the background and label stickers registered as anomalies, making localization meaningless, but cropping to the circular lens region made the same model isolate contamination cleanly.',
+    stack: ['PatchCore', 'anomalib v2', 'PyTorch', 'WideResNet50', 'ONNX Runtime', 'OpenCV'],
   },
 
   'alignai': {

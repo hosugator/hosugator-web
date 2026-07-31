@@ -59,8 +59,11 @@ export default function About() {
           data-goatcounter-click로 클릭 자체를 별도 이벤트로 계측 — 방문 후 도착하는
           /projects/alignai 페이지뷰와 구분해서, "히어로에서 실제로 눌렀는지"를 볼 수 있게 한다. */}
       <div className="mt-10">
+        {/* "Live Demos"가 아니라 "Demos" — V1-AOI는 사전 계산된 추론 결과를 보여주는
+            정적 데모라 "Live"가 사실과 다르다. 데모별로 라벨을 다르게 두면 버튼을 못 찾으므로
+            (Projects.tsx의 DEMO_SLUGS 주석과 동일한 판단) 문구를 통일했다. */}
         <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-400">
-          {locale === "en" ? "Live Demos" : "라이브 데모"}
+          {locale === "en" ? "Demos" : "데모"}
         </div>
         <div className="flex flex-wrap gap-3">
           <Link
@@ -69,6 +72,28 @@ export default function About() {
             className="group inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-accent/90"
           >
             AlignAI
+            <ArrowRight
+              size={16}
+              className="transition-transform group-hover:translate-x-1"
+            />
+          </Link>
+          {/* V1-AOI는 AlignAI 바로 뒤 — 둘 다 같은 공정(DTK 렌즈) 산업 AI라 인접해 있으면
+              "한 현장에서 비전 정렬과 표면 검사를 각각 끌고 갔다"로 읽힌다.
+              스타일은 Cureat과 같은 아웃라인(보조) — 채운 버튼이 둘 이상이면 주 CTA가 흐려진다.
+
+              TODO(승격): 컨테이너 추론이 실제로 붙으면 V1-AOI를 primary로 올린다.
+                AlignAI와 스타일을 맞바꾸고 순서도 V1-AOI를 앞으로.
+                WHY: 이물 히트맵은 도메인 지식 없이도 "빨간 게 불량"으로 즉시 읽히는 출력이라
+                  비전문가에게 설명 비용이 가장 낮다. 지금 primary가 아닌 이유는 사전 계산이라
+                  본인 이미지를 넣어볼 수 없다는 것뿐이고, 업로드 추론이 붙는 순간 그 제약이 사라진다.
+                조건: arm64 ONNX 이미지가 노드에 배포되고 업로드 경로가 동작할 때.
+                  (선행 완료: Traefik requests 부여 — hosugator-infra 67f076d) */}
+          <Link
+            href="/projects/v1-aoi?demo=1"
+            data-goatcounter-click="hero-demo/v1-aoi"
+            className="group inline-flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-accent hover:text-accent"
+          >
+            V1-AOI
             <ArrowRight
               size={16}
               className="transition-transform group-hover:translate-x-1"

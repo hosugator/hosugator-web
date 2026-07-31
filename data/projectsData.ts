@@ -13,6 +13,21 @@ export const projectsData = {
       image: "/projects/edge_ai_lmr_thumb.png",
     },
     {
+      // 슬러그는 title의 ':' 앞부분에서 유도된다(lib/projects.ts slugify) → "v1-aoi".
+      // ProjectDetail의 isAoi 분기와 projectDetails 키가 이 슬러그에 묶여 있으므로
+      // ':' 앞을 바꾸면 데모 버튼과 상세 콘텐츠가 같이 끊긴다.
+      title: "V1-AOI: PatchCore 기반 렌즈 표면 이물 탐지",
+      tags: ["#Industrial-AI", "#AnomalyDetection", "#PatchCore", "#ONNX"],
+      // 수치 출처: ml/aoi/evaluate.py를 config_empinix_circle.yaml + v0 체크포인트로 재실행해 직접 측정
+      // (2026-07-28). outputs/eval_report.md 갱신, 이전 empinix v1 리포트는 .bak.md로 백업.
+      desc: "이물 판정 Image AUROC 0.9906 · F1 0.9879 — 불량 이미지를 한 장도 학습하지 않고 달성. 정상 267장만으로 PatchCore(WideResNet50, coreset 10%) memory bank를 구성하는 비지도 방식으로 라벨링 병목을 제거하고, circle-crop 전처리로 배경 오반응을 제거했다. ONNX 변환으로 PyTorch 없는 엣지 CPU 추론 경로 확보(254.9ms/frame).",
+      pdfLink: "#",
+      demoLink: "#",
+      video: "",
+      // NOTE: image 필드는 현재 UI에서 아무도 읽지 않는다(레거시). 썸네일이 필요해지면 그때 채울 것.
+      image: "",
+    },
+    {
       title: "AlignAI: 비전 정렬 + MLOps + 현장 LLM 에이전트",
       tags: ["#Industrial-AI", "#LLM-Agent", "#MLOps", "#k3s", "#React"],
       desc: "규칙 기반 OpenCV를 U-Net Segmentation으로 대체해 탐지율 100%·PASS율 91% 달성. GitOps ML CI/CD(GHCR→Argo CD 자동 배포)를 Docker·k3s 엣지 클러스터에 단독 구축하고, React+TS HMI(UI/UX)와 현장 이상을 설명하는 LLM 에이전트(function calling·ReAct)까지 통합한 엔드투엔드 산업 AI 시스템.",
