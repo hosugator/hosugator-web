@@ -14,10 +14,17 @@
  *   사전 계산된 PNG를 서빙하는 것과 구별되는 지점이고, 응답의 latency_ms를 UI에 그대로
  *   노출해 "진짜 모델이 진짜로 돈다"는 것을 숨기지 않고 드러낸다.
  *
- * WHY 정적 에셋 폴백을 두는가:
- *   추론이 1.8초 걸리고 단일 replica라, 파드 재시작·콜드스타트 시점에 요청이 실패할 수 있다.
- *   포트폴리오에서 데모가 에러 화면을 보이는 것이 가장 나쁘므로, 실패 시 커밋된 정적
- *   결과(public/projects/aoi-samples)로 조용히 대체하고 배지로만 상태를 알린다.
+ * WHY 정적 결과 폴백을 두지 않는가:
+ *   한때 실패 시 커밋된 정적 결과로 조용히 대체했는데, 그게 이 데모의 논지를 스스로
+ *   무너뜨렸다. 추론 전에 결과가 이미 희미하게 보이면 "정말 지금 추론하는 건가"라는
+ *   의심이 들고, 그 의심이 사실이기도 했다(폴백 상태에서는 실제로 추론하지 않았다).
+ *
+ *   그래서 결과 영역은 추론이 성공했을 때만 그린다. 실패하면 실패를 표시한다.
+ *   k3s가 파드를 self-heal하므로 지속적 실패는 사실상 없고, 있다면 숨기는 게 아니라
+ *   드러내는 쪽이 정직하다.
+ *
+ *   입력 이미지(왼쪽)는 예외다 — 결과가 아니라 입력이므로 정적 에셋으로 즉시 보여준다.
+ *   서버가 추론하는 것과 같은 이미지이고, 이걸 가려서 얻을 게 없다.
  *
  * 셸(DemoModal)은 그대로 재사용 — 데모 간 UX 통일. body/footer만 이 파일에서 정의한다.
  */
@@ -54,7 +61,8 @@ const SAMPLES: Sample[] = [
 
 const API_BASE = "https://api.hosugator.com/api/aoi";
 
-// 폴백용 정적 결과. 썸네일(입력 이미지)에도 이걸 쓴다 — 6장을 API로 받을 이유가 없다.
+// 입력 이미지 정적 에셋 (썸네일 + 왼쪽 원본). 결과가 아니라 입력이므로 서버를 기다릴 이유가 없고,
+// 6장을 API로 받을 이유도 없다. 추론 결과(heatmap·contour)는 여기서 가져오지 않는다.
 const ASSET_BASE = "/projects/aoi-samples";
 
 type ViewMode = "heatmap" | "contour";
@@ -95,7 +103,8 @@ export default function AoiDemoModal({
       loading: "추론 중입니다",
       loadingHint: "WideResNet50 백본 · arm64 2 vCPU에서 약 1.8초 소요됩니다",
       retry: "다시 시도",
-      fallback: "정적 결과 표시 중 (서버 응답 없음)",
+      errTitle: "추론 실패",
+      errBody: "서버에 연결할 수 없습니다. 잠시 후 다시 시도해주세요.",
       score: "이상 점수",
       latency: "추론 시간",
       why:
@@ -122,7 +131,8 @@ export default function AoiDemoModal({
       loadingHint:
         "WideResNet50 backbone · about 1.8s on an arm64 2 vCPU node",
       retry: "Try again",
-      fallback: "Showing static result (server unreachable)",
+      errTitle: "Inference failed",
+      errBody: "Could not reach the server. Please try again in a moment.",
       score: "Anomaly score",
       latency: "Inference time",
       why:
@@ -137,20 +147,19 @@ export default function AoiDemoModal({
   const [view, setView] = useState<ViewMode>("heatmap");
   const [result, setResult] = useState<InferResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  // 폴백 모드 — API 실패 시 정적 에셋으로 대체했음을 표시한다(에러 화면을 띄우지 않는다).
-  const [fellBack, setFellBack] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const runInference = useCallback(async (sample: Sample) => {
     setIsLoading(true);
-    setFellBack(false);
-    setResult(null);
+    setFailed(false);
+    setResult(null); // 이전 결과를 즉시 비운다 — 새 추론 중에 옛 결과가 보이면 안 된다
     try {
       const res = await fetch(`${API_BASE}/infer/${sample.id}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setResult((await res.json()) as InferResult);
     } catch {
-      // 조용히 정적 결과로 대체. 사용자에게 스택트레이스를 보여줄 이유가 없다.
-      setFellBack(true);
+      // 실패를 숨기지 않는다. 스택트레이스는 무의미하므로 상태만 올린다.
+      setFailed(true);
     } finally {
       setIsLoading(false);
     }
@@ -169,15 +178,16 @@ export default function AoiDemoModal({
   const imgClass =
     "block w-full rounded-md border border-neutral-200 bg-neutral-900";
 
-  // 표시할 이미지 소스 — API 결과가 있으면 base64, 없으면 정적 에셋.
-  // WHY 파생 계산인가: (result, selected, view)로 100% 결정된다. state로 들면 동기화 버그가 생긴다.
-  const png = (b64: string) => `data:image/png;base64,${b64}`;
-  const inputSrc = result
-    ? png(result.input_png)
-    : `${ASSET_BASE}/${selected.id}-input.webp`;
+  // 입력은 항상 정적 에셋 — 결과가 아니라 입력이므로 서버를 기다릴 이유가 없다.
+  const inputSrc = `${ASSET_BASE}/${selected.id}-input.webp`;
+
+  // 결과는 추론이 성공했을 때만 존재한다. 폴백 소스가 없다 — 없으면 없는 것이다.
+  // WHY 파생 계산인가: (result, view)로 100% 결정된다. state로 들면 동기화 버그가 생긴다.
   const overlaySrc = result
-    ? png(view === "heatmap" ? result.heatmap_png : result.contour_png)
-    : `${ASSET_BASE}/${selected.id}-${view}.webp`;
+    ? `data:image/png;base64,${
+        view === "heatmap" ? result.heatmap_png : result.contour_png
+      }`
+    : null;
 
   const VIEWS: { mode: ViewMode; label: string }[] = [
     { mode: "heatmap", label: t.heatmap },
@@ -247,19 +257,6 @@ export default function AoiDemoModal({
             {t.score} {result.score} · {t.latency} {Math.round(result.latency_ms)}ms
           </span>
         )}
-        {fellBack && (
-          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-neutral-400">
-            {t.fallback}
-            <button
-              type="button"
-              onClick={() => runInference(selected)}
-              className="inline-flex items-center gap-1 text-neutral-500 hover:text-accent transition-colors"
-            >
-              <RotateCcw size={11} />
-              {t.retry}
-            </button>
-          </span>
-        )}
       </div>
 
       {/* 비교 뷰 — 왼쪽 원본 고정 / 오른쪽 오버레이 토글 */}
@@ -273,30 +270,60 @@ export default function AoiDemoModal({
         </figure>
 
         <figure>
-          <div className="relative">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* 결과 영역 — 로딩 / 실패 / 성공 세 상태가 배타적이다.
+              WHY 이전 결과를 흐리게 남기지 않나: 추론 전에 결과가 보이면 "정말 지금
+              추론하는 건가"라는 의심이 든다. 없을 때는 아무것도 없어야 한다.
+              WHY aspect-square인가: 세 상태의 높이가 같아야 전환 시 레이아웃이 튀지 않는다.
+              (원본이 236×236 정사각이므로 왼쪽 칸과도 정확히 맞는다) */}
+          {overlaySrc ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
             <img
-              key={overlaySrc.slice(0, 64)}
               src={overlaySrc}
               alt={view === "heatmap" ? t.heatmap : t.contour}
-              className={`${imgClass} ${isLoading ? "opacity-30" : ""}`}
+              className={imgClass}
             />
-            {/* 로딩을 이미지 위에 겹친다 — 레이아웃이 흔들리지 않고, 이전 결과가 흐리게
-                남아 "무엇이 갱신되는 중인지"가 보인다. */}
-            {isLoading && (
-              <div className="absolute inset-0 grid place-items-center">
+          ) : (
+            <div
+              className={`aspect-square grid place-items-center rounded-md border ${
+                failed
+                  ? "border-neutral-200 bg-neutral-50"
+                  : "border-neutral-200 bg-neutral-900"
+              }`}
+            >
+              {isLoading && (
                 <Loader2 className="animate-spin text-accent" size={28} />
-              </div>
-            )}
-          </div>
+              )}
+              {failed && (
+                <div className="px-4 text-center">
+                  <p className="text-sm font-bold text-neutral-900">
+                    {t.errTitle}
+                  </p>
+                  <p className="mt-1 text-xs font-light leading-relaxed text-neutral-500">
+                    {t.errBody}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => runInference(selected)}
+                    className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500 hover:text-accent transition-colors"
+                  >
+                    <RotateCcw size={13} />
+                    {t.retry}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
           <figcaption className="mt-2 flex gap-3">
             {VIEWS.map((v) => (
               <button
                 key={v.mode}
                 type="button"
+                // 결과가 없을 때 토글은 의미가 없다 — 바꿀 대상이 없다.
+                disabled={!result}
                 onClick={() => setView(v.mode)}
                 aria-pressed={view === v.mode}
-                className={`font-mono text-[10px] uppercase tracking-widest transition-colors ${
+                className={`font-mono text-[10px] uppercase tracking-widest transition-colors disabled:opacity-40 ${
                   view === v.mode
                     ? "text-accent"
                     : "text-neutral-400 hover:text-neutral-600"
