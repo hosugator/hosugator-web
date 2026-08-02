@@ -1,5 +1,25 @@
 "use client";
 
+/**
+ * ⚠️ 현재 어디에서도 렌더되지 않는다 (2026-08-03 비활성화).
+ *
+ * WHY: 백엔드가 스텁 응답을 반환한다.
+ *   - answer가 `Search: '<쿼리>'` 그대로 — LLM 큐레이션 레이어가 응답을 만들지 않음
+ *   - filtered_ad_count가 0 — Ko-BERT 광고 필터가 아무것도 거르지 않음
+ *   - summary가 템플릿 (`{name}은 인기 맛집입니다.`)
+ *   - 자연어 문장 질의는 0건 ("강남역 근처 맛집 추천해줘" → 검색 결과 없음).
+ *     키워드만 동작하는데, 정작 이 모달이 제시하는 예시가 자연어 문장이다.
+ *   즉 카드가 내세우는 "광고성 콘텐츠 20%+ 제거"와 "AI 큐레이션"을 데모가 반증한다.
+ *   데모의 목적이 주장의 증거이므로, 이 상태로 노출하는 건 없는 것보다 나쁘다.
+ *
+ * 파일을 지우지 않고 남긴 이유: 재활성화가 3곳 되돌리기로 끝나기 때문이다.
+ *   ProjectDetail.tsx  — isCureat 복구 + hasDemo에 추가 + 이 컴포넌트 렌더
+ *   Projects.tsx       — DEMO_SLUGS에 "cureat" 추가
+ *   About.tsx          — 히어로 바로가기 복구
+ *
+ * 재활성화 전 함께 고칠 것: 예시 프롬프트가 클릭되지 않는다(버튼처럼 보이는 장식 텍스트).
+ */
+
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { Send, Loader2, PlayCircle } from "lucide-react"; // X 제거(닫기는 셸이 가짐)

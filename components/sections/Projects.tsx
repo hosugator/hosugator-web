@@ -36,7 +36,9 @@ const PARENT: Record<string, string> = { 'V1-AOI': 'Edge AI LMR' };
 // 데모 모달을 가진 프로젝트 — 목록에서 바로 진입 가능한 버튼을 붙인다.
 // 라벨은 "Live demo"가 아니라 "Demo"다: v1-aoi는 사전 계산 결과를 보여주는 정적 데모라
 // "Live"가 사실과 다르다. 데모별로 라벨을 다르게 두면 버튼을 못 찾으므로 문구를 통일했다.
-const DEMO_SLUGS = new Set(["cureat", "alignai", "v1-aoi"]);
+// cureat은 2026-08-03 제외 — 백엔드가 스텁 응답을 반환해 카드의 주장("광고성 콘텐츠
+// 20%+ 제거")을 데모가 반증하는 상태다. 상세 근거는 ProjectDetail.tsx 주석 참고.
+const DEMO_SLUGS = new Set(["alignai", "v1-aoi"]);
 
 export default function Projects() {
   const { locale } = useLanguage();

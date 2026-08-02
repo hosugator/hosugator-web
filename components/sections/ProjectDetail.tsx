@@ -15,7 +15,6 @@ import {
 import { projectDetails } from "@/data/projectDetails";
 import { projectDetailsEn } from "@/data/projectDetails.en";
 import Mermaid from "@/components/ui/Mermaid";
-import CureatDemoModal from "@/components/demo/CureatDemoModal";
 import AlignAiDemoModal from "@/components/demo/AlignAiDemoModal";
 import AoiDemoModal from "@/components/demo/AoiDemoModal";
 
@@ -75,10 +74,18 @@ export default function ProjectDetail({ slug }: { slug: string }) {
   const mermaids = getMermaid(slug, locale);
   // 리치 상세 — 로케일별 콘텐츠 (국문/영문)
   const detail = (locale === "en" ? projectDetailsEn : projectDetails)[slug];
-  const isCureat = name.toLowerCase() === "cureat";
+  // Cureat 데모는 비활성화 상태다 (2026-08-03).
+  // WHY: 백엔드가 스텁 응답을 반환하고 있다 — answer가 "Search: '<쿼리>'" 그대로 나오고
+  //   filtered_ad_count가 0이다. 즉 카드가 내세우는 "광고성 콘텐츠 20%+ 제거"와
+  //   "AI 큐레이션"이 데모에서 작동하지 않는 것을 보여주게 된다.
+  //   게다가 자연어 문장 질의는 0건을 반환한다("강남역 근처 맛집 추천해줘" → 검색 결과 없음).
+  //   데모의 목적이 주장의 증거인데 지금은 반증이 되므로, 없는 것보다 나쁘다.
+  // 재활성화 조건: LLM 큐레이션 레이어와 Ko-BERT 광고 필터가 실제 응답을 만들 때.
+  //   컴포넌트(CureatDemoModal)는 남겨뒀으므로 여기 isCureat을 hasDemo에 다시 넣고
+  //   Projects.tsx의 DEMO_SLUGS, About.tsx의 히어로 링크를 되살리면 된다.
   const isAlign = slug === "alignai";
   const isAoi = slug === "v1-aoi";
-  const hasDemo = isCureat || isAlign || isAoi;
+  const hasDemo = isAlign || isAoi;
   const hasVideo = !!project.video;
   // 데모 영상마다 원본 비율이 제각각(세로/정사각/4:3 등)이라, object-fit 계산 없이
   // 실제 영상과 동일한 프레임을 정지 이미지로 미리 보여준다 (재생 전 크롭 방지).
@@ -273,9 +280,6 @@ export default function ProjectDetail({ slug }: { slug: string }) {
         )}
       </div>
 
-      {isCureat && (
-        <CureatDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
-      )}
       {isAlign && (
         <AlignAiDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
       )}

@@ -99,17 +99,9 @@ export default function About() {
               className="transition-transform group-hover:translate-x-1"
             />
           </Link>
-          <Link
-            href="/projects/cureat?demo=1"
-            data-goatcounter-click="hero-demo/cureat"
-            className="group inline-flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-accent hover:text-accent"
-          >
-            Cureat
-            <ArrowRight
-              size={16}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </Link>
+          {/* Cureat 바로가기는 2026-08-03 제거 — 백엔드가 스텁 응답을 반환해 데모가
+              카드의 주장을 반증하는 상태다. 상세 근거는 ProjectDetail.tsx 주석 참고.
+              작동하는 둘만 노출하는 게 셋 중 하나가 깨진 것보다 강하다. */}
         </div>
       </div>
     </section>
