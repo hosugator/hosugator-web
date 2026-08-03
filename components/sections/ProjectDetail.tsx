@@ -17,12 +17,17 @@ import { projectDetailsEn } from "@/data/projectDetails.en";
 import Mermaid from "@/components/ui/Mermaid";
 import AlignAiDemoModal from "@/components/demo/AlignAiDemoModal";
 import AoiDemoModal from "@/components/demo/AoiDemoModal";
+import AgentDemoModal from "@/components/demo/AgentDemoModal";
 
 export default function ProjectDetail({ slug }: { slug: string }) {
   const { locale } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
+  // AlignAI는 데모가 둘이다 — U-Net 선 검출(demoOpen)과 LLM 에이전트(agentOpen).
+  // 별도 상태로 두는 이유: 한 모달에 탭으로 넣으면 성격이 다른 두 데모가 섞여
+  // "무엇을 보여주는 데모인가"가 흐려진다. 진입점을 나눠 각각 독립적으로 열리게 한다.
+  const [agentOpen, setAgentOpen] = useState(false);
   const searchParams = useSearchParams();
   // 목록의 "Live demo" 버튼(?demo=1)으로 진입 시 자동 오픈
   useEffect(() => {
@@ -140,16 +145,30 @@ export default function ProjectDetail({ slug }: { slug: string }) {
           )}
         </div>
       )}
-      {hasDemo && (
-        <button
-          onClick={() => setDemoOpen(true)}
-          className="inline-flex items-center gap-2 mb-10 rounded-full bg-accent text-white px-5 py-2.5 text-sm font-bold hover:bg-accent/90 transition-colors"
-        >
-          {/* 라벨 통일 — Projects.tsx의 DEMO_SLUGS 주석 참고.
-              "라이브 추론이냐"는 모달 본문에서 밝히고, 버튼은 찾기 쉽게 한 문구로 둔다. */}
-          DEMO <ArrowRight size={16} />
-        </button>
-      )}
+      <div className="flex flex-wrap items-center gap-3 mb-10">
+        {hasDemo && (
+          <button
+            onClick={() => setDemoOpen(true)}
+            className="inline-flex items-center gap-2 rounded-full bg-accent text-white px-5 py-2.5 text-sm font-bold hover:bg-accent/90 transition-colors"
+          >
+            {/* 라벨 통일 — Projects.tsx의 DEMO_SLUGS 주석 참고.
+                "라이브 추론이냐"는 모달 본문에서 밝히고, 버튼은 찾기 쉽게 한 문구로 둔다. */}
+            {isAlign ? "VISION DEMO" : "DEMO"} <ArrowRight size={16} />
+          </button>
+        )}
+        {/* AlignAI만 두 번째 진입점을 갖는다 — 카드가 주장하는 LLM 에이전트의 증거다.
+            아웃라인(보조)으로 두는 이유: 선 검출이 이 프로젝트의 본체이고 에이전트는
+            그 위에 얹힌 해석 레이어라, 순서와 위계를 그대로 반영한다. */}
+        {isAlign && (
+          <button
+            onClick={() => setAgentOpen(true)}
+            data-goatcounter-click="detail-demo/agent"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 hover:border-accent hover:text-accent transition-colors"
+          >
+            AGENT DEMO <ArrowRight size={16} />
+          </button>
+        )}
+      </div>
 
       {/* 개요 */}
       <section className="mb-12">
@@ -282,6 +301,12 @@ export default function ProjectDetail({ slug }: { slug: string }) {
 
       {isAlign && (
         <AlignAiDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
+      )}
+      {isAlign && (
+        <AgentDemoModal
+          isOpen={agentOpen}
+          onClose={() => setAgentOpen(false)}
+        />
       )}
       {isAoi && (
         <AoiDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
