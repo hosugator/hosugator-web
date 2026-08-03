@@ -8,24 +8,50 @@ import Image from "next/image";
 // 히어로 데모 목록 — 이름 + 한 줄 요약.
 // 요약은 "무엇을 보게 되는가"를 쓴다. 기술 스택 나열이 아니라 화면에서 벌어지는 일이어야
 // 방문자가 자기 관심사와 맞는지 판단할 수 있다.
+//
+// *별표*로 감싼 구간은 강조된다(emphasize 참고). 스캔하는 방문자의 눈에 걸릴 키워드만
+// 표시한다 — 전부 강조하면 강조가 아니다.
 const DEMOS = [
   {
     slug: "v1-aoi",
     name: "V1-AOI",
     primary: true, // 도메인 지식 없이도 즉시 읽히는 출력 → 첫 클릭 유도
-    summary: "렌즈 표면 이물을 히트맵으로 짚어냅니다. 불량 이미지를 학습하지 않은 비지도 탐지.",
+    summary:
+      "렌즈 표면 이물을 *히트맵*으로 짚어냅니다. 불량 이미지를 학습하지 않은 *비지도 이상탐지*.",
     summaryEn:
-      "Pinpoints surface contamination as a heatmap — unsupervised, never trained on a defect image.",
+      "Pinpoints surface contamination as a *heatmap* — *unsupervised*, never trained on a defect image.",
   },
   {
     slug: "alignai",
     name: "AlignAI",
     primary: false,
-    summary: "정렬선 간격을 측정하고 합격 판정까지. LLM 에이전트가 도구를 골라 결과를 설명합니다.",
+    summary:
+      "정렬선 간격을 측정해 *합격 판정*까지. *LLM 에이전트*가 도구를 골라 결과를 설명합니다.",
     summaryEn:
-      "Measures alignment-line spacing and judges it — an LLM agent picks its own tools to explain the result.",
+      "Measures line spacing and *judges it* — an *LLM agent* picks its own tools to explain the result.",
   },
 ] as const;
+
+/**
+ * *별표*로 감싼 구간을 강조해 렌더한다.
+ *
+ * WHY 문자열 마커인가: 세그먼트 배열로 쪼개면 데이터가 읽기 어려워지고(한/영 × 데모 수),
+ *   키워드 목록으로 치환하면 의도치 않은 위치까지 매칭될 수 있다. 마커는 원문 그대로
+ *   읽히면서 강조 위치가 명시적이다.
+ * WHY accent가 아닌가: 버튼이 이미 accent다. 캡션까지 accent로 강조하면 시선이 경쟁한다.
+ *   같은 회색 계열에서 명도·굵기만 올려 스캔 시 걸리게 한다.
+ */
+function emphasize(text: string) {
+  return text.split("*").map((part, i) =>
+    i % 2 === 1 ? (
+      <strong key={i} className="font-medium text-neutral-700">
+        {part}
+      </strong>
+    ) : (
+      part
+    ),
+  );
+}
 
 export default function About() {
   const { t, locale } = useTranslation();
@@ -89,39 +115,42 @@ export default function About() {
         <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-400">
           {locale === "en" ? "Demos" : "데모"}
         </div>
-        {/* 알약 버튼 대신 목록 행으로 둔다.
-            WHY: 방문자가 데모를 다 눌러보지 않는다. 이름만 있으면 무엇을 보게 될지 알 수
-              없어 관심사와 무관한 것을 열거나 아예 안 누른다. 한 줄 요약이 있으면 자기
-              관심에 맞는 것을 고를 수 있다. 알약 버튼에는 그 요약이 들어갈 폭이 없다. */}
-        <ul className="divide-y divide-neutral-100 border-y border-neutral-100">
+        {/* 버튼 + 캡션 구조.
+            WHY 목록 행이 아닌가: 얇은 구분선 행은 정지 상태에서 본문 텍스트처럼 읽혀
+              클릭 가능해 보이지 않는다. hover 색을 넣어도 마우스를 올린 사람에게만 작동한다.
+              버튼은 정지 상태에서 이미 "누를 수 있는 것"으로 읽힌다.
+            WHY 캡션을 아래 두는가: 알약 안에는 한 줄 요약이 들어갈 폭이 없다. 버튼 아래
+              캡션으로 빼면 둘 다 얻는다. 데모가 2개뿐이라 세로로 쌓아도 길지 않다.
+            primary(채운 accent)는 하나만 둔다 — 둘 이상이면 첫 클릭 유도가 흐려진다. */}
+        <div className="space-y-3">
           {DEMOS.map((d) => (
-            <li key={d.slug}>
+            // 데모 하나 = 한 행. 버튼은 고정 폭, 요약이 남은 폭을 채운다.
+            // 모바일에서는 나란히 둘 폭이 없어 세로로 떨어뜨린다.
+            <div
+              key={d.slug}
+              className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4"
+            >
               <Link
                 href={`/projects/${d.slug}?demo=1`}
                 data-goatcounter-click={`hero-demo/${d.slug}`}
-                className="group flex items-baseline gap-3 py-3 sm:gap-4"
+                className={`group inline-flex w-fit shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-colors ${
+                  d.primary
+                    ? "bg-accent text-white hover:bg-accent/90"
+                    : "border border-neutral-200 text-neutral-700 hover:border-accent hover:text-accent"
+                }`}
               >
-                <span
-                  className={`shrink-0 text-sm font-black transition-colors ${
-                    d.primary
-                      ? "text-accent"
-                      : "text-neutral-900 group-hover:text-accent"
-                  }`}
-                >
-                  {d.name}
-                </span>
-                <span className="flex-1 text-[13px] font-light leading-snug text-neutral-500">
-                  {locale === "en" ? d.summaryEn : d.summary}
-                </span>
+                {d.name}
                 <ArrowRight
-                  size={14}
-                  className="shrink-0 translate-y-0.5 text-neutral-300 transition-all group-hover:translate-x-1 group-hover:text-accent"
-                  aria-hidden
+                  size={16}
+                  className="transition-transform group-hover:translate-x-1"
                 />
               </Link>
-            </li>
+              <p className="text-[13px] font-light leading-snug text-neutral-500">
+                {emphasize(locale === "en" ? d.summaryEn : d.summary)}
+              </p>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

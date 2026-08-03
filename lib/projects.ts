@@ -12,6 +12,36 @@ export const slugify = (title: string) =>
 
 export const projectSlugs = (): string[] => projectsData.items.map((p) => slugify(p.title));
 
+/**
+ * 프로젝트 슬러그 → PKM 볼트의 `project` 태그.
+ *
+ * WHY 매핑이 필요한가:
+ *   관련 노트 링크가 `shortNameOf(title)`(카드 제목의 ':' 앞부분)로 만들어졌는데, 볼트의
+ *   `project` 태그는 다른 명명 규칙을 쓴다 — 공백(AlignAI vs "Align AI"), 대소문자
+ *   (go2fit vs "Go2fit"), 어순(ERP Backup vs "Backup ERP"), 접두사("MOC - Cureat").
+ *   두 이름 공간이 우연히 일치할 이유가 없어 12개 중 10개가 0건을 반환하고 있었다.
+ *   AlignAI 143건, Edge AI LMR 83건처럼 노트가 가장 많은 프로젝트가 특히 유실됐다.
+ *
+ * WHY 볼트를 고치지 않는가:
+ *   PKM이 SSOT다. 노트 수백 개의 태그를 포트폴리오 이름에 맞추면 볼트가 이 사이트에
+ *   종속된다. 매핑은 소비하는 쪽(사이트)이 지는 게 맞다.
+ *
+ * 값은 추측하지 않고 content/notes의 실제 태그를 세어 확인했다 (2026-08-03).
+ * 여기 없는 슬러그는 관련 노트가 없다는 뜻이고, 링크를 숨긴다.
+ */
+export const NOTE_PROJECT: Record<string, string> = {
+  'edge-ai-lmr': 'Edge AI LMR',   // 83
+  'v1-aoi': 'AOI',                // 31
+  'alignai': 'Align AI',          // 143
+  'erp-backup': 'Backup ERP',     // 2
+  'dotodo': 'Dotodo',             // 4
+  'hosugator': 'Hosugator Web',   // 37
+  'go2fit': 'Go2fit',             // 19
+  'cureat': 'MOC - Cureat',       // 1
+  'sodamdiary': 'MOC - Sodam Diary', // 1
+  // pictag · dorosee · kdlc — 볼트에 노트 없음
+};
+
 export type ProjectItem = typeof projectsData.items[number];
 
 export function getProject(slug: string, locale: 'ko' | 'en'): ProjectItem | null {

@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, ArrowRight, PlayCircle, FileText } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   getProject,
   shortNameOf,
+  NOTE_PROJECT,
   PROJECT_FLOWS,
   getMermaid,
   flowToMermaid,
@@ -18,16 +19,42 @@ import Mermaid from "@/components/ui/Mermaid";
 import AlignAiDemoModal from "@/components/demo/AlignAiDemoModal";
 import AoiDemoModal from "@/components/demo/AoiDemoModal";
 
-export default function ProjectDetail({ slug }: { slug: string }) {
+export default function ProjectDetail({
+  slug,
+  noteCount = 0,
+}: {
+  slug: string;
+  /** 관련 노트 수 — 서버에서 세어 넘어온다(lib/noteCounts). 0이면 링크를 숨긴다. */
+  noteCount?: number;
+}) {
   const { locale } = useLanguage();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [demoOpen, setDemoOpen] = useState(false);
+  // ?demo=1로 진입했는지 기억한다. 모달을 닫을 때 쿼리를 지우므로 searchParams를 계속
+  // 읽으면 값이 사라져, 돌아가기 링크의 목적지를 판단할 수 없다.
+  const [arrivedViaDemo, setArrivedViaDemo] = useState(false);
   const searchParams = useSearchParams();
-  // 목록의 "Live demo" 버튼(?demo=1)으로 진입 시 자동 오픈
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // 히어로·목록의 데모 버튼(?demo=1)으로 진입 시 자동 오픈.
+  // 정적 export라 쿼리는 클라이언트에서만 알 수 있어 effect로 읽는다.
   useEffect(() => {
-    if (searchParams.get("demo")) setDemoOpen(true);
+    if (searchParams.get("demo")) {
+      setDemoOpen(true);
+      setArrivedViaDemo(true);
+    }
   }, [searchParams]);
+
+  // 모달을 닫으면 URL에서 ?demo=1을 지운다.
+  // WHY: 남겨두면 새로고침 시 모달이 다시 열리고, 뒤로/앞으로 이동에서 "모달은 닫혔는데
+  //   URL은 열림"인 상태가 된다. replace라 히스토리가 늘지 않으므로 뒤로가기 한 번이
+  //   정확히 이전 페이지(히어로)로 간다. scroll:false — 닫았을 때 페이지가 위로 튀지 않게.
+  const closeDemo = () => {
+    setDemoOpen(false);
+    if (searchParams.get("demo")) router.replace(pathname, { scroll: false });
+  };
 
   // 인라인 데모 재생: 클릭 전엔 정지 포스터, 클릭 시 사운드+컨트롤로 처음부터 재생
   const startVideo = () => {
@@ -44,6 +71,7 @@ export default function ProjectDetail({ slug }: { slug: string }) {
   const project = getProject(slug, locale);
   const t = {
     back: locale === "en" ? "All projects" : "전체 프로젝트",
+    home: locale === "en" ? "Back to home" : "홈으로 돌아가기",
     overview: locale === "en" ? "Overview" : "개요",
     context: locale === "en" ? "Context" : "맥락",
     decision: locale === "en" ? "Key Decision" : "핵심 의사결정",
@@ -90,15 +118,22 @@ export default function ProjectDetail({ slug }: { slug: string }) {
   // 데모 영상마다 원본 비율이 제각각(세로/정사각/4:3 등)이라, object-fit 계산 없이
   // 실제 영상과 동일한 프레임을 정지 이미지로 미리 보여준다 (재생 전 크롭 방지).
   const videoPoster = project.video.replace(/\.(mp4|mov)$/i, "_poster.jpg");
-  const relatedHref = `/blog?project=${encodeURIComponent(name)}`;
+  // 링크 목적지는 볼트의 실제 project 태그를 쓴다 — shortNameOf(name)는 카드 제목 기준이라
+  // 볼트 태그와 어긋난다(AlignAI vs "Align AI"). NOTE_PROJECT 주석 참고.
+  const relatedHref = `/blog?project=${encodeURIComponent(NOTE_PROJECT[slug] ?? name)}`;
 
   return (
     <div className="max-w-5xl mx-auto px-6 pt-24 md:pt-28 pb-32 text-neutral-900">
+      {/* 돌아가기 — 진입 경로에 따라 목적지가 갈린다.
+          데모 링크(?demo=1)로 들어왔으면 히어로로 돌려보낸다. /#projects는 프로젝트 목록
+          중간이라 온 곳이 아니다.
+          아웃라인을 둬서 정지 상태에서도 컨트롤로 읽히게 했다 — 기존 회색 작은 글씨는
+          데모를 닫은 뒤 눈에 걸리지 않아 뒤로가기 버튼밖에 남지 않았다. */}
       <Link
-        href="/#projects"
-        className="inline-flex items-center gap-2 text-sm font-bold text-neutral-500 hover:text-neutral-900 transition-colors mb-12"
+        href={arrivedViaDemo ? "/" : "/#projects"}
+        className="inline-flex items-center gap-2 rounded-full border border-neutral-200 px-4 py-2 text-sm font-bold text-neutral-600 transition-colors hover:border-accent hover:text-accent mb-12"
       >
-        <ArrowLeft size={18} /> {t.back}
+        <ArrowLeft size={16} /> {arrivedViaDemo ? t.home : t.back}
       </Link>
 
       <div className="flex flex-wrap gap-1.5 mb-4">
@@ -264,12 +299,26 @@ export default function ProjectDetail({ slug }: { slug: string }) {
 
       {/* 액션 */}
       <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 border-t border-neutral-200 text-sm">
-        <a
-          href={relatedHref}
-          className="font-bold flex items-center gap-1.5 text-neutral-500 hover:text-accent transition-colors"
-        >
-          {t.notes} <ArrowRight size={14} />
-        </a>
+        {/* 관련 노트 — 건수가 있을 때만 노출한다.
+            WHY 숨기나: 눌러서 "검색 결과가 없습니다"를 보는 것보다 링크가 없는 게 낫다.
+              (Pictag·Dorosee·KDLC는 볼트에 노트가 없다)
+            WHY 건수를 보여주나: "관련 노트"만으로는 눌러볼 이유가 약하지만 "관련 노트 143개"는
+              축적 자체가 증거라 클릭 동기가 된다. 아웃라인을 둬 정지 상태에서도 컨트롤로 읽히게 했다. */}
+        {noteCount > 0 && (
+          <a
+            href={relatedHref}
+            className="group inline-flex items-center gap-2 rounded-full border border-neutral-200 px-4 py-2 font-bold text-neutral-600 transition-colors hover:border-accent hover:text-accent"
+          >
+            {t.notes}
+            <span className="font-mono text-xs text-neutral-400 transition-colors group-hover:text-accent">
+              {noteCount}
+            </span>
+            <ArrowRight
+              size={14}
+              className="transition-transform group-hover:translate-x-0.5"
+            />
+          </a>
+        )}
         {!detail && project.pdfLink && project.pdfLink !== "#" && (
           <a
             href={project.pdfLink}
@@ -283,10 +332,10 @@ export default function ProjectDetail({ slug }: { slug: string }) {
       </div>
 
       {isAlign && (
-        <AlignAiDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
+        <AlignAiDemoModal isOpen={demoOpen} onClose={closeDemo} />
       )}
       {isAoi && (
-        <AoiDemoModal isOpen={demoOpen} onClose={() => setDemoOpen(false)} />
+        <AoiDemoModal isOpen={demoOpen} onClose={closeDemo} />
       )}
     </div>
   );
