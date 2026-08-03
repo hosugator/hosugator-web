@@ -64,3 +64,4 @@ CD가 오케스트레이터에게 일을 위임하기 때문이다. CD는 "언�
 - [[Docker - Docker Compose - Dockerfile 개념 분리]] — 컨테이너화 세부 개념
 - [[Kubernetes]] — 오케스트레이션 개념
 - [[Docker and Ansible over k3s until edge scale justifies HA overhead]] — 오케스트레이션 도구 선택 결정
+- [[Sealing is separable from the container runtime so a self-contained bundle can replace an image]] — 이 분리를 선택적으로 채택하는 판단

@@ -4,7 +4,7 @@ updated: 2026-06-04
 type: post
 status: 1-draft
 subject: "[[AI]]"
-project:
+project: "[[Align AI]]"
 tags:
   - linkedin
   - ml

@@ -17,6 +17,7 @@ publish: true
 
 ## Insight
 ### 발행 레이어는 폴더가 아니라 프론트매터로 만든다
+
 이미 모든 노트가 `subject`(도메인)·`project`·`tags` 프론트매터를 가진다. 이를 그대로 재사용하면 repo에 별도 분류 체계를 만들 필요가 없다 — `subject` → 브랜치/카테고리, `project` → 필터로 매핑된다. 폴더는 잉여다.
 
 ## Decision

@@ -4,7 +4,7 @@ updated: 2026-02-10
 type: insight
 status: 1-draft
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 tags:
   - aws
   - deployment

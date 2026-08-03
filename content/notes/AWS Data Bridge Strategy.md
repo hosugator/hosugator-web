@@ -13,7 +13,7 @@ updated: 2026-02-14 20:21
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # Data Bridge Strategy (On-prem to Cloud)

@@ -1,6 +1,6 @@
 ---
 created: 2026-06-30
-updated: 2026-07-01
+updated: 2026-07-06
 type: insight
 status: 2-stable
 subject: "[[Web]]"
@@ -42,12 +42,43 @@ Stage 1~6은 "무엇을 어떻게 코드로 만드는가"를 배웠다. 그 다�
 ## Decision
 **Align-AI 대시보드를 4단계로 고도화하여 엔지니어 대상 데이터 UI/UX 설계를 실습한다.**
 
-| Phase | 목표 | 핵심 학습 | 상태 |
-|---|---|---|---|
-| 1 | 기능 검증 완료 | 컴포넌트, 상태 관리, 추론 파이프라인 | ✅ 완료 |
-| 2 | 단일 이미지 분석 고도화 | 레이아웃 분할, 정보 계층, 인터랙션 | ✅ 완료 |
-| 3 | 배치 & 이력 | 리스트 + 상세 패턴, 필터, 정렬 | 🔄 진행중 (mock 데이터로 리스트+상세 레이아웃 완성, 실데이터 연동 전) |
-| 4 | 통계 & 분석 | 차트 연동, 집계 데이터 시각화 | ⏳ 대기 |
+| Phase | 목표                  | 핵심 학습                                       | 상태       |
+| ----- | ------------------- | ------------------------------------------- | -------- |
+| 1     | 기능 검증 완료            | 컴포넌트, 상태 관리, 추론 파이프라인                       | ✅ 완료     |
+| 2     | 단일 이미지 분석 고도화       | 레이아웃 분할, 정보 계층, 인터랙션                        | ✅ 완료     |
+| 3     | 배치 & 이력 (mock)      | 리스트 + 상세 패턴, ViewModel/Hook 설계              | ✅ 완료     |
+| 4     | 통계 & 분석 (mock)      | 집계 ViewModel, CSS bar chart, flex 레이아웃      | ✅ 완료     |
+| 5     | API 연동 — PostgreSQL | DB 스키마, FastAPI CRUD, Next.js fetch, k8s 배포 | 🔄 계획 수립 |
+
+**Phase 5 세부 계획 (PostgreSQL 연동):**
+
+5-A. 인프라 — PostgreSQL
+- `docker-compose.yml` postgres 컨테이너 (로컬 개발)
+- k8s StatefulSet + Secret (운영)
+- `inspections` 테이블 스키마:
+  ```sql
+  id, created_at, product, status, direction,
+  line1_px, line2_px, gap_px, line1_mm, line2_mm, gap_mm, img_w, img_h
+  ```
+
+5-B. FastAPI 수정
+- SQLAlchemy(async) 의존성 추가
+- `/predict` — 추론 후 DB 저장
+- `/history` — 페이지네이션 조회
+- `/stats` — pass rate, 방향 분포, gap 분포 집계 쿼리
+
+5-C. Next.js 수정
+- `app/api/history/route.ts` — FastAPI 프록시
+- `app/api/stats/route.ts` — FastAPI 프록시
+- HistoryPanel, StatsPanel — MOCK → API fetch + useEffect
+
+5-D. k8s 배포
+- PostgreSQL StatefulSet 추가
+- inference deployment에 DB 환경변수 주입
+
+5-E. Agent 연동 (추후)
+- Agent 툴로 `/history`, `/stats` 호출
+- 이상 패턴 감지, 자동 리포트 생성
 
 Phase 2 상세 (레퍼런스: Vercel 대시보드 라이트 모드):
 

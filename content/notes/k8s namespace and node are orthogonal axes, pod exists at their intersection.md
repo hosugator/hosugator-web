@@ -34,9 +34,9 @@ Pod는 두 축이 교차하는 지점이다. `align-ai` namespace의 Pod가 `nod
 
 #### namespace가 제공하는 것:
 
-- **이름 충돌 방지**: 두 모델이 모두 `deployment`라는 이름을 써도 namespace가 다르면 충돌 없음
-- **권한 경계**: RBAC으로 namespace별 접근 제어
-- **리소스 쿼터**: namespace별 CPU/메모리 상한 설정 가능
+- 이름 충돌 방지: 두 모델이 모두 `deployment`라는 이름을 써도 namespace가 다르면 충돌 없음
+- 권한 경계: RBAC으로 namespace별 접근 제어
+- 리소스 쿼터: namespace별 CPU/메모리 상한 설정 가능
 
 #### namespace가 제공하지 않는 것:
 
@@ -48,6 +48,7 @@ Pod는 두 축이 교차하는 지점이다. `align-ai` namespace의 Pod가 `nod
 앱이 하나일 때는 namespace가 불필요하게 느껴진다. 두 번째 앱이 추가되는 순간 이름 충돌 방지가 필요해지고, namespace의 존재 이유가 직관적으로 이해된다.
 
 ## Related
+- [[A cluster is the hard isolation boundary between domains while a namespace divides within one]] — 이 노트의 상위 층: 클러스터 경계 자체와 멀티클러스터. namespace는 "클러스터 안" 나누기임을 대비.
 - [[Argo CD is a deployment coordinator not a runtime dependency, k3s self-heals without it]] — Argo CD Application이 namespace를 destination으로 지정하는 구조
 - [[Kubernetes Deployment manifest layers desired state onto containers through labels and selectors]] — Deployment가 namespace 안에서 동작하는 방식
 - [[Kubernetes resource limits prevent resource exhaustion on shared nodes]] — 같은 노드에서 namespace들이 리소스를 나누는 방법

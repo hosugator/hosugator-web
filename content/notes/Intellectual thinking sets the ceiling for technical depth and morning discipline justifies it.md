@@ -4,7 +4,7 @@ updated: 2026-06-18
 type: insight
 status: 2-stable
 subject: "[[Thinking]]"
-project:
+project: "[[Self-development in 2026]]"
 tags:
   - career
   - learning

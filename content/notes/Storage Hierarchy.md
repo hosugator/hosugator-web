@@ -12,7 +12,7 @@ updated: 2026-02-14 23:25
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # Storage Hierarchy: Connection & Speed

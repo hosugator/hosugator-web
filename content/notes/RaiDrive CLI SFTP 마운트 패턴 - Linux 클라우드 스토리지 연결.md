@@ -108,3 +108,4 @@ ls ~/remote          # 터미널
 - [[snap 패키지 샌드박스 제약과 대안 선택 기준]]
 - [[Linux 개발환경 dotfiles 부트스트랩 구조 패턴]]
 - [[Ubuntu X11 Caps Lock 한글 리매핑 패턴 (fcitx5)]]
+- [[SFTP FUSE mount serves stale data when SSH connection silently drops]] — silent disconnect 시 stale 데이터 서빙 문제 및 remount 해결책

@@ -9,19 +9,16 @@ tags:
   - zettelkasten
   - ai
   - knowledge-management
+  - 
 publish: true
+project: "[[Self-development in 2026]]"
 ---
-
 ## Context
-
 루만의 Zettelkasten 방식을 논의하다가, 내가 매일 볼트 전체를 리뷰하는 이유와 Zettelkasten의 원래 목적 사이에 간극이 있다는 걸 인식했다.
-
 루만의 제텔카스텐은 **생산을 위한 탐색 도구**였다. 쓰고 싶은 것이 생겼을 때 진입점을 찾고, 링크를 따라가며 맥락을 펼치는 방식. 정기적 리뷰가 아니라 필요할 때 대화하듯 탐색하는 것이었다.
-
 그런데 지금 나는 생산을 위해 볼트를 뒤지지 않는다. AI에게 질문한다.
 
 ## Insight
-
 ### AI가 Zettelkasten의 탐색-생산 기능을 흡수했다
 
 지식 창고를 검색해 맥락을 모으고 → 생산하는 과정을 AI가 단번에 대체했다. [[AI의 통합성 및 관계 생략 기능]]에서 이미 이 구조를 분석했다: AI는 키워드 탐색 → 자료 취합 → 결과 산출의 모든 단계를 통합한다.
@@ -43,6 +40,7 @@ publish: true
 
 맥락 없는 과거 노트들이 바로 AI 대체 가능한 것들이다. 그것들을 고치는 데 시간을 쓰는 것 자체가 낭비다.
 
----
-
-[[pkm-역할-재정의]] · [[AI의 통합성 및 관계 생략 기능]] · [[My Zettelkasten Principles; Hybrid Approach]]
+## Related
+- [[pkm-역할-재정의]]
+- [[AI의 통합성 및 관계 생략 기능]]
+- [[My Zettelkasten Principles; Hybrid Approach]]

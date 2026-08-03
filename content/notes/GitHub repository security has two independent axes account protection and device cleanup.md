@@ -1,6 +1,6 @@
 ---
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-07-20
 type: study
 status: 2-stable
 subject: "[[Infra]]"
@@ -51,3 +51,6 @@ sed -i '/zettelkasten/d' ~/.zsh_history  # 셸 히스토리
 ```
 
 GitHub에서 해당 기기 SSH 키 Delete → 이후 해당 기기에서 SSH 접근 즉시 차단.
+
+## Related
+- [[Removing personal traces from a shared computer requires clearing more than login sessions]] — 브라우저·CLI 인증정보·Keychain 등 git/SSH 밖의 흔적까지 확장한 후속 노트

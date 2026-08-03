@@ -3,7 +3,7 @@ created: 2026-07-02
 updated: 2026-07-02
 type: insight
 status: 2-stable
-subject: "[[Web]]"
+subject: "[[Frontend]]"
 project: "[[Hosugator Web]]"
 tags:
   - design

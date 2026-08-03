@@ -4,7 +4,7 @@ updated: 2026-06-30
 type: insight
 status: 2-stable
 subject: "[[Career]]"
-project: "[[Preparing employment in 2026]]"
+project: "[[Self-development in 2026]]"
 tags:
   - career
   - peer-learning
@@ -37,7 +37,7 @@ LLM/Agent처럼 업계 전체가 함께 배우는 신생 영역에서는 팀 내
 - AI 팀 3~6명, 각자 다른 전문화 보유
 - 포트폴리오 리뷰 중심 채용
 
-전환 조건: 기술 조직 채용 과정에서 외부 검증이 반복 확인되면 의사결정권 비중을 재검토한다.
+- 전환 조건: 기술 조직 채용 과정에서 외부 검증이 반복 확인되면 의사결정권 비중을 재검토한다.
 
 ## Related
 - [[PM background amplifies technical depth only after skills become organizationally portable]] — 임계점 개념의 기반. 이 노트는 임계점 도달 전 최적 환경을 다룬다

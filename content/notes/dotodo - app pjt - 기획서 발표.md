@@ -1,6 +1,6 @@
 ---
-created:
-updated: 2026-06-25
+created: 2026-06-28
+updated: 2026-07-05
 status: 2-stable
 type: insight
 subject: "[[App]]"
@@ -9,7 +9,6 @@ tags:
   - 
 publish: true
 ---
-
 ## LLM as a judge
 LLM을 판단의 주체로 활용하는 경우에 유의할 점이 있다.
 판단을 내리는 LLM과 평가하는 LLM은 달라야 한다.

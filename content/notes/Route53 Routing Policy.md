@@ -12,7 +12,7 @@ updated: 2026-02-14 20:32
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # Route 53 라우팅 정책 (Routing Policy)

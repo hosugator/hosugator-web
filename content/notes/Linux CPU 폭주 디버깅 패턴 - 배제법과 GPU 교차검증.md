@@ -64,3 +64,4 @@ CPU 폭주로 인해 터미널이 비정상 종료되어 작업 맥락이 날아
 - [[병렬 처리 - CPU와 GPU의 코어 구조 차이]] — CPU와 GPU 역할 분리 이해
 - [[snap 패키지 샌드박스 제약과 대안 선택 기준]] — snap classic confinement
 - [[Neovim KGP 이미지·다이어그램 렌더링 스택]] — Ghostty 렌더링 체인 컨텍스트
+- [[Elimination beats tracing only when each hypothesis has a cheap observable]] — 여기서 배제법이 통한 이유(관측 비용이 낮았다)와, 그 조건이 없을 때 실패한 사례

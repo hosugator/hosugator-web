@@ -1,10 +1,10 @@
 ---
 created: 2026-05-22
-updated: 2026-05-22
+updated: 2026-07-27
 type: insight
 status: 2-stable
 subject: "[[PKM]]"
-project: PKM
+project: "[[Self-development in 2026]]"
 tags:
   - pkm
   - sc_search
@@ -30,9 +30,17 @@ publish: true
 
 | score | 처리 |
 |---|---|
-| 0.80+ | Read 후보 — 제목을 보고 내용이 현재 노트를 실질적으로 고도화할 때만 Read |
-| 0.65–0.79 | Link 후보 — Read 없이 제목만 보고 `[[위키링크]]` 연결 여부 판단 |
-| 0.65 미만 | 무시 |
+| 0.67+ | Read 후보 — 제목을 보고 내용이 현재 노트를 실질적으로 고도화할 때만 Read |
+| 0.60–0.66 | Link 후보 — Read 없이 제목만 보고 `[[위키링크]]` 연결 여부 판단 |
+| 0.60 미만 | 무시 |
+
+> **2026-07-27 개정** — 위 표는 최초 결정 당시 `0.80 / 0.65–0.79 / 0.65↓`였다.
+> 이후 pkm-management 스킬에서만 `0.67 / 0.60–0.66 / 0.60↓`으로 낮춰졌고 이 노트와
+> `sc_search.py`는 갱신되지 않아, 스킬이 지시하는 Link 후보 구간(0.60–0.66)이
+> 기본 `min_score=0.65`에 걸려 **한 번도 출력되지 않는 상태**로 방치됐다.
+> 현행 값으로 통일했다. → [[Duplicated thresholds make a documented workflow step silently unreachable]]
+>
+> 이력: `0.75` (최초) → `0.65` (2026-05-22) → `0.60` (2026-07-27)
 
 **3. 0 결과 시 bash 폴백 금지**
 - sc_search 0 결과 = "볼트에 해당 주제 기존 노트 없음" 신호. bash grep으로 보완 탐색하지 않는다.

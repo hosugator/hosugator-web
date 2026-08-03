@@ -41,5 +41,6 @@ kubectl은 클러스터 상태를 제어하는 도구이고, 실제 요청 트�
 k3d가 노드를 만들면 그 안에 kubelet과 kube-proxy가 자동으로 실행된다. kubectl은 외부에서 k8s API 서버를 통해 명령을 보낼 뿐이다.
 
 ## Related
+- [[Kubernetes components divide into client control plane and node planes]] — 전체 컴포넌트 지도(클라이언트/컨트롤플레인/노드/애드온 + 머메이드). 이 노트는 그중 네트워크 라우팅 책임을 상세화한 자매 노트.
 - [[k3d wraps k3s nodes in Docker containers enabling disposable local clusters]] — k3d와 노드 관계
 - [[Kubernetes Service types layer on top of each other from ClusterIP to LoadBalancer]] — kube-proxy가 처리하는 네트워크 구조

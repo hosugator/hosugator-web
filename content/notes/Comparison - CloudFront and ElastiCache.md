@@ -4,7 +4,7 @@ updated: 2026-02-28 02:35
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 tags:
   - aws
   - cloudfront
@@ -35,7 +35,7 @@ CloudFront는 최종 사용자에게 가까운 **네트워크 엣지 캐싱(CDN)
 
 ## connect
 - [[Infra]]
-- [[MOC - AWS SAA]]
+- [[AWS SAA]]
 - [[CloudFront]]
 - [[ElastiCache]]
 - [[Caching]]

@@ -1,6 +1,6 @@
 ---
 created: 2026-05-22
-updated: 2026-05-22
+updated: 2026-07-27
 type: insight
 status: 2-stable
 subject: "[[PKM]]"
@@ -8,17 +8,16 @@ tags:
   - pkm
   - embedding
   - search
+  - 
 publish: true
+project: "[[Self-development in 2026]]"
 ---
 
 ## Context
-
 Claude CLI가 새 PKM 노트를 작성하기 전에 기존 관련 노트를 찾는 방식이 `grep -l keyword` 기반이었다. 키워드가 파일 안에 그 단어 그대로 있어야만 잡히는 방식이라, 표현이 다른 의미적 연관 노트를 구조적으로 놓쳤다.
-
 Smart Connections 플러그인 설치 후 Obsidian이 볼트 전체를 `TaylorAI/bge-micro-v2` 모델로 임베딩하여 `~/zettelkasten/.smart-env/multi/*.ajson`에 벡터를 저장한다는 것을 확인했다. 이 인덱스를 CLI에서 직접 활용할 수 있는 구조다.
 
 ## Decision
-
 `~/.dotfiles/scripts/sc_search.py` 스크립트를 작성하여 기존 grep을 대체한다.
 
 - Smart Connections와 동일한 `TaylorAI/bge-micro-v2` 모델로 쿼리를 임베딩
@@ -29,13 +28,13 @@ Smart Connections 플러그인 설치 후 Obsidian이 볼트 전체를 `TaylorAI
 - `~/.local/bin/sc_search` 심링크로 어디서나 호출 가능
 
 ## Consequences
-
 **개선**
 - 표현이 달라도 의미적으로 연관된 노트를 발견할 수 있다
 - 새 노트 작성 시 연결 누락이 줄어들 것으로 예상
 
 **제약**
 - Smart Connections가 Obsidian 내에서 인덱싱하므로, 새 노트는 Obsidian을 열어야 인덱스에 반영된다
+- 삭제·이름변경된 노트의 벡터는 인덱스에 남아 유령 결과가 된다 (2026-07-27 발견, `load_vectors()`에 실재 확인 추가로 해결) → [[Reusing another tool's index inherits the integrity checks its own UI provided]]
 - `bge-micro-v2`는 경량 모델(384차원, ~22MB)로 한국어 기술 용어 쿼리에서 노이즈가 발생한다. 영어 혼용 또는 노트 내용에 가까운 구체적 쿼리가 정확도를 높인다
 
 ## Verification — grep vs sc_search 직접 비교 (2026-05-22)
@@ -54,8 +53,8 @@ Smart Connections 플러그인 설치 후 Obsidian이 볼트 전체를 `TaylorAI
 
 grep은 `PKM Infrastructure Design`(54줄, draft)을 끌어왔으나 최종 노트에 기여 없었다. sc_search는 `Old PKM protocol blocked...`(38줄)를 첫 쿼리에서 0.791로 발견했고 Consequences에 직접 반영됐다.
 
-→ 비교 대상 노트: [[grep-based PKM linking structurally misses notes with different expressions]]
+> → 비교 대상 노트: [[grep-based PKM linking structurally misses notes with different expressions]]
 
----
-
-[[pkm-역할-재정의]] · [[AI replaces Zettelkasten retrieval but not personal context or decision log]]
+## Related
+- [[pkm-역할-재정의]] 
+- [[AI replaces Zettelkasten retrieval but not personal context or decision log]]

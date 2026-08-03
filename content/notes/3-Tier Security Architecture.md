@@ -10,7 +10,7 @@ updated:
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # 3-Tier Security Architecture

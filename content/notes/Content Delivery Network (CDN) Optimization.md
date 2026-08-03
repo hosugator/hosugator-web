@@ -17,7 +17,7 @@ updated: 2026-02-15 13:08
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # Content Delivery Network (CDN) Optimization (콘텐츠 전송 네트워크(CDN) 최적화)

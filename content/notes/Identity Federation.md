@@ -15,7 +15,7 @@ updated: 2026-02-14 23:24
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # Identity Federation (자격 증명 연합)

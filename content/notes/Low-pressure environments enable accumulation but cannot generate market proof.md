@@ -4,7 +4,7 @@ updated: 2026-06-26
 type: insight
 status: 2-stable
 subject: "[[Career]]"
-project: "[[Preparing employment in 2026]]"
+project: "[[Self-development in 2026]]"
 tags:
   - career
   - job-search

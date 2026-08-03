@@ -23,7 +23,7 @@ updated: 2026-02-15 13:05
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # File vs Block vs Object Storage Comparison (파일, 블록, 객체 스토리지 비교)

@@ -2,8 +2,8 @@
 created: 2026-06-30
 updated: 2026-06-30
 type: study
-status: 1-draft
-subject: "[[Mechanical Engineering]]"
+status: 2-stable
+subject: "[[Optics]]"
 project: "[[Corning Varioptic]]"
 tags:
   - liquid-lens
@@ -34,3 +34,5 @@ Corning Varioptic 트레이닝 세션 1(2026-06-30)에서 A25H TEDS(Technical Da
 파면 오차(wavefront error): 실제 구면이 이상적 구면에서 벗어나는 정도. A25H 전형값 ~40nm RMS(우수). 고전압에서 파면 오차가 증가하는 것은 구면 수차(spherical aberration) — 완벽한 구면 렌즈라도 발생하는 물리적 현상이며 렌즈 불량이 아니다.
 
 ## Related
+- [[Liquid lens must be driven with AC voltage to prevent insulating layer degradation]] — 전기 구동 방식 및 신뢰성 조건
+- [[Liquid lens requires 50 micron front clearance for thermal volume expansion]] — 기계적 통합 필수 조건

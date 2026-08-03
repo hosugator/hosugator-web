@@ -30,6 +30,6 @@ publish: true
     - **디버깅 복잡도**: 로컬에서 직접 API를 테스트할 때 해당 헤더를 수동으로 넣어야 하므로 테스트 과정이 다소 복잡해짐.
 ---
 ## 작업 로그 (트러블슈팅 예상)
-- [ ] CloudFront Behavior 설정에서 헤더 추가 확인
-- [ ] Nginx `$http_x_cloudfront_hosugator_secret` 변수 매핑 확인
-- [ ] 꼬였던 설정 파일 정합성 체크 (`nginx -t`)
+- [x] CloudFront Behavior 설정에서 헤더 추가 확인
+- [x] Nginx `$http_x_cloudfront_hosugator_secret` 변수 매핑 확인
+- [x] 꼬였던 설정 파일 정합성 체크 (`nginx -t`)

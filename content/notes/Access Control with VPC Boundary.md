@@ -10,7 +10,7 @@ updated: 2026-02-14 20:27
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # VPC Boundary

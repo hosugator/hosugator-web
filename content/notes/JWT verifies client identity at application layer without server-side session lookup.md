@@ -16,7 +16,6 @@ publish: true
 Go2fit 백엔드에서 JWT 인증을 직접 구현한 뒤, Align AI k3s mTLS 동작을 분석하다가 두 방식이 왜 계층이 다른지를 탐구했다. TLS는 서버 신원만 기본 검증하고, 클라이언트 신원은 앱 레이어에서 JWT로 별도 처리한다는 분리 구조를 이해했다.
 
 ## Insight
-
 ### JWT 구조는 header.payload.signature
 
 ```
@@ -43,12 +42,12 @@ user table 조회 없이 암호화 서명이 신뢰의 근거가 된다. 서버 
 
 ### access token ≈ JWT, refresh token은 opaque string
 
-| | access token | refresh token |
-|---|---|---|
-| 형태 | JWT (자체 검증 가능) | opaque string (서버 저장) |
-| 수명 | 단기 (15분~1시간) | 장기 (7일~30일) |
-| 취소 | 만료 전 취소 불가 | DB에서 즉시 삭제 가능 |
-| 용도 | API 인증 | access token 재발급 |
+|     | access token   | refresh token         |
+| --- | -------------- | --------------------- |
+| 형태  | JWT (자체 검증 가능) | opaque string (서버 저장) |
+| 수명  | 단기 (15분~1시간)   | 장기 (7일~30일)           |
+| 취소  | 만료 전 취소 불가     | DB에서 즉시 삭제 가능         |
+| 용도  | API 인증         | access token 재발급      |
 
 JWT는 서명만으로 검증되기 때문에 만료 전 취소 수단이 없다. 그래서 수명을 짧게 하고, 취소 가능한 refresh token이 갱신을 담당한다.
 

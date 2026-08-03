@@ -11,7 +11,7 @@ updated: 2026-02-15 11:53
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # S3 Inventory & Batch Operations

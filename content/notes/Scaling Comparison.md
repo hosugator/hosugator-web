@@ -4,7 +4,7 @@ updated: 2026-02-28 05:35
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 tags:
   - aws
   - scaling

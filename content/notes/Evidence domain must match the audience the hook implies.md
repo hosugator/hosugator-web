@@ -9,8 +9,11 @@ tags:
   - content-strategy
   - audience
   - writing
+  - 
 publish: true
+project: "[[Self-development in 2026]]"
 ---
+
 
 ## Context
 

@@ -14,7 +14,7 @@ updated: 2026-02-15 12:51
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # Amazon EC2 Auto Scaling with SQS Target Tracking

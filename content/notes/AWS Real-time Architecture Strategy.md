@@ -11,7 +11,7 @@ updated: 2026-02-14 20:22
 type: insight
 status: 2-stable
 subject: "[[Infra]]"
-project: "[[MOC - AWS SAA]]"
+project: "[[AWS SAA]]"
 publish: true
 ---
 # Real-time Architecture Strategy
