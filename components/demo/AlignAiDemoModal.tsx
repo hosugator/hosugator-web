@@ -36,13 +36,10 @@ const SAMPLES = [
   { file: "fail-3.jpg", tag: "FAIL" },
 ];
 
-// 데모용 공차. 샘플 실측에서 유도했다 — OK 두 개(1.4062 / 1.4564)를 담고
-// NG(1.5066)를 거르는 구간이다.
-//
-// ⚠️ 실제 공정 규격이 아니다. product_config.py에 gap 허용 범위가 정의돼 있지 않아
-//   샘플로부터 역산한 값이다. 데모에서 판정을 보여주기 위한 것이고, 실제 판정에는
-//   현장 공차 설정이 선행돼야 한다.
-const GAP_TOLERANCE = { min: 1.4, max: 1.48 } as const;
+// 공차는 프론트에 두지 않는다.
+// WHY: 공차는 제품 사양이므로 서버(product_config.py)가 단일 출처다. UI 상수로 복제하면
+//   소비자마다 값이 갈릴 수 있다. /predict가 verdict(PASS/NG)와 근거(공칭·공차)를 함께
+//   반환하므로 프론트는 그것을 표시만 한다.
 
 // /predict 응답 형태 (백엔드 server.py 참고)
 interface PredictResult {
@@ -54,6 +51,9 @@ interface PredictResult {
   line1_mm: number;
   line2_mm: number;
   gap_mm: number;
+  verdict: "PASS" | "NG" | null;   // 공차 미정의 제품이면 null
+  gap_nominal_mm: number | null;
+  gap_tolerance_mm: number | null;
   img_w: number;
   img_h: number;
 }
@@ -78,9 +78,10 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
       line2: "라인 2",
       gap: "간격",
       reset: "다른 이미지 선택",
-      pass: "공차 내",
-      fail: "공차 밖",
-      tolNote: `데모 공차 ${GAP_TOLERANCE.min}~${GAP_TOLERANCE.max}mm — 샘플에서 역산한 값이며 실제 공정 규격이 아닙니다.`,
+      pass: "합격",
+      fail: "불합격",
+      spec: (n: number, tol: number) =>
+        `규격 공칭 ${n}mm ±${tol} (합격 ${(n - tol).toFixed(2)}~${(n + tol).toFixed(2)}mm)`,
     },
     en: {
       title: "Align AI Demo",
@@ -97,9 +98,10 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
       line2: "Line 2",
       gap: "Gap",
       reset: "Pick another image",
-      pass: "In tolerance",
-      fail: "Out of tolerance",
-      tolNote: `Demo tolerance ${GAP_TOLERANCE.min}–${GAP_TOLERANCE.max}mm — derived from the samples, not an actual process spec.`,
+      pass: "PASS",
+      fail: "NG",
+      spec: (n: number, tol: number) =>
+        `Spec ${n}mm ±${tol} (pass ${(n - tol).toFixed(2)}–${(n + tol).toFixed(2)}mm)`,
     },
   }[locale];
 
@@ -248,7 +250,12 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
     >
       {/* idle */}
       {!result && !isLoading && !error && (
-        <div className="text-center py-12">
+        // 초기 화면도 2단으로 둔다.
+        // WHY: 결과가 나온 뒤에야 에이전트가 등장하면 "이 데모에 AI 설명이 있다"를 모르고
+        //   샘플만 한 번 눌러보고 닫는다. 진입 순간부터 오른쪽에 보이면 무엇을 할 수 있는지
+        //   먼저 읽힌다. 실행은 이미지가 있어야 가능하므로 버튼은 비활성 상태로 둔다.
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="text-center py-6">
           <div className="w-16 h-16 bg-accent/10 rounded-md flex items-center justify-center mx-auto mb-4 text-accent">
             <ImageUp size={32} />
           </div>
@@ -286,6 +293,12 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
                 </button>
               ))}
             </div>
+          </div>
+        </div>
+
+          {/* 오른쪽: 에이전트 안내 — 아직 실행 불가하지만 존재를 먼저 알린다 */}
+          <div className="lg:border-l lg:border-neutral-200 lg:pl-6">
+            <AgentExplain file={null} locale={locale} />
           </div>
         </div>
       )}
@@ -361,26 +374,27 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
             ))}
           </div>
 
-            {/* 공차 판정 — 숫자만으로는 합격 여부가 읽히지 않는다.
-                공차 자체가 샘플에서 역산한 데모용 값이므로 그 사실을 함께 밝힌다. */}
-            <div className="text-center">
-              <span
-                className={`inline-block font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded border ${
-                  result.gap_mm >= GAP_TOLERANCE.min &&
-                  result.gap_mm <= GAP_TOLERANCE.max
-                    ? "border-accent/30 bg-accent/10 text-accent"
-                    : "border-neutral-300 bg-neutral-50 text-neutral-500"
-                }`}
-              >
-                {result.gap_mm >= GAP_TOLERANCE.min &&
-                result.gap_mm <= GAP_TOLERANCE.max
-                  ? t.pass
-                  : t.fail}
-              </span>
-              <p className="mt-2 text-[11px] font-light leading-relaxed text-neutral-400">
-                {t.tolNote}
-              </p>
-            </div>
+            {/* 판정 — 서버가 규격과 비교해 내린 결과를 그대로 표시한다.
+                공차가 정의되지 않은 제품은 verdict가 null이므로 판정을 생략한다. */}
+            {result.verdict && (
+              <div className="text-center">
+                <span
+                  className={`inline-block font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded border ${
+                    result.verdict === "PASS"
+                      ? "border-accent/30 bg-accent/10 text-accent"
+                      : "border-neutral-300 bg-neutral-50 text-neutral-500"
+                  }`}
+                >
+                  {result.verdict === "PASS" ? t.pass : t.fail}
+                </span>
+                {result.gap_nominal_mm !== null &&
+                  result.gap_tolerance_mm !== null && (
+                    <p className="mt-2 text-[11px] font-light text-neutral-400">
+                      {t.spec(result.gap_nominal_mm, result.gap_tolerance_mm)}
+                    </p>
+                  )}
+              </div>
+            )}
 
             <button
               type="button"

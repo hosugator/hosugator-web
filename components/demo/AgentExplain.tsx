@@ -62,6 +62,10 @@ export default function AgentExplain({
     locale === "en"
       ? {
           cta: "Ask the agent to explain",
+          ctaDisabled: "Pick an image first",
+          panelTitle: "LLM agent",
+          panelIntro:
+            "The measurements alone don't say why. An LLM agent picks its own tools to explain the result in field language — it calls the U-Net model, reads the image, and compares past inspection cases.",
           running: "Agent is working",
           answer: "Explanation",
           stats: (c: number, ms: number) => `${c} LLM calls · ${(ms / 1000).toFixed(1)}s`,
@@ -71,6 +75,10 @@ export default function AgentExplain({
         }
       : {
           cta: "AI에게 설명 요청",
+          ctaDisabled: "이미지를 먼저 선택하세요",
+          panelTitle: "LLM 에이전트",
+          panelIntro:
+            "측정값만으로는 왜 그런 결과가 나왔는지 알 수 없습니다. LLM 에이전트가 도구를 스스로 골라 현장 언어로 설명합니다 — U-Net 모델을 호출하고, 이미지를 직접 읽고, 과거 검사 사례와 대조합니다.",
           running: "에이전트 실행 중",
           answer: "설명",
           stats: (c: number, ms: number) => `LLM ${c}회 · ${(ms / 1000).toFixed(1)}초`,
@@ -139,23 +147,49 @@ export default function AgentExplain({
     (e) => e.type === "tool_call" || e.type === "tool_result",
   );
 
-  // 아직 안 눌렀으면 버튼만 보인다 — 결과(측정치)를 가리지 않는다.
+  // 아직 실행 전 — 버튼과 함께 무엇을 하는 기능인지 알린다.
+  // WHY 설명을 두나: 초기 화면(이미지 선택 전)에는 버튼이 비활성이라 눌러볼 수도 없다.
+  //   그 상태에서 버튼만 있으면 "왜 안 눌리지"로 읽힌다. 무엇을 할 수 있고 왜 지금은
+  //   못 하는지를 함께 보여야 한다.
   if (!running && events.length === 0) {
     return (
-      <div className="border-t border-neutral-200 pt-4">
+      <div>
+        <p className="font-mono text-[10px] uppercase tracking-widest text-neutral-400">
+          {t.panelTitle}
+        </p>
+        <p className="mt-2 text-xs font-light leading-relaxed text-neutral-500">
+          {t.panelIntro}
+        </p>
+
+        {/* 어떤 도구를 쓰는지 미리 보여준다 — 실행 후 트레이스와 같은 어휘를 쓴다 */}
+        <ul className="mt-4 space-y-1.5">
+          {(["run_prediction", "analyze_image", "search_reference"] as const).map(
+            (name) => {
+              const Icon = TOOL_ICON[name];
+              return (
+                <li
+                  key={name}
+                  className="flex items-center gap-2 font-mono text-[11px] text-neutral-400"
+                >
+                  <Icon size={11} />
+                  {t.labels[name]}
+                </li>
+              );
+            },
+          )}
+        </ul>
+
         <button
           type="button"
           onClick={run}
           disabled={!file}
           data-goatcounter-click="demo-agent/explain"
-          className="mx-auto flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-accent hover:text-accent disabled:opacity-40"
+          className="mt-5 flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-accent hover:text-accent disabled:opacity-40"
         >
           <Sparkles size={15} />
-          {t.cta}
+          {file ? t.cta : t.ctaDisabled}
         </button>
-        {failed && (
-          <p className="mt-3 text-center text-xs text-neutral-500">{t.err}</p>
-        )}
+        {failed && <p className="mt-3 text-xs text-neutral-500">{t.err}</p>}
       </div>
     );
   }

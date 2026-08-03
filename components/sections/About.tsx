@@ -5,6 +5,28 @@ import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 import Image from "next/image";
 
+// 히어로 데모 목록 — 이름 + 한 줄 요약.
+// 요약은 "무엇을 보게 되는가"를 쓴다. 기술 스택 나열이 아니라 화면에서 벌어지는 일이어야
+// 방문자가 자기 관심사와 맞는지 판단할 수 있다.
+const DEMOS = [
+  {
+    slug: "v1-aoi",
+    name: "V1-AOI",
+    primary: true, // 도메인 지식 없이도 즉시 읽히는 출력 → 첫 클릭 유도
+    summary: "렌즈 표면 이물을 히트맵으로 짚어냅니다. 불량 이미지를 학습하지 않은 비지도 탐지.",
+    summaryEn:
+      "Pinpoints surface contamination as a heatmap — unsupervised, never trained on a defect image.",
+  },
+  {
+    slug: "alignai",
+    name: "AlignAI",
+    primary: false,
+    summary: "정렬선 간격을 측정하고 합격 판정까지. LLM 에이전트가 도구를 골라 결과를 설명합니다.",
+    summaryEn:
+      "Measures alignment-line spacing and judges it — an LLM agent picks its own tools to explain the result.",
+  },
+] as const;
+
 export default function About() {
   const { t, locale } = useTranslation();
 
@@ -67,42 +89,39 @@ export default function About() {
         <div className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-400">
           {locale === "en" ? "Demos" : "데모"}
         </div>
-        <div className="flex flex-wrap gap-3">
-          {/* V1-AOI가 primary다 (2026-07-31 승격).
-              WHY: 이물 히트맵은 도메인 지식 없이도 "빨간 게 불량"으로 즉시 읽히는 출력이라
-                비전문가에게 설명 비용이 가장 낮다. AlignAI는 "이 선이 기준선입니다"라는 설명이
-                한 번 필요한데, AOI는 빨간 얼룩 하나로 끝난다.
-              승격 조건이었던 "컨테이너에서 실제 추론"이 충족됐다 — arm64 ONNX 이미지가
-                노드에 배포되어 요청마다 onnxruntime이 돌고, 응답 지연(약 1.8초)을 UI에 노출한다.
-              채운 버튼은 하나만 둔다 — 둘 이상이면 주 CTA가 흐려진다. */}
-          <Link
-            href="/projects/v1-aoi?demo=1"
-            data-goatcounter-click="hero-demo/v1-aoi"
-            className="group inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-accent/90"
-          >
-            V1-AOI
-            <ArrowRight
-              size={16}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </Link>
-          {/* AlignAI는 V1-AOI 바로 뒤 — 둘 다 같은 공정(DTK 렌즈) 산업 AI라 인접해 있으면
-              "한 현장에서 표면 검사와 비전 정렬을 각각 끌고 갔다"로 읽힌다. */}
-          <Link
-            href="/projects/alignai?demo=1"
-            data-goatcounter-click="hero-demo/alignai"
-            className="group inline-flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-accent hover:text-accent"
-          >
-            AlignAI
-            <ArrowRight
-              size={16}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </Link>
-          {/* Cureat 바로가기는 2026-08-03 제거 — 백엔드가 스텁 응답을 반환해 데모가
-              카드의 주장을 반증하는 상태다. 상세 근거는 ProjectDetail.tsx 주석 참고.
-              작동하는 둘만 노출하는 게 셋 중 하나가 깨진 것보다 강하다. */}
-        </div>
+        {/* 알약 버튼 대신 목록 행으로 둔다.
+            WHY: 방문자가 데모를 다 눌러보지 않는다. 이름만 있으면 무엇을 보게 될지 알 수
+              없어 관심사와 무관한 것을 열거나 아예 안 누른다. 한 줄 요약이 있으면 자기
+              관심에 맞는 것을 고를 수 있다. 알약 버튼에는 그 요약이 들어갈 폭이 없다. */}
+        <ul className="divide-y divide-neutral-100 border-y border-neutral-100">
+          {DEMOS.map((d) => (
+            <li key={d.slug}>
+              <Link
+                href={`/projects/${d.slug}?demo=1`}
+                data-goatcounter-click={`hero-demo/${d.slug}`}
+                className="group flex items-baseline gap-3 py-3 sm:gap-4"
+              >
+                <span
+                  className={`shrink-0 text-sm font-black transition-colors ${
+                    d.primary
+                      ? "text-accent"
+                      : "text-neutral-900 group-hover:text-accent"
+                  }`}
+                >
+                  {d.name}
+                </span>
+                <span className="flex-1 text-[13px] font-light leading-snug text-neutral-500">
+                  {locale === "en" ? d.summaryEn : d.summary}
+                </span>
+                <ArrowRight
+                  size={14}
+                  className="shrink-0 translate-y-0.5 text-neutral-300 transition-all group-hover:translate-x-1 group-hover:text-accent"
+                  aria-hidden
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
