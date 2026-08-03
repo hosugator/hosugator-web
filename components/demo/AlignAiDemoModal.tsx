@@ -10,6 +10,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useState, useRef, useEffect } from "react";
 import { Loader2, Upload, ImageUp, RotateCcw } from "lucide-react";
 import DemoModal from "./DemoModal";
+import AgentExplain from "./AgentExplain";
 
 interface Props {
   isOpen: boolean;
@@ -328,6 +329,15 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
               </div>
             ))}
           </div>
+
+          {/* ── 에이전트 설명 단계 ────────────────────────────────────────
+              WHY 여기에 붙는가: U-Net은 gap_mm 1.3894 같은 숫자만 준다. 방문자는 이게
+                왜 정상인지, 실패했다면 왜인지 알 수 없다. 그 해석이 이 프로젝트가 LLM
+                에이전트를 만든 원래 이유이므로, 숫자 바로 아래가 그 설명의 자리다.
+              WHY 자동 실행이 아니라 버튼인가: 추론은 330ms지만 에이전트는 10~20초 걸리고
+                LLM 호출에 비용이 붙는다. 업로드마다 자동으로 돌면 비용이 트래픽에 비례한다.
+                버튼으로 두면 결과는 즉시 보이고 설명은 원할 때만 기다린다. */}
+          <AgentExplain file={file} locale={locale} />
 
           <button
             type="button"
