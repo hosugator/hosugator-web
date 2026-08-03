@@ -17,16 +17,32 @@ interface Props {
   onClose: () => void;
 }
 
-// 데모용 샘플 이미지 (align-ai 레포 data/train/Q-display/images 발췌).
-// 업로드 없이도 체험 가능하도록 방향(V/H)·판정(OK/Fail/NG)을 다양하게 섞어 6장 선정.
+// 데모용 샘플 (align-ai 레포 data/train/Q-display/images 발췌).
+//
+// 파일명·태그를 **모델 출력 기준**으로 다시 정했다 (2026-08-03).
+// WHY: 이전 태그(V·OK, H·Fail …)는 원본 데이터셋 라벨이었고 방향 표기가 모델 판정과
+//   어긋났다(전부 V로 나왔다 — direction=auto가 파일명을 보던 버그. align-ai 1f9e793에서 수정).
+//   그리고 OK/NG/Fail이 무엇을 뜻하는지 맥락 없이는 알 수 없었다.
+//   이제 실측 기준으로 분류한다:
+//     FAIL — 두 번째 기준선을 조각으로만 검출(길이비 0.10~0.24). 측정값을 신뢰할 수 없다.
+//     NG   — 검출은 정상이나 간격이 공차를 벗어남
+//     OK   — 검출 정상 + 공차 내
 const SAMPLES = [
-  { file: "sample-1.jpg", tag: "V · OK" },
-  { file: "sample-2.jpg", tag: "H · OK" },
-  { file: "sample-3.jpg", tag: "V · Fail" },
-  { file: "sample-4.jpg", tag: "H · Fail" },
-  { file: "sample-5.jpg", tag: "V · NG" },
-  { file: "sample-6.jpg", tag: "H · OK" },
+  { file: "ok-1.jpg", tag: "OK" },
+  { file: "ok-2.jpg", tag: "OK" },
+  { file: "ng-1.jpg", tag: "NG" },
+  { file: "fail-1.jpg", tag: "FAIL" },
+  { file: "fail-2.jpg", tag: "FAIL" },
+  { file: "fail-3.jpg", tag: "FAIL" },
 ];
+
+// 데모용 공차. 샘플 실측에서 유도했다 — OK 두 개(1.4062 / 1.4564)를 담고
+// NG(1.5066)를 거르는 구간이다.
+//
+// ⚠️ 실제 공정 규격이 아니다. product_config.py에 gap 허용 범위가 정의돼 있지 않아
+//   샘플로부터 역산한 값이다. 데모에서 판정을 보여주기 위한 것이고, 실제 판정에는
+//   현장 공차 설정이 선행돼야 한다.
+const GAP_TOLERANCE = { min: 1.4, max: 1.48 } as const;
 
 // /predict 응답 형태 (백엔드 server.py 참고)
 interface PredictResult {
@@ -62,6 +78,9 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
       line2: "라인 2",
       gap: "간격",
       reset: "다른 이미지 선택",
+      pass: "공차 내",
+      fail: "공차 밖",
+      tolNote: `데모 공차 ${GAP_TOLERANCE.min}~${GAP_TOLERANCE.max}mm — 샘플에서 역산한 값이며 실제 공정 규격이 아닙니다.`,
     },
     en: {
       title: "Align AI Demo",
@@ -78,6 +97,9 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
       line2: "Line 2",
       gap: "Gap",
       reset: "Pick another image",
+      pass: "In tolerance",
+      fail: "Out of tolerance",
+      tolNote: `Demo tolerance ${GAP_TOLERANCE.min}–${GAP_TOLERANCE.max}mm — derived from the samples, not an actual process spec.`,
     },
   }[locale];
 
@@ -222,6 +244,7 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
       title={t.title}
       subtitle={t.placeholder}
       footer={footer}
+      wide
     >
       {/* idle */}
       {!result && !isLoading && !error && (
@@ -292,20 +315,28 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
 
       {/* result: 캔버스 오버레이 + mm 측정치 */}
       {result && imageUrl && !isLoading && (
-        <div className="space-y-4 animate-in fade-in duration-500">
+        // 2단 레이아웃 — 왼쪽 추론 결과, 오른쪽 에이전트.
+        // WHY: 세로로 쌓으면 에이전트가 스크롤 아래로 밀려 존재를 모르고 지나친다.
+        //   나란히 두면 진입 즉시 "설명을 받을 수 있다"가 보인다.
+        //   모바일(< lg)에서는 화면 폭이 부족하므로 한 컬럼으로 떨어뜨린다.
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] animate-in fade-in duration-500">
+          <div className="space-y-4">
           {/* 이미지 + 라인 오버레이 (둘 다 w-full → 동일 스케일로 겹침) */}
-          <div className="relative rounded-md overflow-hidden border border-neutral-200">
+          {/* 검사 이미지가 3036×4024 세로형이라 폭에 맞추면 세로로 너무 길어져
+              측정치·판정이 스크롤 아래로 밀린다. 높이를 기준으로 제한하고 폭을 따라오게 한다.
+              래퍼가 이미지를 딱 감싸므로(w-fit) 캔버스의 inset-0가 렌더된 이미지와 정확히 겹친다. */}
+          <div className="relative mx-auto w-fit max-h-[42vh] overflow-hidden rounded-md border border-neutral-200">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageUrl}
               alt="inspection"
-              className="block w-full h-auto"
+              className="block max-h-[42vh] w-auto"
             />
             <canvas
               ref={canvasRef}
               width={result.img_w}
               height={result.img_h}
-              className="absolute inset-0 w-full h-full"
+              className="absolute inset-0 h-full w-full"
             />
           </div>
 
@@ -330,23 +361,47 @@ export default function AlignAiDemoModal({ isOpen, onClose }: Props) {
             ))}
           </div>
 
-          {/* ── 에이전트 설명 단계 ────────────────────────────────────────
-              WHY 여기에 붙는가: U-Net은 gap_mm 1.3894 같은 숫자만 준다. 방문자는 이게
-                왜 정상인지, 실패했다면 왜인지 알 수 없다. 그 해석이 이 프로젝트가 LLM
-                에이전트를 만든 원래 이유이므로, 숫자 바로 아래가 그 설명의 자리다.
-              WHY 자동 실행이 아니라 버튼인가: 추론은 330ms지만 에이전트는 10~20초 걸리고
-                LLM 호출에 비용이 붙는다. 업로드마다 자동으로 돌면 비용이 트래픽에 비례한다.
-                버튼으로 두면 결과는 즉시 보이고 설명은 원할 때만 기다린다. */}
-          <AgentExplain file={file} locale={locale} />
+            {/* 공차 판정 — 숫자만으로는 합격 여부가 읽히지 않는다.
+                공차 자체가 샘플에서 역산한 데모용 값이므로 그 사실을 함께 밝힌다. */}
+            <div className="text-center">
+              <span
+                className={`inline-block font-mono text-[10px] uppercase tracking-widest px-2 py-1 rounded border ${
+                  result.gap_mm >= GAP_TOLERANCE.min &&
+                  result.gap_mm <= GAP_TOLERANCE.max
+                    ? "border-accent/30 bg-accent/10 text-accent"
+                    : "border-neutral-300 bg-neutral-50 text-neutral-500"
+                }`}
+              >
+                {result.gap_mm >= GAP_TOLERANCE.min &&
+                result.gap_mm <= GAP_TOLERANCE.max
+                  ? t.pass
+                  : t.fail}
+              </span>
+              <p className="mt-2 text-[11px] font-light leading-relaxed text-neutral-400">
+                {t.tolNote}
+              </p>
+            </div>
 
-          <button
-            type="button"
-            onClick={handleReset}
-            className="mx-auto flex items-center gap-1.5 text-xs font-medium text-neutral-400 hover:text-accent transition-colors"
-          >
-            <RotateCcw size={14} />
-            {t.reset}
-          </button>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="mx-auto flex items-center gap-1.5 text-xs font-medium text-neutral-400 hover:text-accent transition-colors"
+            >
+              <RotateCcw size={14} />
+              {t.reset}
+            </button>
+          </div>
+
+          {/* ── 오른쪽: 에이전트 설명 ──────────────────────────────────────
+              WHY 에이전트가 옆에 있는가: U-Net은 gap_mm 1.4062 같은 숫자만 준다. 방문자는
+                이게 왜 정상인지, 실패했다면 왜인지 알 수 없다. 그 해석이 이 프로젝트가 LLM
+                에이전트를 만든 원래 이유다.
+              WHY 자동 실행이 아니라 버튼인가: 추론은 330ms지만 에이전트는 10~20초 걸리고
+                LLM 호출에 비용이 붙는다. 업로드마다 자동이면 비용이 트래픽에 비례한다.
+                버튼이면 결과는 즉시 보이고 설명은 원할 때만 기다린다. */}
+          <div className="lg:border-l lg:border-neutral-200 lg:pl-6">
+            <AgentExplain file={file} locale={locale} />
+          </div>
         </div>
       )}
     </DemoModal>

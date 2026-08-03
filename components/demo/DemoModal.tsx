@@ -26,6 +26,14 @@ interface DemoModalProps {
   subtitle?: string; // 헤더 부제 (모노 대문자 메타 라인)
   children: ReactNode; // 데모별 body — idle/loading/error/result 상태 렌더
   footer?: ReactNode; // 데모별 입력 영역 (cureat=텍스트, align-ai=이미지 업로드). 없으면 미표시.
+  /**
+   * 넓은 2단 레이아웃이 필요한 데모용 (기본 max-w-2xl → max-w-5xl).
+   *
+   * WHY 옵션인가: align-ai는 왼쪽에 추론 결과, 오른쪽에 에이전트 트레이스를 나란히 둔다.
+   *   기본 폭(2xl)에서는 둘을 세로로 쌓아야 하고, 그러면 에이전트가 스크롤 아래로 밀려
+   *   존재를 모르고 지나치게 된다. cureat·aoi는 단일 컬럼이라 기본값을 유지한다.
+   */
+  wide?: boolean;
 }
 
 export default function DemoModal({
@@ -35,6 +43,7 @@ export default function DemoModal({
   subtitle,
   children,
   footer,
+  wide = false,
 }: DemoModalProps) {
   // createPortal은 브라우저에서만 동작 → SSR/정적 export 시 mounted 가드로 hydration 오류 방지.
   const [mounted, setMounted] = useState(false);
@@ -74,7 +83,11 @@ export default function DemoModal({
       />
 
       {/* 카드 — 모노 에디토리얼: 흰 배경 + 얇은 보더 + 절제된 라운드(과한 3xl/그림자 지양) */}
-      <div className="relative z-10 flex flex-col w-full max-w-2xl max-h-[85vh] overflow-hidden rounded-lg border border-neutral-200 bg-white">
+      <div
+        className={`relative z-10 flex flex-col w-full max-h-[85vh] overflow-hidden rounded-lg border border-neutral-200 bg-white ${
+          wide ? "max-w-5xl" : "max-w-2xl"
+        }`}
+      >
         {/* 헤더 */}
         <div className="flex items-start justify-between border-b border-neutral-200 px-6 py-5">
           <div>
