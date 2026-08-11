@@ -184,6 +184,7 @@ export default function AgentExplain({
           onClick={run}
           disabled={!file}
           data-goatcounter-click="demo-agent/explain"
+          data-goatcounter-title="Agent Explain"
           className="mt-5 flex items-center gap-2 rounded-full border border-neutral-200 px-5 py-2.5 text-sm font-bold text-neutral-700 transition-colors hover:border-accent hover:text-accent disabled:opacity-40"
         >
           <Sparkles size={15} />

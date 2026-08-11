@@ -55,8 +55,6 @@ export default function Projects() {
 
   const currentData = locale === 'en' ? projectsDataEn : projectsData;
 
-  if (!mounted) return <section id="projects" className="py-24"></section>;
-
   // 자식은 정렬 대상에서 빼둔다 — 부모 위치가 확정된 뒤 그 바로 아래로 삽입하기 때문.
   // WHY: 자식을 같이 정렬하면 CURRENT/YEAR를 나중에 손볼 때 부모-자식 인접이 조용히 깨진다.
   const isChild = (name: string) => name in PARENT;
@@ -83,8 +81,17 @@ export default function Projects() {
       .map((c) => ({ project: c, depth: 1 })),
   ]);
 
+  // WHY ref가 항상 렌더되는 <section>에 있어야 하나:
+  //   예전엔 `if (!mounted) return <section ...></section>` 식으로 마운트 전/후 서로 다른
+  //   엘리먼트를 리턴해서, ref(=IntersectionObserver 관찰 대상)가 마운트 시점에 통째로
+  //   교체됐다. 관찰이 늦게 시작되는 그 틈에 이미 스크롤을 지나친 방문자는 "들어오는 순간"을
+  //   놓쳐 section-view 이벤트가 아예 안 잡혔다(Insights는 이 게이트가 없어서 정상 작동).
+  //   그래서 <section ref={sectionRef}>는 항상 같은 자리에 렌더하고, mounted 게이트는
+  //   그 안쪽 콘텐츠에만 걸어 관찰 대상 자체는 최초 페인트부터 안정적으로 유지한다.
   return (
     <section id="projects" ref={sectionRef} className="border-t border-neutral-100 py-24 text-neutral-900">
+      {mounted && (
+        <>
       <div className="mb-14">
         <h2 className="text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-900 mb-4">
           OUTPUT
@@ -130,6 +137,7 @@ export default function Projects() {
                 <a
                   href={`/projects/${slug}?demo=1`}
                   data-goatcounter-click={`projects-list-demo/${slug}`}
+                  data-goatcounter-title={`${name} demo`}
                   className="shrink-0 inline-flex items-center gap-1 rounded-full bg-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white hover:bg-accent/90 transition-colors"
                 >
                   Demo <ArrowRight size={12} />
@@ -145,6 +153,8 @@ export default function Projects() {
           );
         })}
       </div>
+        </>
+      )}
     </section>
   );
 }

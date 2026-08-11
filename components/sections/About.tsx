@@ -105,7 +105,9 @@ export default function About() {
           설득력 있는 증거라서, 클릭 한 번으로(스크롤 없이) 접근 가능해야 한다. 새 인프라 없이
           기존 데모 모달들을 ?demo=1 딥링크로 재사용 — 이미 검증된 경로라 추가 리스크가 없다.
           data-goatcounter-click로 클릭 자체를 별도 이벤트로 계측 — 방문 후 도착하는
-          /projects/alignai 페이지뷰와 구분해서, "히어로에서 실제로 눌렀는지"를 볼 수 있게 한다. */}
+          /projects/alignai 페이지뷰와 구분해서, "히어로에서 실제로 눌렀는지"를 볼 수 있게 한다.
+          data-goatcounter-title을 명시하는 이유: 안 주면 GoatCounter가 버튼의 innerHTML을
+          title로 대신 써서 아이콘(ArrowRight SVG) 마크업까지 그대로 새 들어간다. */}
       <div className="mt-10">
         {/* "Live Demos"가 아니라 "Demos" — 셋 다 실제 추론이 돌지만 성격이 다르다.
             cureat·align-ai는 임의 입력을 받고, V1-AOI는 고정 샘플만 받는다(PatchCore의
@@ -133,6 +135,7 @@ export default function About() {
               <Link
                 href={`/projects/${d.slug}?demo=1`}
                 data-goatcounter-click={`hero-demo/${d.slug}`}
+                data-goatcounter-title={`${d.name} (hero)`}
                 className={`group inline-flex w-fit shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold transition-colors ${
                   d.primary
                     ? "bg-accent text-white hover:bg-accent/90"
