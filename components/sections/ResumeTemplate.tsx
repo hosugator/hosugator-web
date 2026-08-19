@@ -65,10 +65,15 @@ export default function ResumeTemplate({
   data: r,
   showWebCta = true,
   backHref = "/",
+  webUrl = CONTACT.webUrl,
 }: {
   data: ResumeData;
   showWebCta?: boolean;
   backHref?: string;
+  /** 하단 CTA 가 가리킬 추적 경로. 회사 맞춤본은 자기 /r/{slug}/ 를 넣는다.
+   *  기본값이 /r/base/ 라 공개용은 아무것도 넘기지 않아도 동작이 그대로다.
+   *  라벨(CONTACT.web)은 바꾸지 않는다 — 같은 도메인 안의 경로 차이라 어긋나지 않는다. */
+  webUrl?: string;
 }) {
   return (
     <div className="relative w-full md:max-w-2xl md:mx-auto px-5 md:px-8 pb-20 print:pb-0 print:pt-6 text-neutral-900">
@@ -222,10 +227,13 @@ export default function ResumeTemplate({
             {r.footer}
           </span>
           <a
-            href={CONTACT.webUrl}
+            href={webUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[13px] font-black text-white shadow-lg shadow-accent/20 hover:bg-accent/90 hover:gap-2 transition-all"
+            // print:shadow-none — 화면에서는 떠 보이게 하는 그림자인데, Chrome 이 PDF 로
+            // 찍으면 버튼 주위에 옅은 파란 사각형으로 남는다(뷰어에 따라 더 뭉쳐 보인다).
+            // 종이에서는 떠 보일 이유가 없으므로 인쇄 경로에서만 끈다.
+            className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[13px] font-black text-white shadow-lg shadow-accent/20 print:shadow-none hover:bg-accent/90 hover:gap-2 transition-all"
           >
             <Globe size={13} /> {CONTACT.web} <ArrowRight size={14} />
           </a>

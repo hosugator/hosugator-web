@@ -30,6 +30,8 @@ export const outreaches: Outreach[] = [
   // /r/resume 와 /resume 가 대화·로그에서 계속 엉킨다(실제로 겪었다).
   { slug: 'base', company: '(기본 이력서)', appliedAt: '2026-08-19' },
 
+  { slug: 'dalpha', company: '달파', appliedAt: '2026-08-19', role: 'AI Engineer' },
+
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
   // { slug: 'makinarocks', company: '마키나락스', appliedAt: '2026-08-14', role: 'FDE - Vision' },
