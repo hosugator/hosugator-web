@@ -47,7 +47,10 @@ export const CONTACT = {
   linkedin: "linkedin.com/in/seungwanhong",
   linkedinUrl: "https://linkedin.com/in/seungwanhong",
   web: "hosugator.com",
-  webUrl: "https://hosugator.com",
+  // 표시는 web("hosugator.com"), 링크는 추적 경로로 보낸다 — 같은 도메인 안의
+  // 경로 차이라 라벨과 어긋나지 않는다. /r/base 요청이 S3 액세스 로그에 남아
+  // "이력서 링크가 열렸나"의 유일한 증거가 된다. trailingSlash 라 끝 슬래시 필수.
+  webUrl: "https://hosugator.com/r/base/",
 };
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
