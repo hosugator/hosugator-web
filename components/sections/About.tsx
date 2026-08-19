@@ -64,8 +64,8 @@ export default function About() {
       {/* 상단 마스트헤드 */}
       <div className="flex items-center justify-between border-b border-neutral-900 pb-4 mb-12 text-[11px] font-semibold uppercase tracking-[0.3em] text-neutral-400">
         <span className="text-neutral-900">IDENTITY</span>
-        <span className="hidden sm:inline">( 2026 )</span>
-        <span className="text-neutral-900">Seungwan Hong</span>
+        <span className="hidden sm:inline">2026</span>
+        {/* <span className="text-neutral-900">Seungwan Hong</span> */}
       </div>
 
       {/* 아이덴티티 행: 작은 원형 아바타 + 이름/직무 */}
