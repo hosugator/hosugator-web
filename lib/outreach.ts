@@ -32,6 +32,11 @@ export const outreaches: Outreach[] = [
 
   { slug: 'dalpha', company: '달파', appliedAt: '2026-08-19', role: 'AI Engineer' },
 
+  // appliedAt 은 「낼 예정인 날」이 아니라 실제로 제출한 날로 고친다 — 로그의 요청
+  // 시각과 대조해 「며칠 만에 열렸나」를 보는 것이 이 필드의 용도이므로, 제출 전에
+  // 박아둔 날짜를 그대로 두면 그 계산이 어긋난다.
+  { slug: 'lynens', company: '라이넨스', appliedAt: '2026-08-26', role: '[세탁공장] AX Engineer' },
+
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
   // { slug: 'makinarocks', company: '마키나락스', appliedAt: '2026-08-14', role: 'FDE - Vision' },

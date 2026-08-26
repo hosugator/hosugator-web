@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "sync:notes": "node scripts/sync-notes.mjs",
-    "resume:pdf": "\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --headless=new --no-sandbox --disable-gpu --no-pdf-header-footer --run-all-compositor-stages-before-draw --virtual-time-budget=6000 --print-to-pdf=public/resume.pdf http://localhost:3000/resume/"
+    "resume:pdf": "bash scripts/resume-pdf.sh"
   },
   "dependencies": {
     "framer-motion": "^12.26.2",
