@@ -36,6 +36,7 @@ export const outreaches: Outreach[] = [
   // 시각과 대조해 「며칠 만에 열렸나」를 보는 것이 이 필드의 용도이므로, 제출 전에
   // 박아둔 날짜를 그대로 두면 그 계산이 어긋난다.
   { slug: 'lynens', company: '라이넨스', appliedAt: '2026-08-26', role: '[세탁공장] AX Engineer' },
+  { slug: 'genon', company: '제논', appliedAt: '2026-09-01', role: 'AI Product Engineer' },
 
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
