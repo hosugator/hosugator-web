@@ -6,29 +6,38 @@
 //   매칭 축(비용 최적화 RAG)도 있었다. 남는 혐의가 패키징이다 — 근거가 뒤쪽 프로젝트 줄에
 //   흩어져 있어 스크리너가 찾아내야 하는 구조였다. 같은 방식으로 두 번 낼 이유가 없다.
 //
-// WHY 앵커(Pic-Tag)를 experience 가 아니라 summary 와 projects 에 두나  ← 중요
-//   주요업무 첫 줄이 「Image Embedding Model 을 실험하고 고도화」이고 Pic-Tag 가 정확히 그
-//   작업이라, 첫 화면에서 보여야 한다. 그렇다고 experience 에 넣을 수는 없다 — 재직 경력이
-//   아니고, 템플릿의 period 칸이 기간 표기라 프로젝트를 넣으면 표시가 어긋난다. 무엇보다
-//   경력 절에 놓이면 재직처럼 읽힌다. 그래서 summary 첫 문장이 A/B 실험을 직접 말하고,
-//   projLabel 을 「Vision 프로젝트」로 세워 근거를 모은다. 경력 절은 사실 그대로 둔다.
+// WHY 앵커가 Pic-Tag 가 아니라 V1-AOI 인가  ← 이 파일에서 가장 중요한 결정 (2026-09-02 정정)
+//   초안은 Pic-Tag 의 임베딩 A/B 실험(YOLO 백본 분해, Linear/Pooling/Attention 비교)을 앵커로
+//   세웠다. 공고 첫 줄과 문장 단위로 겹쳐서였다. 그런데 **그 프로젝트의 ML 엔지니어는 본인이
+//   아니었다.** 남의 작업을 앵커로 세운 이력서는 서류를 통과해도 면접 첫 질문에서 무너지고,
+//   그 전에 낼 수 없는 문서다. 전면 교체했다.
 //
-// WHY 「Attention 을 골랐다」가 아니라 「재서 갈랐다」로 쓰나
-//   공고가 「실험하고 고도화」·「탐색 및 실험」으로 실험을 두 번 말한다. 결론(어떤 방식이
-//   이겼나)이 아니라 방법(가설 없이 같은 조건으로 쟀다)이 이 팀이 사는 지점이다.
+//   대체 앵커는 V1-AOI 다. 이유가 세 겹이다.
+//   1) 본인이 한 일이다 (DTK 재직 중 수행)
+//   2) **PatchCore 는 구조 자체가 임베딩 + 최근접 검색이다** — 사전학습 백본의 중간 특징을
+//      패치 임베딩으로 뽑아 memory bank 를 만들고, 질의 패치와의 최근접 거리로 점수를 낸다.
+//      coreset sampling 으로 bank 를 10% 로 줄인 것은 인덱스 크기와 정확도의 트레이드오프를
+//      실제로 다뤄 본 것이다. 공고의 「Image Embedding Model」·「Retrieval 파이프라인」에
+//      Pic-Tag 못지않게, 오히려 더 정확히 대응한다
+//   3) **세 접근을 병렬 비교해 채택 근거를 만든 것**이 「실험하고 고도화」·「탐색 및 실험」에
+//      대응한다 — PatchCore / SAM / 합성 데이터를 같은 문제에 올려 재고, 기술적으로 더 정밀한
+//      SAM 이 다현장·다품종에서 재라벨링 병목을 만든다는 이유로 탈락시켰다
+//
+// WHY 결론이 아니라 방법을 앞세우나
+//   공고가 「실험하고 고도화」·「탐색 및 실험」으로 실험을 두 번 말한다. 어떤 모델이 이겼나가
+//   아니라 무엇을 재서 갈랐나가 이 팀이 사는 지점이다.
 //
 // 이 파일이 겨냥한 것 — 공고의 주요업무 다섯 줄이다.
-//   1) Image Embedding Model 실험·고도화   → Pic-Tag 임베딩 A/B (앵커: summary + projects 첫 줄)
-//   2) 검색 결과·사용자 행동 데이터 분석    → 평가 설계를 지표부터 다시 세운 이력 (인접, 명시)
-//   3) CV·Representation Learning 탐색     → PatchCore 중간 특징 · CLIP 의미 유사도 · U-Net
-//   4) Vision·Retrieval 파이프라인 설계     → 4-Thread 독립 큐 · circle-crop · ONNX/OpenVINO
-//   5) Problem Solver 와의 협업 검증        → AOI 산학협력 네 직군 조율
+//   1) Image Embedding Model 실험·고도화   → V1-AOI PatchCore memory bank + 3방식 병렬 비교
+//   2) 검색 결과·사용자 행동 데이터 분석    → 지표가 태스크와 어긋난 것을 잡은 이력 (인접, 명시)
+//   3) CV·Representation Learning 탐색     → 사전학습 백본 중간 특징 재사용 · U-Net · CLIP 필터
+//   4) Vision·Retrieval 파이프라인 설계     → circle-crop 전처리 · ONNX CPU 추론 · 3제품 레지스트리
+//   5) Problem Solver 와의 협업 검증        → AOI 산학협력 네 직군 조율 · 평가 인터페이스
 //
 // WHY 「대규모 인덱스」를 주장하지 않았나
-//   공고의 「수천만 개 상품 이미지」가 유일한 실질 갭이다. 볼트에 있는 벡터 검색은 Dotodo 의
-//   ChromaDB 768D 뿐이고 ANN 인덱스(FAISS·HNSW) 운영 근거가 없다. Pic-Tag 의 Re-ID 도 매장
-//   단위라 완전 탐색으로 충분한 규모였다. 「임베딩을 실험해 봤다」는 참이고 「대규모 인덱스를
-//   운영해 봤다」는 거짓이라 붙여 쓰지 않는다.
+//   공고의 「수천만 개 상품 이미지」가 유일한 실질 갭이다. coreset 으로 memory bank 를 줄여
+//   본 것은 인덱스 축소의 사고를 다뤄 본 것이지, ANN(FAISS·HNSW) 을 수천만 규모로 운영해 본
+//   것이 아니다. 붙여 쓰지 않는다.
 
 import type { ResumeData } from "@/components/sections/ResumeTemplate";
 
@@ -36,10 +45,10 @@ export const RESUME_LEVIT_VISION: ResumeData = {
   back: "홈으로",
   pdf: "PDF로 저장",
   name: "홍승완",
-  headline: "AI Engineer (Vision) · 임베딩을 가설이 아니라 실험으로 고릅니다",
+  headline: "AI Engineer (Vision) · 접근을 고르기 전에 같은 조건에 올려 재봅니다",
   summaryLabel: "소개",
   summary:
-    "YOLO 백본을 분해해 Linear·Pooling·Attention 세 가지 임베딩 추출 방식을 동일 데이터·동일 조건에 올려 A/B로 갈랐고, 이긴 방식으로 코사인 유사도 Re-ID 파이프라인을 만들어 GPU 없는 엣지에서 돌렸습니다. 이미지에서 무엇을 특징으로 뽑을지는 논쟁이 아니라 실험으로 정해진다고 봅니다. 지표가 태스크의 진짜 질문과 어긋나는 것을 발견해 평가 기준 자체를 다시 세운 일도 여러 번 있었습니다.",
+    "표면 결함 검사를 맡았을 때 PatchCore·SAM·합성 데이터 세 접근을 같은 문제에 올려 비교했고, 기술적으로 더 정밀한 SAM이 현장에서는 재라벨링 병목을 만든다는 이유로 탈락시켰습니다. 채택한 PatchCore는 사전학습 백본의 중간 특징을 패치 임베딩으로 뽑아 memory bank를 만들고 최근접 거리로 판정하는 구조여서, 임베딩 품질과 인덱스 크기의 트레이드오프를 직접 다뤘습니다. 지표가 태스크의 진짜 질문과 어긋나는 것을 발견해 평가 기준 자체를 다시 세운 일도 여러 번 있었습니다.",
   expLabel: "경력",
   experience: [
     {
@@ -47,9 +56,11 @@ export const RESUME_LEVIT_VISION: ResumeData = {
       role: "AI Engineer",
       period: "2026.03 ~ 현재",
       items: [
+        "V1-AOI (렌즈 표면 결함 탐지) — 「불량을 학습해 찾는다」를 「정상이 아닌 것을 찾는다」로 뒤집어 라벨링 병목을 제거했습니다. PatchCore로 WideResNet50 layer2·layer3 중간 특징을 패치 임베딩으로 뽑고, 정상 267장만으로 memory bank를 구성한 뒤 coreset sampling으로 10%까지 줄여 인덱스 크기와 정확도를 맞췄습니다. Image AUROC 0.9906 · F1 0.9879.",
+        "채택 근거는 비교에서 나왔습니다 — PatchCore / SAM(픽셀 세그멘테이션) / 합성 데이터 세 방식을 같은 문제에 병렬로 올렸고, SAM이 기술적으로 정밀해도 다현장·다품종 환경에서 오퍼레이터 재라벨링 병목이 배포 효율을 깎는다는 것을 확인해 탈락시켰습니다.",
+        "전처리가 성능을 가른 지점이었습니다 — circle-crop(1120×1120→236×236)으로 배경과 라벨 스티커의 오반응을 걷어내 결함에만 좁게 반응하도록 만들었고, ONNX 변환으로 PyTorch 런타임 없는 CPU 추론 경로를 확보했습니다(254.9ms/frame).",
+        "AlignAI — 규칙 기반 OpenCV의 환경 민감도를 U-Net(EfficientNet-B0) 세그멘테이션으로 대체했습니다. 배경 99% 대 정렬선 1%의 클래스 불균형은 Dice Loss로, 데이터 부족은 Albumentations 증강으로 다뤘고 탐지율 100% · CPU 추론 ~330ms를 얻었습니다. 제품이 셋으로 늘며 생긴 코드 분기는 ProductConfig 레지스트리로 접어 새 제품 추가가 config 한 줄이 되게 했습니다.",
         "지표가 태스크와 어긋나는 것을 두 번 잡았습니다 — 이상 발생률이 1% 미만이라 accuracy 99%가 아무것도 뜻하지 않음을 확인하고 AUROC로 재정의했고, 라인 검출에서는 IoU 0.44인데 실제 PASS율 100%인 상황을 만나 4024px의 3px 선이 축소로 sub-pixel이 되는 구조적 문제임을 규명했습니다. 픽셀 단위 지표 계열 전체가 같은 결함을 공유한다는 것까지 정리했습니다.",
-        "체크포인트 선정 기준을 잘못 매겨 PASS율을 50%까지 떨어뜨린 적이 있습니다. 탐지율 가중치를 1000배로 준 탓이었고, 0.1로 고쳐 PASS율 91%·탐지 100%를 회복했습니다. 커브 위 한 점을 고르는 책임을 져본 경험으로 남겨 두었습니다.",
-        "U-Net(EfficientNet-B0) 세그멘테이션으로 규칙 기반 OpenCV를 대체했고(탐지율 100%·CPU 추론 ~330ms), 학습→ONNX→GHCR→Argo CD 롤링 배포 파이프라인과 k3s 엣지 인프라를 단독 구축했습니다.",
         "산학협력 외관 검사 과제에서 경영·설비 설계·외부 연구팀·현장 작업자 네 직군을 조율했습니다. 접근이 갈린 후보 모델들을 비교하려고 아키텍처에 묶이지 않는 평가 인터페이스(score_image 필수 / score_map 선택)를 설계해 같은 저울에 올렸습니다.",
       ],
     },
@@ -62,15 +73,14 @@ export const RESUME_LEVIT_VISION: ResumeData = {
       ],
     },
   ],
-  projLabel: "Vision 프로젝트",
+  projLabel: "그 외 프로젝트",
   projects: [
-    "Pic-Tag (소상공인용 경량 CCTV AI SaaS) — 임베딩 방식을 실험으로 갈랐습니다. YOLO 백본을 분해해 Linear / Pooling / Attention Head 세 가지 특징 추출 방식을 동일 데이터·동일 학습 조건에 올려 A/B 비교했고, Attention이 Re-ID 정확도와 수렴 속도 모두에서 우위인 것을 확인해 채택했습니다. Capture / Detection / Embedding / Re-ID를 4개 독립 스레드·큐로 분리해 단계별 속도 차이를 버퍼링하고 코사인 유사도로 재식별했으며, OpenVINO INT8 양자화로 GPU 없는 엣지에서 실시간을 확보했습니다(FP32 대비 크기 1/4·추론 2~3배).",
-    "V1-AOI (렌즈 표면 결함 탐지) — 「불량을 학습해 찾는다」를 「정상이 아닌 것을 찾는다」로 뒤집어 라벨링 병목을 제거했습니다(PatchCore, WideResNet50 중간 특징 + coreset 10%, 정상 267장만 학습). circle-crop 전처리로 배경·라벨 스티커의 오반응을 걷어내 결함에만 좁게 반응하도록 만든 것이 성능을 가른 지점이었습니다. Image AUROC 0.9906 · ONNX CPU 추론 254.9ms/frame.",
     "Sodam Diary (VLM 기반 사진 해설) — GPT-4V 단독 호출을 BLIP→CLIP→LLM 3단으로 분리하고, 가운데에서 CLIP을 의미 유사도 필터로 써 코사인 유사도 Top-3를 골랐습니다. 이미지-텍스트 임베딩으로 후보를 좁히는 구조이며 운영비 30%↓ · 응답 30초→20초를 얻었습니다.",
+    "Dotodo (음성 RAG 추천 에이전트) — ChromaDB 768D 벡터 검색 기반. LLM-as-a-Judge 평가 루프를 최하위 점수 항목에만 선택 호출하도록 게이팅해 API 비용 60%를 절감했습니다.",
   ],
   principlesLabel: "일하는 방식",
   principles: [
-    "임베딩 방식은 논쟁이 아니라 같은 조건의 실험으로 고른다.",
+    "접근은 논쟁이 아니라 같은 조건의 비교로 고른다.",
     "지표가 태스크의 진짜 질문과 맞는지를 먼저 의심한다.",
     "해본 것과 안 해본 것의 경계를 흐리지 않는다.",
   ],
