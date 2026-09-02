@@ -37,6 +37,10 @@ export const outreaches: Outreach[] = [
   // 박아둔 날짜를 그대로 두면 그 계산이 어긋난다.
   { slug: 'lynens', company: '라이넨스', appliedAt: '2026-08-26', role: '[세탁공장] AX Engineer' },
   { slug: 'genon', company: '제논', appliedAt: '2026-09-01', role: 'AI Product Engineer' },
+  // 레브잇 두 번째 건. 08-26 [쇼포트] AI Engineer(3년 이하)는 기본 이력서로 나가 09-02
+  // 서류 불합격했고 추적 슬러그가 없었다 — 그래서 'levit' 이 비어 있지만 재사용하지 않는다.
+  // 트랙이 다른 지원을 같은 슬러그에 태우면 로그에서 어느 건의 열람인지 못 가른다.
+  { slug: 'levit-vision', company: '레브잇', appliedAt: '2026-09-02', role: '[쇼포트] AI Engineer (Vision)' },
 
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
