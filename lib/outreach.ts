@@ -41,6 +41,11 @@ export const outreaches: Outreach[] = [
   // 서류 불합격했고 추적 슬러그가 없었다 — 그래서 'levit' 이 비어 있지만 재사용하지 않는다.
   // 트랙이 다른 지원을 같은 슬러그에 태우면 로그에서 어느 건의 열람인지 못 가른다.
   { slug: 'levit-vision', company: '레브잇', appliedAt: '2026-09-02', role: '[쇼포트] AI Engineer (Vision)' },
+  // 아직 제출 전이다 — 여기 박힌 날짜는 「이력서를 만든 날」이라 제출하면 실제 제출일로
+  // 고쳐야 한다. 이 필드의 용도가 로그의 요청 시각과 대조해 「며칠 만에 열렸나」를 보는
+  // 것이므로, 작성일을 그대로 두면 그 계산이 어긋난다 (라이넨스 건에서 겪었다).
+  { slug: 'linqalpha', company: '링크알파', appliedAt: '2026-09-09', role: 'Applied AI Engineer (Search & Integration)' },
+  { slug: 'aha', company: '아하앤컴퍼니', appliedAt: '2026-09-09', role: 'AI engineer' },  // 위와 같이 미제출 — 제출 시 날짜 갱신
 
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
