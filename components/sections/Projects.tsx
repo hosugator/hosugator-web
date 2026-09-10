@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { shortNameOf, slugify } from '@/lib/projects';
+import ProjectThumb from '@/components/ui/ProjectThumb';
 
 // 진행 중(현재) 프로젝트 — 최상단 고정 노출 (배열 순서대로)
 const CURRENT = ['Edge AI LMR', 'AlignAI', 'go2fit', 'Hosugator'];
@@ -72,6 +73,7 @@ export default function Projects() {
               className="group flex items-center gap-4 sm:gap-6 py-4 border-b border-neutral-200"
             >
               <a href={`/projects/${slug}`} className="flex items-center gap-4 sm:gap-6 flex-1 min-w-0">
+                <ProjectThumb video={project.video} image={project.image} alt={name} />
                 <span className="font-mono text-xs text-neutral-300 w-10 shrink-0">{year}</span>
                 <span className="flex items-center gap-2 shrink-0">
                   {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-accent" title="In progress" aria-hidden />}
