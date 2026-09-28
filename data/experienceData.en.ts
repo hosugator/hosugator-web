@@ -25,7 +25,7 @@ export const experienceDataEn = {
       highlights: [
         "Dotodo: LangChain·ChromaDB RAG + an LLM-as-a-Judge loop cutting latency and API cost by 60% each",
         "Sodam Diary: a BLIP→CLIP→LLM VLM 3-Stage pipeline cutting operating cost by 30% (Disability Hackathon finalist)",
-        "Pictag (team · supporting role): learned architecture decomposition and computational-complexity review from an experienced teammate / Dorosee: multimodal UGV (Hackathon Grand Prize)",
+        "Pictag (team · supporting role): owned the model front end — YOLO person detection handed downstream via an agreed interface and buffer / Dorosee: multimodal UGV (Hackathon Grand Prize)",
         "KDLC: a SARIMA+LSTM+LightGBM 3-model weighted ensemble with 45+ engineered features",
       ],
       tags: ["LangChain", "RAG", "OpenVINO", "FastAPI", "PyTorch", "AWS"]

@@ -25,7 +25,7 @@ export const experienceData = {
       highlights: [
         "Dotodo: LangChain·ChromaDB RAG + LLM-as-a-Judge 자율 평가로 응답 지연·API 비용 각 60%↓",
         "Sodam Diary: BLIP→CLIP→LLM VLM 3-Stage 파이프라인으로 운영비 30%↓ (한국장애인해커톤 본선)",
-        "Pictag(팀 · 서브): 경험 있는 동료에게서 아키텍처 분해와 연산 복잡도 검토를 배우며 참여 / Dorosee: 멀티모달 UGV(해커톤 대상)",
+        "Pictag(팀 · 서브): YOLO 사람 탐지 → 합의된 인터페이스 · 버퍼로 후단 전달하는 모델 전단 담당 / Dorosee: 멀티모달 UGV(해커톤 대상)",
         "KDLC: SARIMA+LSTM+LightGBM 3-Model 가중 앙상블 · 45개+ 피처 공학",
       ],
       tags: ["LangChain", "RAG", "OpenVINO", "FastAPI", "PyTorch", "AWS"]

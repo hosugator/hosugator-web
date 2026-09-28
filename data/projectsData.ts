@@ -80,7 +80,7 @@ export const projectsData = {
       // 정정(2026-09-28): 팀 프로젝트이고 본인은 서브였다 — ML 은 경험 있는 동료가 맡았다.
       title: "Pictag: 소상공인 맞춤형 경량화 CCTV AI SaaS (팀 · 서브)",
       tags: ["#Re-ID", "#OpenVINO", "#WebSocket"],
-      desc: "팀 프로젝트에 서브로 참여했다. ML 은 경험 있는 동료가 맡았고, 곁에서 YOLO 백본을 분해해 임베딩 방식을 비교하고 연산 복잡도(O)를 따져 엣지 구조를 정하는 과정을 배웠다. 팀은 Attention 임베딩으로 Re-ID 학습 효율 50%↑, OpenVINO INT8 로 GPU 없는 엣지 실시간 추론을 얻었다. 이때 익힌 관점을 이후 프로젝트에서 설계 자원으로 썼다.",
+      desc: "팀 프로젝트에서 모델 전단을 맡았다 — YOLO 로 사람을 탐지해 합의된 인터페이스로 후단(Re-ID)에 넘기고, 안정성을 위해 버퍼로 전달하도록 발전시켰다. Re-ID 모델은 경험 있는 동료가 맡았고, 곁에서 백본을 분해해 임베딩 방식을 비교하고 연산 복잡도(O)를 따져 엣지 구조를 정하는 과정을 배웠다. 팀은 Attention 임베딩으로 Re-ID 학습 효율 50%↑, OpenVINO INT8 로 GPU 없는 엣지 실시간 추론을 얻었다. 이때 익힌 관점을 이후 프로젝트에서 설계 자원으로 썼다.",
       pdfLink: "/projects/pictag_ko.pdf",
       demoLink: "#",
       video: "/projects/pictag_demo.mp4",

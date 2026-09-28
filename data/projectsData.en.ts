@@ -73,7 +73,7 @@ export const projectsDataEn = {
             // Correction (2026-09-28): a team project where I had a supporting role — an experienced teammate owned the ML.
             title: "Pictag: Lightweight CCTV AI SaaS for Small Businesses (Team · Supporting Role)",
             tags: ["#Re-ID", "#OpenVINO", "#WebSocket"],
-            desc: "A team project where I had a supporting role. An experienced teammate owned the ML; working alongside, I learned how the team decomposed a YOLO backbone to compare embedding methods and weighed computational complexity (Big-O) to settle the edge architecture. The team reached 50%↑ Re-ID training efficiency with Attention embeddings and real-time GPU-less edge inference with OpenVINO INT8. I later used that perspective as a design resource in other projects.",
+            desc: "A team project where I owned the front end of the model pipeline — detecting people with YOLO and handing results downstream (Re-ID) through an agreed interface, later developed into buffered delivery for stability. An experienced teammate owned the Re-ID model; working alongside, I learned how the backbone was decomposed to compare embedding methods and how computational complexity (Big-O) settled the edge architecture. The team reached 50%↑ Re-ID training efficiency with Attention embeddings and real-time GPU-less edge inference with OpenVINO INT8. I later used that perspective as a design resource in other projects.",
 
             pdfLink: "/projects/pictag_en.pdf",
             demoLink: "#",
