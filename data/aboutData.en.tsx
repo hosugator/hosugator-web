@@ -1,37 +1,39 @@
 // data/aboutData.en.tsx
-// Mirrors data/aboutData.tsx (2026-09-28 rework): what I do now → how I work → where I started.
 import React from 'react';
 
 export const aboutDataEn = {
   topLabel: "About Me",
   title: {
-    main: "Building AI the Floor",
-    highlight: "Can Actually Read."
+    main: "Field Insight Meets",
+    highlight: "System Design."
   },
   content: [
     {
       text: (
         <>
-          I move manufacturing visual inspection from rules to deep learning, and I have built{' '}
-          <span className="text-slate-900 font-medium">the labeling and evaluation criteria that measure the models</span>{' '}
-          along with an agent PoC that explains model results in the operators’ own language.
+          I define every problem from <span className="text-slate-900 font-medium">'why.'</span>{' '}
+          The instinct I built as a global EPC PM — translating three-country stakeholders' ambiguous demands into technical specs, grounded in 'why' —{' '}
+          now underpins <span className="text-slate-900 font-medium">AI engineering that understands a product end to end</span>.
         </>
       )
     },
     {
       text: (
         <>
-          Rules solve what rules can solve; models go only where a model is needed. I report performance not as one score but in the floor’s terms —{' '}
-          <span className="text-slate-900 font-medium">“hold misses to this, and overkill is that.”</span>
+          That curiosity made me a{' '}
+          <span className="text-slate-900 font-medium">full-stack AI engineer who connects every layer</span>{' '}
+          — planning, data, ML, infrastructure, backend, DB, UI/UX, and operations — under one design philosophy.{' '}
+          So I can tell where a project's bottleneck actually is, and where resources will resolve it.
         </>
       )
     },
     {
       text: (
         <>
-          I started as a global EPC project manager, translating three countries’ ambiguous requirements{' '}
-          <span className="text-slate-900 font-medium">into technical specs</span>{' '}
-          — the same work I now do between models and the shop floor.
+          In a manufacturing domain today, I've shipped cross-team automation, vision-alignment and anomaly-detection models,{' '}
+          a solo-built GitOps pipeline, and a prototype agent that has an LLM explain vision results in the operators' own language.{' '}
+          Under the principle of <span className="text-slate-900 font-medium">'automate every recurring bottleneck,'</span>{' '}
+          I focus on making technology a genuinely useful tool on the floor — never technology for its own sake.
         </>
       )
     }

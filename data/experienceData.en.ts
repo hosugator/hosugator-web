@@ -1,5 +1,4 @@
 // data/experienceData.en.ts
-// Mirrors data/experienceData.ts (2026-09-28 rework) — PATH tells the flow; numbers live in Projects.
 export const experienceDataEn = {
   topLabel: "Experience",
   title: "Professional\nJourney.",
@@ -8,25 +7,28 @@ export const experienceDataEn = {
       company: "DTK",
       role: "AI Developer",
       period: "2026.03 - Present",
-      description: "Moving manufacturing visual inspection from rules to deep learning — and setting the criteria that measure the models.",
+      description: "Sole owner of Vision AI and edge infrastructure in a manufacturing domain, including the labeling and evaluation criteria that measure models and an agent PoC that explains inference results in shop-floor language.",
       highlights: [
-        "GV-001 — grid-structure recovery from detections, labeling and evaluation criteria",
-        "AlignAI — U-Net migration, GitOps ML CI/CD, explanation-agent PoC",
-        "V1-AOI — label-free contamination detection · Edge AI LMR (design) · ERP automation",
+        "AlignAI: replaced environment-sensitive rule-based OpenCV with U-Net (EfficientNet-B0) Segmentation — 100% detection · 91% pass rate · ~330ms CPU inference",
+        "Supported 3 products from one repo via a ProductConfig registry; single-handedly built a GitHub-SSOT ML CI/CD pipeline (train→ONNX→GHCR→Argo CD) on a k3s edge cluster (edge cases recorded as ADRs)",
+        "GV-001: recovered array structure by assigning absolute grid positions to detected lenses, and designed the criteria that measure models — 3 labelers × 3 rounds of ordinal labeling (α 0.59 → 0.72) and operating-point evaluation (overkill 21% → 11% at a 5% miss rate)",
+        "Edge AI LMR (design): designed a Cycle_ID golden key and a data-temperature 3-tier architecture and requested on-site review — the process knowledge and data-design judgments were reused in AlignAI and GV-001",
+        "LLM agent PoC (hand-built function calling & ReAct loop) · Agentic ERP automation turning days of manual work into 100%-integrity unattended runs · Focal Point for the Corning Varioptic (France) contract",
       ],
-      tags: ["Vision AI", "Evaluation", "MLOps", "PatchCore", "LLM Agent (PoC)"]
+      tags: ["Vision AI", "Edge AI", "MLOps", "k3s", "PyTorch", "Agentic AI"]
     },
     {
       company: "Intel AI for Future Workforce",
       role: "AI Full Lifecycle Practicum",
       period: "2025",
-      description: "1,000 hours of full-cycle AI — RAG, VLM, and CV team projects taken from planning to deployment.",
+      description: "1,000+ hours of end-to-end AI development, completing multiple team projects from planning to deployment.",
       highlights: [
-        "Dorosee — multimodal emergency-detection UGV, 2025 UWC Hackathon Grand Prize",
-        "Sodam Diary — VLM photo narration, Korea Disability Hackathon finalist",
-        "Dotodo — voice RAG recommendations with an LLM-as-a-Judge evaluation loop",
+        "Dotodo: LangChain·ChromaDB RAG + an LLM-as-a-Judge loop cutting latency and API cost by 60% each",
+        "Sodam Diary: a BLIP→CLIP→LLM VLM 3-Stage pipeline cutting operating cost by 30% (Disability Hackathon finalist)",
+        "Pictag: Attention embeddings lifting Re-ID by 50% · OpenVINO INT8 edge inference / Dorosee: multimodal UGV (Hackathon Grand Prize)",
+        "KDLC: a SARIMA+LSTM+LightGBM 3-model weighted ensemble with 45+ engineered features",
       ],
-      tags: ["RAG", "VLM", "YOLOv8", "FastAPI", "PyTorch"]
+      tags: ["LangChain", "RAG", "OpenVINO", "FastAPI", "PyTorch", "AWS"]
     },
     {
       company: "Zeeco Asia",
@@ -34,9 +36,9 @@ export const experienceDataEn = {
       period: "2024.02 - 2025.04",
       description: "Led multi-billion KRW EPC projects through commissioning at a global combustion-equipment company.",
       highlights: [
-        "Reconciled technical conflicts across US, India, and Korea",
-        "Translated ambiguous field requirements into technical specs",
-        "Exceeded the target margin by 4%",
+        "Served as the communication hub reconciling technical conflicts across three countries (US, India, Korea)",
+        "Translated ambiguous field requirements into technical specs and explained risks and trade-offs to non-technical decision-makers",
+        "Exceeded the target margin by +4% through Q/C/D management and proactive risk response",
       ],
       tags: ["Strategic Communication", "Problem Solving", "PM", "Global Projects"]
     }
