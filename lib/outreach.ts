@@ -46,6 +46,10 @@ export const outreaches: Outreach[] = [
   // 것이므로, 작성일을 그대로 두면 그 계산이 어긋난다 (라이넨스 건에서 겪었다).
   { slug: 'linqalpha', company: '링크알파', appliedAt: '2026-09-09', role: 'Applied AI Engineer (Search & Integration)' },
   { slug: 'aha', company: '아하앤컴퍼니', appliedAt: '2026-09-09', role: 'AI engineer' },  // 위와 같이 미제출 — 제출 시 날짜 갱신
+  // 미제출 — 날짜는 작성일이다. 제출하면 실제 제출일로 고친다(위와 같은 이유).
+  // 이 항목만 main 에 먼저 올라가야 한다: 이력서 PDF 가 /r/deepauto/ 를 가리키는데, 초안
+  // 페이지(app/resume/deepauto)는 draft/deepauto 브랜치에만 두고 배포하지 않기 때문이다.
+  { slug: 'deepauto', company: '딥오토', appliedAt: '2026-09-28', role: 'AI Engineer' },
 
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
