@@ -4,8 +4,9 @@ import React from 'react';
 export const aboutDataEn = {
   topLabel: "About Me",
   title: {
-    main: "Field Insight Meets",
-    highlight: "System Design."
+    // 2026-09-28: title only — mirrors the Korean change; body text unchanged.
+    main: "Building AI the Floor",
+    highlight: "Can Actually Read."
   },
   content: [
     {

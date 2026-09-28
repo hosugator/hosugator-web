@@ -4,8 +4,9 @@ import React from "react";
 export const aboutData = {
   topLabel: "About Me",
   title: {
-    main: "병목을 해결하는",
-    highlight: "E2E 엔지니어.",
+    // 2026-09-28: 「병목을 해결하는 E2E 엔지니어」는 너무 포괄적이라 제목만 바꿨다(본문은 그대로).
+    main: "현장이 읽을 수 있는",
+    highlight: "AI를 만드는 엔지니어.",
   },
   content: [
     {
