@@ -1,20 +1,22 @@
 #!/usr/bin/env bash
 # scripts/resume-pdf.sh — 이력서 페이지를 헤드리스 Chrome 으로 PDF 로 찍는다.
 #
-#   npm run resume:pdf              공개용  /resume/         → public/resume.pdf
 #   npm run resume:pdf -- lynens    회사용  /resume/lynens/  → resumes/resume-lynens.pdf
+#
+# 공개용 이력서(/resume → public/resume.pdf)는 2026-09-28 에 내렸다. 그래서 슬러그가 필수다 —
+# 없으면 멈춘다. 예전처럼 공개본을 조용히 다시 만들어 public/ 에 두면 그대로 배포되기 때문이다.
 #
 # WHY package.json 한 줄이 아니라 스크립트 파일인가
 #   npm 은 `--` 뒤의 인자를 스크립트 문자열 「끝」에 이어 붙인다. 기존처럼 URL 이
 #   마지막에 오는 한 줄이면 `-- lynens` 가 URL 뒤에 붙어 Chrome 이 두 번째 페이지를
 #   열려고 한다. 인자를 원하는 자리에 꽂으려면 "$@" 를 쓸 수 있는 셸이 필요하다.
 #
-# WHY 출력 디렉터리가 슬러그 유무로 갈리나  ← 이 스크립트에서 가장 중요한 줄
+# WHY 출력이 resumes/ 인가  ← 이 스크립트에서 가장 중요한 줄
 #   public/ 은 빌드가 out/ 으로 복사해 S3 에 올린다. 회사 맞춤본을 여기 두면
 #   hosugator.com/resume-lynens.pdf 로 아무나 열 수 있고, 다른 회사가 「이 사람이
 #   어디에 어떤 문장으로 냈는지」를 보게 된다. resumes/ 는 빌드가 건드리지 않아
-#   git 으로 버전만 남고 배포되지 않는다. 그래서 기본값은 항상 안전한 쪽이 아니라
-#   「공개용은 public, 회사용은 resumes」로 갈라 둔다.
+#   git 으로 버전만 남고 배포되지 않는다. 예전에는 슬러그가 없으면 공개용을 public/ 에
+#   찍었지만, 공개본을 내린 뒤로 public/ 에 쓰는 경로 자체를 없앴다.
 
 set -euo pipefail
 
@@ -23,15 +25,15 @@ PORT="${PORT:-3000}"
 # 설치 경로가 다른 환경을 위해 덮어쓸 수 있게 둔다: CHROME=/path/to/chrome npm run resume:pdf
 CHROME="${CHROME:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}"
 
-if [ -n "$SLUG" ]; then
-  # trailingSlash: true 라 끝 슬래시가 없으면 308 로 튕긴다 — 헤드리스에서는 빈 PDF 가 된다
-  URL="http://localhost:${PORT}/resume/${SLUG}/"
-  OUT="resumes/resume-${SLUG}.pdf"
-  mkdir -p resumes
-else
-  URL="http://localhost:${PORT}/resume/"
-  OUT="public/resume.pdf"
+if [ -z "$SLUG" ]; then
+  echo "✗ 슬러그가 필요합니다: npm run resume:pdf -- <slug>" >&2
+  echo "  공개용 이력서(public/resume.pdf)는 더 이상 만들지 않습니다." >&2
+  exit 1
 fi
+# trailingSlash: true 라 끝 슬래시가 없으면 308 로 튕긴다 — 헤드리스에서는 빈 PDF 가 된다
+URL="http://localhost:${PORT}/resume/${SLUG}/"
+OUT="resumes/resume-${SLUG}.pdf"
+mkdir -p resumes
 
 if [ ! -x "$CHROME" ]; then
   echo "✗ Chrome 을 찾지 못했습니다: $CHROME" >&2

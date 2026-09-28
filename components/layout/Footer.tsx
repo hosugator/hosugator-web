@@ -10,17 +10,7 @@ export default function Footer() {
         <p className="text-xs text-slate-400 font-medium">
           © 2026 Hosu. Designed for the AI-first era.
         </p>
-        
-        <div className="flex gap-8">
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-bold hover:text-accent transition-colors tracking-widest uppercase text-slate-900"
-          >
-            Resume
-          </a>
-        </div>
+        {/* 공개 이력서 링크는 내렸다(2026-09-28) — TopNav 주석 참고 */}
       </div>
     </footer>
   );

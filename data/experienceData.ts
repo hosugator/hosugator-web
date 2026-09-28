@@ -7,12 +7,13 @@ export const experienceData = {
       company: "DTK",
       role: "AI Developer",
       period: "2026.03 - Present",
-      description: "제조 도메인의 Vision AI · 엣지 인프라 · 현장 LLM 에이전트를 단독 설계·구현합니다.",
+      description: "제조 도메인의 Vision AI · 엣지 인프라를 단독 설계·구현하고, 모델을 재는 라벨·평가 기준과 추론 결과를 현장 언어로 해설하는 에이전트 PoC 까지 다룹니다.",
       highlights: [
         "AlignAI: 규칙 기반 OpenCV의 환경 민감도를 U-Net(EfficientNet-B0) Segmentation으로 대체 — 탐지율 100% · PASS율 91% · CPU 추론 ~330ms",
         "ProductConfig 레지스트리로 단일 레포 3개 제품 지원, GitHub SSOT 기반 ML CI/CD(학습→ONNX→GHCR→Argo CD 롤링)를 k3s 엣지 클러스터에 단독 구축 (엣지 케이스는 ADR로 문서화)",
-        "Edge AI LMR: Field→Cloud 4계층 + Cycle_ID Golden Key + 1D-CNN→LSTM→DQN 3-Stage 체인으로 이상탐지 AUROC 99.99%, React+TS HMI 단독 운영",
-        "LLM 에이전트 로드맵(function calling·ReAct 루프 직접 구현) · Agentic ERP 자동화로 수일 수작업을 정합성 100% 무인화 · Corning Varioptic(프랑스) 계약 협상 창구 병행",
+        "GV-001: 검출 좌표에 격자 절대 자리를 매겨 배열 구조를 복원하고, 3인 × 3회 순서형 라벨링(α 0.59 → 0.72)과 운영점 평가(미탐 5% 에서 과탐 21% → 11%)로 모델을 재는 기준을 설계",
+        "Edge AI LMR (설계): Cycle_ID 골든 키와 데이터 온도별 3티어 아키텍처를 설계해 현장 검토를 요청 — 이때의 공정 지식과 데이터 설계 판단을 AlignAI · GV-001 에 재사용",
+        "LLM 에이전트 PoC(function calling·ReAct 루프 직접 구현) · Agentic ERP 자동화로 수일 수작업을 정합성 100% 무인화 · Corning Varioptic(프랑스) 계약 협상 창구 병행",
       ],
       tags: ["Vision AI", "Edge AI", "MLOps", "k3s", "PyTorch", "Agentic AI"]
     },

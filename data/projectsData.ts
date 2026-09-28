@@ -4,9 +4,22 @@ export const projectsData = {
   title: "Technical \nImplementations.",
   items: [
     {
-      title: "Edge AI LMR: 렌즈 열성형 공정 지능화",
-      tags: ["#Industrial-AI", "#Edge", "#PyTorch"],
-      desc: "이상탐지 AUROC 99.99% 달성. Field→Cloud 4계층 아키텍처 위에 1D-CNN→LSTM→DQN 3-Stage AI 체인 구축, Cycle_ID Golden Key로 전 계층 단일 키 조인·이상 구간 즉시 재현 루프 확보. Docker 엣지 배포+k3s 전환, React+TS 실시간 HMI 운영.",
+      // 슬러그 "gv-001". 사내·산학 과제라 절대 수치(렌즈 개수·캔버스 크기·설비명)는 빼고
+      // 비율·지표만 공개한다(2026-09-28 결정). 근거: 볼트 [[GV-001 라벨 기준 v4 측정 기록]]
+      title: "GV-001: 렌즈 어레이 외관 검사 — 구조 복원과 평가 기준",
+      tags: ["#Industrial-AI", "#Evaluation", "#Labeling", "#PatchCore"],
+      desc: "검출된 렌즈 좌표에 격자의 절대 자리 (행, 열)를 매겨 배열 구조를 복원하고, 그 위에 올라갈 모델을 재는 라벨·평가 기준을 먼저 세웠다. 3인 × 3회 4단계 순서형 라벨링으로 라벨러 간 일치도(순서형 α)를 0.59 → 0.72로 올렸고, 모델은 AUROC 대신 「미탐 5%에서 과탐 몇 %」로 비교해 과탐을 21% → 11%로 줄였다.",
+      pdfLink: "#",
+      demoLink: "#",
+      video: "",
+      image: "",
+    },
+    {
+      // 정정(2026-09-28): 구현하지 않은 설계 단계 프로젝트다. 예전 desc 의 AUROC 99.99% ·
+      // k3s 배포 · HMI 운영은 사실이 아니어서 걷어냈다. 슬러그는 ':' 앞이라 그대로다.
+      title: "Edge AI LMR: 렌즈 열성형 공정 지능화 (설계)",
+      tags: ["#Industrial-AI", "#Edge", "#Architecture"],
+      desc: "설계 단계 프로젝트. 10ms PLC 데이터를 공정 한 사이클의 키(Cycle_ID)로 전 계층에서 잇고, 데이터 온도별(MQTT · gRPC · Parquet)로 경로를 나눈 4계층 아키텍처와 이상탐지 → 품질예측 → 처방 체인을 설계해 현장 검토를 요청했다. 구현 전에 우선순위가 밀렸고, 이때 정리한 공정 지식과 데이터 설계 판단을 AlignAI · GV-001 에 썼다.",
       pdfLink: "/portfolio.pdf#page=2",
       demoLink: "#",
       video: "",
@@ -28,9 +41,9 @@ export const projectsData = {
       image: "",
     },
     {
-      title: "AlignAI: 비전 정렬 + MLOps + 현장 LLM 에이전트",
+      title: "AlignAI: 비전 정렬 + MLOps + 현장 LLM 에이전트(PoC)",
       tags: ["#Industrial-AI", "#LLM-Agent", "#MLOps", "#k3s", "#React"],
-      desc: "규칙 기반 OpenCV를 U-Net Segmentation으로 대체해 탐지율 100%·PASS율 91% 달성. GitOps ML CI/CD(GHCR→Argo CD 자동 배포)를 Docker·k3s 엣지 클러스터에 단독 구축하고, React+TS HMI(UI/UX)와 현장 이상을 설명하는 LLM 에이전트(function calling·ReAct)까지 통합한 엔드투엔드 산업 AI 시스템.",
+      desc: "규칙 기반 OpenCV를 U-Net Segmentation으로 대체해 탐지율 100%·PASS율 91% 달성. GitOps ML CI/CD(GHCR→Argo CD 자동 배포)를 Docker·k3s 엣지 클러스터에 단독 구축하고, React+TS HMI(UI/UX), 그리고 추론 결과를 현장 언어로 해설하는 LLM 에이전트 PoC(function calling·ReAct)까지 이은 엔드투엔드 산업 AI 시스템.",
       pdfLink: "/portfolio.pdf",
       demoLink: "#",
       video: "",

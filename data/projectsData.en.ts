@@ -4,9 +4,19 @@ export const projectsDataEn = {
     title: "Technical \nImplementations.",
     items: [
         {
-            title: "Edge AI LMR: Intelligent Lens Thermoforming Process",
-            tags: ["#Industrial-AI", "#Edge", "#PyTorch"],
-            desc: "Anomaly detection at AUROC 99.99%. Built on a Field→Cloud 4-tier architecture with a 1D-CNN→LSTM→DQN 3-Stage AI chain; Cycle_ID Golden Key enables single-key joins across all layers and immediate anomaly reproduction. Docker edge deployment + k3s migration, React+TS real-time HMI in operation.",
+            // Slug "gv-001". Ratios and metrics only — no absolute counts, canvas sizes, or equipment names (decided 2026-09-28).
+            title: "GV-001: Lens Array Visual Inspection — Structure Recovery and Evaluation Criteria",
+            tags: ["#Industrial-AI", "#Evaluation", "#Labeling", "#PatchCore"],
+            desc: "Recovered the array structure by assigning each detected lens an absolute grid position (row, col), and set the labeling and evaluation criteria before pushing the model. Three labelers × three rounds of 4-level ordinal labeling raised inter-rater ordinal α from 0.59 to 0.72; models were compared by overkill at a 5% miss rate instead of AUROC, cutting overkill from 21% to 11%.",
+            pdfLink: "#",
+            demoLink: "#",
+            video: "",
+            image: "",
+        },
+        {
+            title: "Edge AI LMR: Intelligent Lens Thermoforming Process (Design)",
+            tags: ["#Industrial-AI", "#Edge", "#Architecture"],
+            desc: "A design-stage project. Designed a 4-tier architecture that joins 10ms PLC data across every layer on a per-cycle key (Cycle_ID) and routes data by temperature (MQTT · gRPC · Parquet), plus an anomaly → quality → prescription chain, and requested on-site review. It was deprioritized before implementation; the process knowledge and data-design judgments from it were reused in AlignAI and GV-001.",
             pdfLink: "/portfolio.pdf#page=2",
             demoLink: "#",
             video: "",
@@ -24,9 +34,9 @@ export const projectsDataEn = {
             image: ""
         },
         {
-            title: "AlignAI: Vision Alignment + MLOps + On-site LLM Agent",
+            title: "AlignAI: Vision Alignment + MLOps + On-site LLM Agent (PoC)",
             tags: ["#Industrial-AI", "#LLM-Agent", "#MLOps", "#k3s", "#React"],
-            desc: "Replaced rule-based OpenCV with U-Net Segmentation (100% detection · 91% pass rate), then built GitOps ML CI/CD (GHCR→Argo CD) on a Docker·k3s edge cluster and integrated a React+TS HMI (UI/UX) with an LLM agent (function calling · ReAct) that explains field anomalies — an end-to-end industrial AI system.",
+            desc: "Replaced rule-based OpenCV with U-Net Segmentation (100% detection · 91% pass rate), then built GitOps ML CI/CD (GHCR→Argo CD) on a Docker·k3s edge cluster and connected a React+TS HMI (UI/UX) and an LLM agent PoC (function calling · ReAct) that explains inference results in shop-floor language — an end-to-end industrial AI system.",
             pdfLink: "/portfolio.pdf",
             demoLink: "#",
             video: "",

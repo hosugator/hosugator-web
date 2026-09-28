@@ -5,23 +5,41 @@
 import type { ProjectDetailContent } from './projectDetails';
 
 export const projectDetailsEn: Record<string, ProjectDetailContent> = {
+  'gv-001': {
+    // Disclosure scope (2026-09-28): ratios and metrics only. No lens counts, canvas sizes, equipment or partner names.
+    context:
+      'A visual inspector for micro-lens arrays (MLA). The detector outputs lens coordinates, but crops were named by detection order, so the same lens got a different number whenever that order changed — inspection-sheet matching, per-position statistics, and structural exclusion all broke. At the same time, the labels used to train and evaluate the model had been marked once by one person, so there was no way to tell how much of the model score was defect-finding ability and how much was imitation of that labeler.',
+    decision:
+      'Before pushing the model further, I laid two foundations. First, a lens position is decided by arithmetic, not inference — an absolute grid position (row, col). Second, the scale that measures the model is fixed first — labels judged independently by several people, and an operating point expressed in shop-floor terms. With little data and a principle of minimal labeling, the first target was unsupervised anomaly detection (PatchCore).',
+    implementation: [
+      { title: 'Absolute Grid Positions', body: 'Columns are numbered by absolute grid position, not "from the left of that row". Numbering by order shifts everything by one when a miss and a false detection coincide — the count still matches, so a count check cannot catch it. Summary statistics were chosen by the nature of the error: median for pitch, mean for tilt, and a circular mean for the origin, which wraps around.' },
+      { title: 'No-Inference Rules', body: 'A sample rotated by 90° raises an exception instead of being auto-corrected, stray detections are reported rather than dropped, and the side on which the array is cut off is never inferred. In a real capture the left side was cut, yet the empty slots appeared at the right end — inferring direction from empty slots points exactly the wrong way.' },
+      { title: '3 × 3 Ordinal Labeling', body: 'I wrote the labeling criteria and a simple labeling tool (model scores hidden), and three labelers each judged three rounds on a 4-level scale (certain / ambiguous × normal / anomalous). Votes are aggregated by median twice — within a person, then across people — with ties going to anomalous, encoding the premise that a miss costs more than a re-check. Agreement strength (spread, split) is stored alongside.' },
+      { title: 'Operating-Point Evaluation', body: 'Evaluation uses wafer-level cross-validation; AUROC selects models, but comparison is "overkill at a 5% miss rate". A preprocessing change that raised AUROC while worsening overkill across every threshold was rejected — looking at one metric alone would have chosen the opposite.' },
+    ],
+    results:
+      'One revision of the labeling criteria raised inter-rater ordinal α from 0.59 to 0.72. Improving the normal bank barely moved AUROC, but cut overkill at the 5% miss operating point from 21% to 11%. The large gap in model performance between positions where people agreed and where they split showed that the ceiling sits in label reproducibility, not in the model. After deployment to the equipment, I separated why field scores drifted into a missing record (crop geometry mismatch) and a population shift. On the other side, building this foundation left little time to train and compare many model architectures — but with the evaluation base in place, any model can now be judged on the same scale.',
+    stack: ['PatchCore', 'PyTorch', 'OpenCV', 'Python'],
+  },
+
   'edge-ai-lmr': {
     context:
       'On DTK\'s lens thermoforming line, the PLC generates temperature, pressure, and power sensor data every 10ms — yet there was no intelligent system to analyze or prescribe on that stream in real time. When anomalies occurred, response depended solely on the experience of skilled operators, causing delays. Multi-axis sensor data could not be linked spatio-temporally by timestamp alone, so anomaly detection, quality prediction, and prescriptive control were all structurally blocked.',
     decision:
-      'The goal was set beyond simple anomaly detection: to complete a full prescriptive control loop (M1 to M2 to M3). The Field / Control / Edge / Cloud layers were separated into independent deployment units, and Cycle_ID was used as the Golden Key to join spatio-temporal data across every layer on a single key. Communication was split into three tiers by data temperature (MQTT Binary HOT, gRPC Streaming WARM, Parquet COLD) to optimize throughput, latency, and cost simultaneously.',
+      'I designed toward a full prescriptive control loop (M1 to M2 to M3), beyond simple anomaly detection. The Field / Control / Edge / Cloud layers were split into independent deployment units, and Cycle_ID — identifying one process cycle — was made the Golden Key so spatio-temporal data joins across every layer on a single key. Communication was split into three tiers by data temperature (MQTT Binary HOT, gRPC Streaming WARM, Parquet COLD) to balance throughput, latency, and cost. The data model came before the infrastructure.',
     implementation: [
       // Correction: this used to conflate two separate models. M1 is time-series sensor
       // anomaly detection (1D-CNN AE); PatchCore belongs to the vision AOI workstream
       // (see the 'v1-aoi' entry below).
-      { title: 'M1 — Anomaly Detection', body: 'An Anomaly Score based on 1D-CNN Autoencoder reconstruction error reached AUROC 99.99%. The score is passed as an input feature to M2, chaining the modules together.' },
-      { title: 'M2 — Quality Prediction', body: 'An ensemble of LSTM (long-range temporal patterns) and XGBoost (nonlinear features). The M1 score is fed in jointly to raise prediction accuracy, and the prediction is passed to M3 as its State.' },
-      { title: 'M3 — Prescriptive Control', body: 'A Deep Q-Network computes optimal temperature and pressure set-points as Actions and feeds them back to the PLC — a closed-loop controller, currently in simulation-validation.' },
+      // Correction (2026-09-28): the four items below are a design. The former AUROC 99.99%, simulation validation, and HMI were never implemented.
+      { title: 'M1 — Anomaly Detection (design)', body: 'Uses 1D-CNN Autoencoder reconstruction error as the Anomaly Score and passes it to M2 as an input feature. With anomalies under 1% of the data, AUROC rather than accuracy was chosen as the metric.' },
+      { title: 'M2 — Quality Prediction (design)', body: 'An LSTM (long-range temporal patterns) + XGBoost (nonlinear features) ensemble that takes the M1 score as an extra input and passes its prediction to M3 as the State.' },
+      { title: 'M3 — Prescriptive Control (design)', body: 'A Deep Q-Network computes temperature and pressure set-points as Actions and feeds them back to the PLC — a closed loop, with fail-safe and SIL safety validation set as preconditions before touching real equipment.' },
       { title: 'Data Communication 3-Tier', body: 'HOT: MQTT QoS0 Binary (lossless 10ms buffering). WARM: gRPC bidirectional streaming (Protobuf). COLD: Parquet batch offload for drift retraining.' },
     ],
     results:
-      'Achieved anomaly-detection AUROC 99.99%. A React18 + TS HMI dashboard (Process, Quality, Anomaly, Energy — four views) uses a shared Zod schema to enforce the FE-BE API contract at compile time, eliminating type mismatches. Next steps: fail-safe and SIL safety validation before deploying the M3 DQN on a real PLC, plus a VLM-based natural-language anomaly-explanation layer.',
-    stack: ['MQTT', 'gRPC', 'Node.js', 'React18 + TS', 'Zod', 'PyTorch'],
+      'I shared the design with the site and requested feedback; the project was deprioritized before implementation. The equipment and process knowledge organized here, and the judgment to fix the key first and route data by temperature, were carried directly into the data and storage design of AlignAI and GV-001.',
+    stack: ['MQTT', 'gRPC', 'Parquet', 'Architecture'],
   },
 
   'v1-aoi': {
@@ -46,7 +64,7 @@ export const projectDetailsEn: Record<string, ProjectDetailContent> = {
     context:
       'The existing OpenCV filtering (Canny Edge + manual thresholds) on DTK\'s lens alignment process was fragile against changes in lighting and background. Because thresholds had to be re-tuned by hand, process automation was fundamentally impossible; even a slight change in lighting led to alignment failure, forcing a skilled operator to be on standby at all times.',
     decision:
-      'Accepting the limits of the rule-based approach, I shifted the paradigm to a learning-based one (U-Net segmentation). Deep learning — robust to lighting and background changes with no thresholds — fully replaced the old pipeline. Beyond that, I integrated an ML CI/CD system with GitHub as the SSOT (GitOps), separating the lifecycles of the inference (Deployment) and training (Job) images, together with an on-site LLM agent.',
+      'Accepting the limits of the rule-based approach, I shifted the paradigm to a learning-based one (U-Net segmentation). Deep learning — robust to lighting and background changes with no thresholds — fully replaced the old pipeline. Beyond that, I integrated an ML CI/CD system with GitHub as the SSOT (GitOps), separating the lifecycles of the inference (Deployment) and training (Job) images, and attached an LLM agent PoC that explains inference results in shop-floor language.',
     implementation: [
       { title: 'EfficientNet-B0 Encoder', body: 'ImageNet pretraining sped up convergence 3x, and Skip Connections preserve spatial information — such as alignment-line position and orientation — directly into the decoder.' },
       { title: 'Dice Loss', body: 'More robust to class imbalance (99% background vs. 1% alignment line) than BCE. Optimal for segmenting thin lines with an extremely small pixel count.' },

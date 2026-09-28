@@ -11,7 +11,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-// 이력서 레이아웃 템플릿 — 공개용(/resume)과 회사 맞춤 제출용이 공유한다.
+// 이력서 레이아웃 템플릿 — 회사 맞춤 제출용(/resume/{slug}). 공개용(/resume)은 2026-09-28 에 내렸다.
 // 맞춤 제출용을 만들 때: 이 컴포넌트에 회사 전용 ResumeData를 넣고 showWebCta={false}로 렌더링한다.
 // (새 회사 전용 페이지를 만들 때는 sitemap.ts에 올리지 말고, robots: { index: false }를 지정할 것.)
 

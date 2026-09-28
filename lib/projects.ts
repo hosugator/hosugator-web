@@ -37,6 +37,7 @@ export const NOTE_PROJECT: Record<string, string> = {
   'dotodo': 'Dotodo',             // 4
   'hosugator': 'Hosugator Web',   // 37
   'go2fit': 'Go2fit',             // 19
+  'gv-001': 'GV-001 MLA Inspector', // 30 (2026-09-28 content/notes 기준)
   'cureat': 'MOC - Cureat',       // 1
   'sodamdiary': 'MOC - Sodam Diary', // 1
   // pictag · dorosee · kdlc — 볼트에 노트 없음
@@ -67,17 +68,37 @@ export function flowToMermaid(flow: Flow): string {
 
 // 리치 커스텀 Mermaid (있으면 flow 변환 대신 사용). 슬러그당 다이어그램 배열.
 export const PROJECT_MERMAID: Record<string, string[]> = {
+  // GV-001 — 이력서(딥오토) 초안에서 쓴 두 다이어그램과 같은 내용. 공개 범위상 절대 수치는 없다.
+  'gv-001': [
+    `flowchart LR
+  D["원 검출 · 좌표 점 집합"] --> P["피치 · 중앙값"]
+  P --> R["배열 기울기 · 평균"]
+  R --> O["격자 원점 · 각도 평균"]
+  O --> IDX["(행, 열) 절대 자리"]
+  IDX --> G{"잔차 가드"}
+  G -->|"통과"| OUT["크롭 이름 = 격자 자리"]
+  G -->|"90° 회전 등"| ERR["예외 · 자동 보정 안 함"]
+  IDX -.->|"오검출"| ST["버리지 않고 보고"]`,
+    `flowchart TB
+  subgraph LABEL["라벨 · 3인 × 3회 독립 · 모델 점수 비공개"]
+    direction LR
+    R["4단계 순서형 판정"] --> M1["라벨러별 중앙값"] --> M2["라벨러 간 중앙값"] --> C["합의 라벨 + 폭 · 갈림"]
+  end
+  subgraph JUDGE["모델 비교"]
+    direction LR
+    BANK[("정상 뱅크 · 확실 정상 만장일치")] --> PC["PatchCore"] --> CV["웨이퍼 단위 교차검증"] --> OP["운영점 · 미탐 5% 에서 과탐"]
+  end
+  LABEL --> JUDGE`,
+  ],
   'edge-ai-lmr': [
     `flowchart TB
   PLC["PLC 설비 · 10ms 센서"]
-  subgraph EDGE["Edge · k3s (GPU)"]
+  subgraph EDGE["Edge · 설계안(미구현)"]
     ENGINE["data-engine"]
     subgraph CHAIN["3-Stage AI Chain"]
       M1["M1 · 1D-CNN AE"] --> M2["M2 · LSTM+XGBoost"] --> M3["M3 · DQN 처방"]
     end
-    HMI["React+TS HMI"]
     ENGINE -->|"gRPC · WARM"| CHAIN
-    CHAIN --> HMI
   end
   PLC -->|"MQTT Binary · HOT"| ENGINE
   ENGINE -->|"Parquet · COLD"| LAKE[("Data Lake")]
@@ -227,17 +248,36 @@ export const PROJECT_MERMAID: Record<string, string[]> = {
 
 // 영문 다이어그램 — PROJECT_MERMAID와 동일 구조, 라벨만 영문. EN 로케일에서 사용.
 export const PROJECT_MERMAID_EN: Record<string, string[]> = {
+  'gv-001': [
+    `flowchart LR
+  D["Circle detections · point set"] --> P["Pitch · median"]
+  P --> R["Array tilt · mean"]
+  R --> O["Grid origin · circular mean"]
+  O --> IDX["Absolute (row, col)"]
+  IDX --> G{"Residual guard"}
+  G -->|"pass"| OUT["Crop name = grid position"]
+  G -->|"90° rotation etc."| ERR["Exception · no auto-fix"]
+  IDX -.->|"stray detection"| ST["Reported, not dropped"]`,
+    `flowchart TB
+  subgraph LABEL["Labels · 3 people × 3 rounds · model scores hidden"]
+    direction LR
+    R["4-level ordinal"] --> M1["Median per labeler"] --> M2["Median across labelers"] --> C["Consensus + spread · split"]
+  end
+  subgraph JUDGE["Model comparison"]
+    direction LR
+    BANK[("Normal bank · unanimous certain-normal")] --> PC["PatchCore"] --> CV["Wafer-level CV"] --> OP["Operating point · overkill at 5% miss"]
+  end
+  LABEL --> JUDGE`,
+  ],
   'edge-ai-lmr': [
     `flowchart TB
   PLC["PLC Equipment · 10ms sensors"]
-  subgraph EDGE["Edge · k3s (GPU)"]
+  subgraph EDGE["Edge · design (not implemented)"]
     ENGINE["data-engine"]
     subgraph CHAIN["3-Stage AI Chain"]
       M1["M1 · 1D-CNN AE"] --> M2["M2 · LSTM+XGBoost"] --> M3["M3 · DQN prescription"]
     end
-    HMI["React+TS HMI"]
     ENGINE -->|"gRPC · WARM"| CHAIN
-    CHAIN --> HMI
   end
   PLC -->|"MQTT Binary · HOT"| ENGINE
   ENGINE -->|"Parquet · COLD"| LAKE[("Data Lake")]

@@ -39,7 +39,8 @@ export const aboutDataEn = {
     }
   ],
   stats: [
-    { value: "99.99%", label: "AUROC · Edge AI LMR" },
+    // Correction (2026-09-28): Edge AI LMR was never implemented, so AUROC 99.99% was removed.
+    { value: "21→11%", label: "Overkill at 5% miss · GV-001" },
     { value: "80%", label: "TCO Reduction · Hosugator" }
   ]
 };

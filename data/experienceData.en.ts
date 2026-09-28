@@ -7,12 +7,13 @@ export const experienceDataEn = {
       company: "DTK",
       role: "AI Developer",
       period: "2026.03 - Present",
-      description: "Sole owner of Vision AI, edge infrastructure, and on-site LLM agents in a manufacturing domain.",
+      description: "Sole owner of Vision AI and edge infrastructure in a manufacturing domain, including the labeling and evaluation criteria that measure models and an agent PoC that explains inference results in shop-floor language.",
       highlights: [
         "AlignAI: replaced environment-sensitive rule-based OpenCV with U-Net (EfficientNet-B0) Segmentation — 100% detection · 91% pass rate · ~330ms CPU inference",
         "Supported 3 products from one repo via a ProductConfig registry; single-handedly built a GitHub-SSOT ML CI/CD pipeline (train→ONNX→GHCR→Argo CD) on a k3s edge cluster (edge cases recorded as ADRs)",
-        "Edge AI LMR: Field→Cloud 4-tier + Cycle_ID Golden Key + 1D-CNN→LSTM→DQN 3-Stage chain for anomaly detection at AUROC 99.99%, with a solo-run React+TS HMI",
-        "LLM agent roadmap (hand-built function calling & ReAct loop) · Agentic ERP automation turning days of manual work into 100%-integrity unattended runs · Focal Point for the Corning Varioptic (France) contract",
+        "GV-001: recovered array structure by assigning absolute grid positions to detected lenses, and designed the criteria that measure models — 3 labelers × 3 rounds of ordinal labeling (α 0.59 → 0.72) and operating-point evaluation (overkill 21% → 11% at a 5% miss rate)",
+        "Edge AI LMR (design): designed a Cycle_ID golden key and a data-temperature 3-tier architecture and requested on-site review — the process knowledge and data-design judgments were reused in AlignAI and GV-001",
+        "LLM agent PoC (hand-built function calling & ReAct loop) · Agentic ERP automation turning days of manual work into 100%-integrity unattended runs · Focal Point for the Corning Varioptic (France) contract",
       ],
       tags: ["Vision AI", "Edge AI", "MLOps", "k3s", "PyTorch", "Agentic AI"]
     },

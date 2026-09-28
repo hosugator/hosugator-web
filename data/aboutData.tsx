@@ -49,7 +49,8 @@ export const aboutData = {
     },
   ],
   stats: [
-    { value: "99.99%", label: "AUROC · Edge AI LMR" },
+    // 정정(2026-09-28): Edge AI LMR 은 구현 전이라 AUROC 99.99% 를 내렸다.
+    { value: "21→11%", label: "과탐률 · 미탐 5% 운영점 · GV-001" },
     { value: "80%", label: "TCO 절감 · Hosugator" },
   ],
 };
