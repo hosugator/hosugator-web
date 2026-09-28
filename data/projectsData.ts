@@ -43,7 +43,7 @@ export const projectsData = {
     {
       title: "AlignAI: 비전 정렬 + MLOps + 현장 LLM 에이전트(PoC)",
       tags: ["#Industrial-AI", "#LLM-Agent", "#MLOps", "#k3s", "#React"],
-      desc: "규칙 기반 OpenCV를 U-Net Segmentation으로 대체해 탐지율 100%·PASS율 91% 달성. GitOps ML CI/CD(GHCR→Argo CD 자동 배포)를 Docker·k3s 엣지 클러스터에 단독 구축하고, React+TS HMI(UI/UX), 그리고 추론 결과를 현장 언어로 해설하는 LLM 에이전트 PoC(function calling·ReAct)까지 이은 엔드투엔드 산업 AI 시스템.",
+      desc: "규칙 기반 OpenCV를 U-Net Segmentation으로 대체해 탐지율 100%·PASS율 91% 달성. GitOps ML CI/CD(GHCR→Argo CD 자동 배포)와 Docker·k3s 엣지 배포를 단독 구축해 로컬 PoC로 검증하고, React+TS HMI(UI/UX), 그리고 추론 결과를 현장 언어로 해설하는 LLM 에이전트 PoC(function calling·ReAct)까지 이은 엔드투엔드 산업 AI 시스템.",
       pdfLink: "/portfolio.pdf",
       demoLink: "#",
       video: "",
@@ -77,9 +77,10 @@ export const projectsData = {
       image: "/projects/sodamdiary_thumb.png",
     },
     {
-      title: "Pictag: 소상공인 맞춤형 경량화 CCTV AI SaaS",
+      // 정정(2026-09-28): 팀 프로젝트이고 본인은 서브였다 — ML 은 경험 있는 동료가 맡았다.
+      title: "Pictag: 소상공인 맞춤형 경량화 CCTV AI SaaS (팀 · 서브)",
       tags: ["#Re-ID", "#OpenVINO", "#WebSocket"],
-      desc: "Re-ID 정확도·학습 효율 50%↑. YOLO 백본 분해 후 Linear/Pooling/Attention Head 3가지 임베딩 A/B 실험으로 Attention 채택. OpenVINO INT8 양자화로 GPU 없는 엣지 실시간 추론. 4-Thread 독립 큐 파이프라인, Django+WebSocket 히트맵 대시보드.",
+      desc: "팀 프로젝트에 서브로 참여했다. ML 은 경험 있는 동료가 맡았고, 곁에서 YOLO 백본을 분해해 임베딩 방식을 비교하고 연산 복잡도(O)를 따져 엣지 구조를 정하는 과정을 배웠다. 팀은 Attention 임베딩으로 Re-ID 학습 효율 50%↑, OpenVINO INT8 로 GPU 없는 엣지 실시간 추론을 얻었다. 이때 익힌 관점을 이후 프로젝트에서 설계 자원으로 썼다.",
       pdfLink: "/projects/pictag_ko.pdf",
       demoLink: "#",
       video: "/projects/pictag_demo.mp4",

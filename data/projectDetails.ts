@@ -125,14 +125,17 @@ export const projectDetails: Record<string, ProjectDetailContent> = {
     stack: ['BLIP', 'CLIP', 'OpenVINO 4-bit', 'FastAPI', 'asyncio', 'Docker', 'AWS EC2', 'Kotlin'],
   },
   'pictag': {
-    context: '소상공인 매장의 저사양 엣지 디바이스(GPU 없음)에서 CCTV 영상으로 방문객 Re-ID와 동선 히트맵을 실시간 제공하는 SaaS입니다. 두 가지 핵심 과제가 있었습니다. (1) 임베딩 품질 — YOLO 백본에서 어떤 방식으로 Re-ID 특징을 추출할 것인가(Linear vs Pooling vs Attention). (2) 엣지 실시간성 — GPU 없는 환경에서 RTSP 스트리밍 처리와 Re-ID 추론을 동시에 처리하는 구조 설계.',
-    decision: '가설 없이 Linear / Pooling / Attention 3가지 임베딩 방식을 동일 데이터·동일 조건으로 A/B 테스트했습니다. Attention 방식이 Re-ID 정확도와 학습 효율 모두에서 50%↑ 우위를 보여 채택했습니다. 엣지 실시간성은 Capture/Detection/Embedding/Re-ID를 4-Thread 독립 큐로 분리하고 OpenVINO INT8 양자화로 추론 속도를 확보했습니다.',
+    // 정정(2026-09-28): 팀 프로젝트 · 서브 참여. 예전 서술은 「제가 A/B 실험으로 채택했다」처럼 읽혔다 —
+    // ML 은 경험 있는 동료가 맡았다. 팀의 결과는 팀을 주어로, 본인 몫은 「배운 것」으로 적는다.
+    context: '소상공인 매장의 저사양 엣지 디바이스(GPU 없음)에서 CCTV 영상으로 방문객 Re-ID와 동선 히트맵을 실시간 제공하는 SaaS 팀 프로젝트입니다. 저는 서브로 참여했고, ML 설계는 경험 있는 동료가 맡았습니다. 팀의 과제는 두 가지였습니다. (1) 임베딩 품질 — YOLO 백본에서 Re-ID 특징을 어떤 방식으로 뽑을 것인가. (2) 엣지 실시간성 — GPU 없는 환경에서 RTSP 스트리밍과 Re-ID 추론을 동시에 처리하는 구조.',
+    decision: '팀은 가설을 미리 정하지 않고 Linear / Pooling / Attention 세 임베딩 방식을 같은 데이터 · 조건으로 비교해 Attention 을 채택했고, 엣지 실시간성은 4-Thread 독립 큐와 OpenVINO INT8 양자화로 풀었습니다. 저는 이 과정을 곁에서 따라가며, 모델을 통째로 쓰지 않고 아키텍처를 분해해 필요한 부분만 꺼내 쓰는 방식과, 단계마다 연산 복잡도(O)를 따져 어디가 병목이 될지 미리 가늠하는 방식을 배웠습니다.',
     implementation: [
-      { title: '임베딩 방식 A/B 실험', body: 'YOLO 백본을 분해한 뒤 Linear / Pooling / Attention Head 3가지 추출 방식을 동일 데이터·학습 조건에서 비교했습니다. Attention이 Re-ID 정확도와 수렴 속도 모두 50%↑ 우위를 보여 실험 기반으로 채택했습니다.' },
-      { title: '4-Thread 독립 큐 설계', body: 'Capture/Detection/Embedding/Re-ID 스레드를 독립 Queue로 연결해 각 단계 처리 속도 차이를 큐가 버퍼링합니다. 카메라 스트림 지연 없이 Re-ID를 연속 처리하며, 스레드 실패 시 개별 재시작으로 전체 영향이 없습니다.' },
-      { title: '엣지 최적화 & 대시보드', body: 'OpenVINO INT8 양자화로 GPU 없이 엣지 실시간 추론을 달성했습니다(FP32 대비 크기 4배 감소, 속도 2-3배 향상). Django + WebSocket으로 방문객 동선 히트맵을 실시간 렌더링해 소상공인에게 공간 운영 인사이트를 제공합니다.' },
+      { title: '임베딩 A/B 실험 (팀)', body: 'YOLO 백본을 분해해 Linear / Pooling / Attention Head 세 추출 방식을 같은 데이터 · 학습 조건에서 비교했습니다. Attention 이 Re-ID 정확도와 수렴 속도에서 앞서 채택됐습니다.' },
+      { title: '4-Thread 독립 큐 (팀)', body: 'Capture / Detection / Embedding / Re-ID 스레드를 독립 큐로 이어, 단계별 처리 속도 차이를 큐가 흡수하게 했습니다. 스레드 하나가 실패해도 그 스레드만 재시작합니다.' },
+      { title: '엣지 최적화 · 대시보드 (팀)', body: 'OpenVINO INT8 양자화로 GPU 없이 엣지 실시간 추론을 맞추고, Django + WebSocket 으로 방문객 동선 히트맵을 실시간 렌더링했습니다.' },
+      { title: '내 역할 · 배운 것', body: '서브로 참여하며 경험 있는 동료에게서 아키텍처 분해와 연산 복잡도 검토를 배웠습니다. 모델을 블랙박스로 두지 않고 구성 요소로 나눠 보는 것, 단계마다 비용을 따져 병목을 먼저 짚는 것 — 이 관점을 이후 프로젝트에서 설계의 자원으로 썼습니다.' },
     ],
-    results: 'Attention 임베딩으로 Re-ID 학습 효율 50%↑를 달성하고, 4-Thread 파이프라인으로 GPU 없는 엣지 환경에서 실시간 Re-ID를 구현했습니다. Django+WebSocket 히트맵 대시보드로 소상공인 SaaS 비즈니스 모델을 실증했습니다. Re-ID 정확도가 조명·각도 변화에 민감해 다양한 카메라 환경 데이터 추가 학습이 과제이며, ONNX 변환으로 ARM 기반 엣지 디바이스까지 범용 배포를 확장할 계획입니다.',
+    results: '팀은 Attention 임베딩으로 Re-ID 학습 효율 50%↑를 얻고, GPU 없는 엣지에서 실시간 Re-ID 와 히트맵 대시보드를 구현했습니다. 제게 이 프로젝트의 산출물은 모델이 아니라 방법이었습니다 — 아키텍처를 분해해 보고 연산 복잡도로 병목을 가늠하는 습관을 여기서 얻었습니다.',
     stack: ['YOLOv8', 'Attention Embedding', 'OpenVINO INT8', 'RTSP', 'Python Threading', 'Django', 'WebSocket'],
   },
   'hosugator': {

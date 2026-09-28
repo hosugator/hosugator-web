@@ -36,7 +36,7 @@ export const projectsDataEn = {
         {
             title: "AlignAI: Vision Alignment + MLOps + On-site LLM Agent (PoC)",
             tags: ["#Industrial-AI", "#LLM-Agent", "#MLOps", "#k3s", "#React"],
-            desc: "Replaced rule-based OpenCV with U-Net Segmentation (100% detection · 91% pass rate), then built GitOps ML CI/CD (GHCR→Argo CD) on a Docker·k3s edge cluster and connected a React+TS HMI (UI/UX) and an LLM agent PoC (function calling · ReAct) that explains inference results in shop-floor language — an end-to-end industrial AI system.",
+            desc: "Replaced rule-based OpenCV with U-Net Segmentation (100% detection · 91% pass rate), then built GitOps ML CI/CD (GHCR→Argo CD) with Docker·k3s edge deployment, verified as a local PoC, and connected a React+TS HMI (UI/UX) and an LLM agent PoC (function calling · ReAct) that explains inference results in shop-floor language — an end-to-end industrial AI system.",
             pdfLink: "/portfolio.pdf",
             demoLink: "#",
             video: "",
@@ -70,9 +70,11 @@ export const projectsDataEn = {
             image: "/projects/sodamdiary_thumb.png"
         },
         {
-            title: "Pictag: Lightweight CCTV AI SaaS for Small Businesses",
+            // Correction (2026-09-28): a team project where I had a supporting role — an experienced teammate owned the ML.
+            title: "Pictag: Lightweight CCTV AI SaaS for Small Businesses (Team · Supporting Role)",
             tags: ["#Re-ID", "#OpenVINO", "#WebSocket"],
-            desc: "50%↑ Re-ID accuracy and training efficiency. A/B tested Linear / Pooling / Attention Head embeddings from a decomposed YOLO backbone → Attention Head adopted. OpenVINO INT8 enables real-time inference on CPU-only edge hardware. 4-Thread queue pipeline, Django+WebSocket heatmap dashboard.",
+            desc: "A team project where I had a supporting role. An experienced teammate owned the ML; working alongside, I learned how the team decomposed a YOLO backbone to compare embedding methods and weighed computational complexity (Big-O) to settle the edge architecture. The team reached 50%↑ Re-ID training efficiency with Attention embeddings and real-time GPU-less edge inference with OpenVINO INT8. I later used that perspective as a design resource in other projects.",
+
             pdfLink: "/projects/pictag_en.pdf",
             demoLink: "#",
             video: "/projects/pictag_demo.mp4",

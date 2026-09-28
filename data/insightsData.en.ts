@@ -7,8 +7,9 @@ export const insightsDataEn = {
       number: "01",
       title: "End-to-End Ownership",
       principle: "AI works in the field only when you own the whole cycle — from defining the business problem to deploying and operating the product.",
-      desc: "Managing the full lifecycle of long EPC projects as a global PM now translates into full-stack execution across planning, data, ML, infrastructure, deployment, and operations. I proved business impact by deploying and operating AI on real production lines via GitOps and k3s.",
-      project: "EPC PM → AlignAI deploy/ops",
+      desc: "Managing the full lifecycle of long EPC projects as a global PM now translates into full-stack execution across planning, data, ML, infrastructure, deployment, and operations. I designed the GitOps and k3s deployment for a manufacturing AI (AlignAI) on my own and verified it as a local PoC.",
+      // Correction (2026-09-28): k3s deployment was a local PoC, not production operation.
+      project: "EPC PM → AlignAI",
     },
     {
       number: "02",

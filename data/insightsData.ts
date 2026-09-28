@@ -9,8 +9,9 @@ export const insightsData = {
       number: "01",
       title: "E2E 오너십",
       principle: "사업 정의부터 제품 배포·운영까지 전 주기를 책임질 때 AI는 현장에서 작동한다.",
-      desc: "글로벌 EPC PM으로 장기 프로젝트의 시작과 끝을 관리한 경험이, 기획·데이터·ML·인프라·배포·운영까지 전 계층을 잇는 풀스택 실행으로 이어집니다. 실제 제조 공정에 GitOps·k3s로 AI를 배포·운영하며 비즈니스 임팩트를 증명했습니다.",
-      project: "EPC PM → AlignAI 배포·운영",
+      desc: "글로벌 EPC PM으로 장기 프로젝트의 시작과 끝을 관리한 경험이, 기획·데이터·ML·인프라·배포·운영까지 전 계층을 잇는 풀스택 실행으로 이어집니다. 제조 공정 AI(AlignAI)의 GitOps·k3s 배포 구조를 단독 설계하고 로컬 PoC로 검증했습니다.",
+      // 정정(2026-09-28): 「배포·운영하며 비즈니스 임팩트를 증명」→ k3s 배포는 로컬 PoC 검증이었다.
+      project: "EPC PM → AlignAI",
     },
     {
       number: "02",

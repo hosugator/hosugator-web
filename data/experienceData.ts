@@ -10,7 +10,7 @@ export const experienceData = {
       description: "제조 도메인의 Vision AI · 엣지 인프라를 단독 설계·구현하고, 모델을 재는 라벨·평가 기준과 추론 결과를 현장 언어로 해설하는 에이전트 PoC 까지 다룹니다.",
       highlights: [
         "AlignAI: 규칙 기반 OpenCV의 환경 민감도를 U-Net(EfficientNet-B0) Segmentation으로 대체 — 탐지율 100% · PASS율 91% · CPU 추론 ~330ms",
-        "ProductConfig 레지스트리로 단일 레포 3개 제품 지원, GitHub SSOT 기반 ML CI/CD(학습→ONNX→GHCR→Argo CD 롤링)를 k3s 엣지 클러스터에 단독 구축 (엣지 케이스는 ADR로 문서화)",
+        "ProductConfig 레지스트리로 단일 레포 3개 제품 지원, GitHub SSOT 기반 ML CI/CD(학습→ONNX→GHCR→Argo CD 롤링)와 k3s 엣지 배포를 단독 구축해 로컬 PoC로 검증 (엣지 케이스는 ADR로 문서화)",
         "GV-001: 검출 좌표에 격자 절대 자리를 매겨 배열 구조를 복원하고, 3인 × 3회 순서형 라벨링(α 0.59 → 0.72)과 운영점 평가(미탐 5% 에서 과탐 21% → 11%)로 모델을 재는 기준을 설계",
         "Edge AI LMR (설계): Cycle_ID 골든 키와 데이터 온도별 3티어 아키텍처를 설계해 현장 검토를 요청 — 이때의 공정 지식과 데이터 설계 판단을 AlignAI · GV-001 에 재사용",
         "LLM 에이전트 PoC(function calling·ReAct 루프 직접 구현) · Agentic ERP 자동화로 수일 수작업을 정합성 100% 무인화 · Corning Varioptic(프랑스) 계약 협상 창구 병행",
@@ -25,7 +25,7 @@ export const experienceData = {
       highlights: [
         "Dotodo: LangChain·ChromaDB RAG + LLM-as-a-Judge 자율 평가로 응답 지연·API 비용 각 60%↓",
         "Sodam Diary: BLIP→CLIP→LLM VLM 3-Stage 파이프라인으로 운영비 30%↓ (한국장애인해커톤 본선)",
-        "Pictag: Attention 임베딩 채택으로 Re-ID 50%↑ · OpenVINO INT8 엣지 추론 / Dorosee: 멀티모달 UGV(해커톤 대상)",
+        "Pictag(팀 · 서브): 경험 있는 동료에게서 아키텍처 분해와 연산 복잡도 검토를 배우며 참여 / Dorosee: 멀티모달 UGV(해커톤 대상)",
         "KDLC: SARIMA+LSTM+LightGBM 3-Model 가중 앙상블 · 45개+ 피처 공학",
       ],
       tags: ["LangChain", "RAG", "OpenVINO", "FastAPI", "PyTorch", "AWS"]
