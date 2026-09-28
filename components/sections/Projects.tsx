@@ -13,9 +13,14 @@ import { useSectionView } from '@/hooks/useSectionView';
 // NOTE 이 배열은 "진행 중" 표시(accent 점)와 루트 정렬 순서를 겸한다.
 //   자식 프로젝트(PARENT에 등재된 것)는 루트 정렬에서 제외되므로,
 //   여기 등재해도 순서에는 영향이 없고 점만 붙는다.
-const CURRENT = ['Edge AI LMR', 'V1-AOI', 'AlignAI', 'go2fit', 'Hosugator'];
+//
+// 2026-09-28: GV-001 을 맨 앞에(가장 최근에 집중한 과제). Edge AI LMR 은 뺐다 — 설계 후
+//   현장 검토를 요청한 채 우선순위가 밀려 멈춘 상태라 「진행 중」 점이 사실과 다르다.
+//   빠진 뒤에는 YEAR 순으로 CURRENT 묶음 아래에 선다.
+const CURRENT = ['GV-001', 'V1-AOI', 'AlignAI', 'go2fit', 'Hosugator'];
 // 프로젝트 연도 (정렬·표시용). 필요 시 여기만 수정.
 const YEAR: Record<string, string> = {
+  'GV-001': '2026',
   'AlignAI': '2026', 'Edge AI LMR': '2026', 'ERP Backup': '2026', 'Hosugator': '2026',
   'go2fit': '2026', 'V1-AOI': '2026',
   'Dotodo': '2025', 'Sodamdiary': '2025', 'Pictag': '2025', 'Cureat': '2025',
