@@ -48,3 +48,7 @@ next-env.d.ts
 
 # playwright mcp (자동 생성 아티팩트)
 .playwright-mcp/
+
+# 회사별 제출 PDF — 공개 저장소라 올리지 않는다. 원본은 apply/<회사> 브랜치의 페이지이고
+# PDF 는 npm run resume:pdf -- <회사> 로 언제든 다시 뽑는다. (resume-deepauto.pdf 는 이 규칙 전에 이미 추적 중)
+resumes/
