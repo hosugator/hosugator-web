@@ -50,6 +50,8 @@ export const outreaches: Outreach[] = [
   // 이 항목만 main 에 먼저 올라가야 한다: 이력서 PDF 가 /r/deepauto/ 를 가리키는데, 초안
   // 페이지(app/resume/deepauto)는 draft/deepauto 브랜치에만 두고 배포하지 않기 때문이다.
   { slug: 'deepauto', company: '딥오토', appliedAt: '2026-09-28', role: 'AI Engineer' },
+  // 초안 페이지는 draft/pxd 에만 있다. 이 항목만 main 에 올린다.
+  { slug: 'pxd', company: 'pxd', appliedAt: '2026-10-05', role: 'AI 플랫폼 & 백엔드 엔지니어 (AX)' },
 
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
