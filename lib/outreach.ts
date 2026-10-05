@@ -52,6 +52,8 @@ export const outreaches: Outreach[] = [
   { slug: 'deepauto', company: '딥오토', appliedAt: '2026-09-28', role: 'AI Engineer' },
   // 초안 페이지는 draft/pxd 에만 있다. 이 항목만 main 에 올린다.
   { slug: 'pxd', company: 'pxd', appliedAt: '2026-10-05', role: 'AI 플랫폼 & 백엔드 엔지니어 (AX)' },
+  // 초안 페이지는 draft/agilesoda 에만 있다. 이 항목만 main 에 올린다.
+  { slug: 'agilesoda', company: '애자일소다', appliedAt: '2026-10-05', role: 'AI Platform Engineer' },
 
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
