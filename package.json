@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "sync:notes": "node scripts/sync-notes.mjs",
-    "resume:pdf": "bash scripts/resume-pdf.sh"
+    "resume:pdf": "bash scripts/resume-pdf.sh",
+    "outreach:log": "bash scripts/outreach-log.sh"
   },
   "dependencies": {
     "framer-motion": "^12.26.2",
