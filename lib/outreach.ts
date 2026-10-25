@@ -54,8 +54,10 @@ export const outreaches: Outreach[] = [
   { slug: 'pxd', company: 'pxd', appliedAt: '2026-10-05', role: 'AI 플랫폼 & 백엔드 엔지니어 (AX)' },
   // 초안 페이지는 draft/agilesoda 에만 있다. 이 항목만 main 에 올린다.
   { slug: 'agilesoda', company: '애자일소다', appliedAt: '2026-10-05', role: 'AI Platform Engineer' },
-  // 미제출 — 날짜는 확정일이다. 제출하면 실제 제출일로 고친다. 초안 페이지는 apply/ajung 에만 있고 이 항목만 main 에 올린다.
-  { slug: 'ajung', company: '아정네트웍스', appliedAt: '2026-10-24', role: 'AI Engineer (아정당)' },
+  // 초안 페이지는 apply/ajung 에만 있다. 이 항목만 main 에 올린다.
+  { slug: 'ajung', company: '아정네트웍스', appliedAt: '2026-10-25', role: 'AI Engineer (아정당)' },
+  // 초안 페이지는 apply/polaris 에만 있다. 이 항목만 main 에 올린다.
+  { slug: 'polaris', company: '폴라리스오피스', appliedAt: '2026-10-25', role: 'AI 응용 엔지니어' },
 
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
