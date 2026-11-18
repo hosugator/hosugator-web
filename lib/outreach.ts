@@ -60,6 +60,8 @@ export const outreaches: Outreach[] = [
   { slug: 'polaris', company: '폴라리스오피스', appliedAt: '2026-10-25', role: 'AI 응용 엔지니어' },
   // 초안 페이지는 apply/deloitte 에만 있다. 이 항목만 main 에 올린다.
   { slug: 'deloitte', company: '딜로이트 안진회계법인', appliedAt: '2026-10-25', role: '경영지원부문 IT AI 엔지니어' },
+  // 초안 페이지는 apply/lomin 에만 있다. 이 항목만 main 에 올린다.
+  { slug: 'lomin', company: '로민', appliedAt: '2026-11-18', role: 'ML 엔지니어' },
 
   // ── 채울 곳 1 ─────────────────────────────────────────────────────────
   // 지원할 때마다 한 줄씩 추가한다. 예:
